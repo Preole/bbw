@@ -1,4 +1,8 @@
 ```
+**Warning: Do not use; The underlying engine is currently poorly 
+coded and difficult to maintain, and a human-readable rewrite is 
+in progress.**
+
 BareBonesWiki
 =============
 
