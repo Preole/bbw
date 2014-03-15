@@ -1,0 +1,24 @@
+{
+ "NODES": {
+  "EntryPoint": {
+   "title": "EntryPoint",
+   "src": "Currently, the back-end of BareBonesWiki is a mess! I will write a proper manual\nand incorporate a humanely usable API, I promise.",
+   "tags": [
+    "Uncategorized"
+   ],
+   "mime": "text/x-bbm",
+   "created": 1394841548715,
+   "edited": 1394841548711
+  }
+ },
+ "EDGES": {},
+ "CONFIG": {
+  "title": "BareBonesWiki-DeveloperManual",
+  "startup": [
+   "EntryPoint"
+  ],
+  "cfmDel": false,
+  "cfmNav": true,
+  "searchCase": false
+ }
+}

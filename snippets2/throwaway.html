@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Throwaway code</title>
+<style type="text/css">
+
+
+</style>
+</head>
+<body>
+
+<div id="a">
+<textarea></textarea>
+</div>
+
+<script src="jquery.min.js"></script>
+<script>
+
+var Hashtable = (function (){
+ 
+ function Hashtable()
+ {
+  if (!(this instanceof Hashtable)) {return new Hashtable();}
+  this.table = Object.create(null);
+ }
+
+ Hashtable.prototype = (function (){
+
+  function obj_keys(obj)
+  {
+   var hasOwn = Object.prototype.hasOwnProperty;
+   var keys = [];
+   for (var each in obj)
+   {
+    if (hasOwn.call(obj, each)) {keys.push(each);}
+   }
+   return keys;
+  }
+ 
+  function put(strKey, obj, conflictHandler)
+  {
+   var hasHandler = typeof conflictHandler === "function",
+    prevObj = this.table[strKey],
+    res = obj;
+   
+   if (prevObj !== undefined && hasHandler)
+   {
+    res = conflictHandler.call(this, strKey, prevObj, obj);
+   }
+   this.table[strKey] = res;
+  }
+  
+  function get(strKey)
+  {
+   return this.table[strKey];
+  }
+  
+  function keys()
+  {
+   return obj_keys(this.table);
+  }
+  
+  function clear()
+  {
+   Hashtable.call(this);
+  }
+  
+  function toJSON()
+  {
+   return this.table;
+  }
+  
+
+  return {
+   put : put,
+   get : get,
+   keys : keys,
+   clear : clear,
+   toJSON : toJSON,
+  };
+ }());
+ 
+ 
+ 
+ return Hashtable;
+}());
+
+
+
+/*
+var table = Hashtable();
+table.put(1, 1);
+table.put(2, 2);
+table.put("hasOwnProperty", 3);
+console.log(table.get("constructor"));
+console.log(table["constructor"]);
+console.log({}["constructor"]);
+//console.log(Hashtable() instanceof Hashtable);
+console.log(JSON.stringify(table, null, " "));
+*/
+var obj = Object.create(null); 
+obj.hasOwnProperty = [1, 2, 3];
+var obj2 = {};
+obj2["hasOwnProperty"] = [1, 2, 3];
+
+//hasOwnProperty : [1, 2, 3]};
+console.log(obj.hasOwnProperty);
+console.log(obj2.hasOwnProperty);
+//console.log(obj2.prototype.hasOwnProperty("hasOwnProperty"));
+
+console.log(JSON.stringify(obj, null, " "));
+console.log(JSON.stringify(obj2, null, " "));
+
+</script>
+
+</body>
+</html>

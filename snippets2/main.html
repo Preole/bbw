@@ -1,0 +1,661 @@
+<!DOCTYPE HTML>
+<head>
+<meta charset="UTF-8">
+<title>Throwaway HTML (For BareBonesWiki)</title>
+<style type="text/css">
+/*
+== Basic rules & CSS Resets ==
+*/
+
+*,
+*:after,
+*:before {
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+word-wrap: break-word;
+background: inherit;
+line-height: 1.25em;
+}
+
+/*Ugly hack to remove mysterious space in buttons and text field;*/
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+ border: 0;
+ padding: 0;
+ margin: 0;
+ outline: 0;
+}
+
+[tabindex]:focus,
+a:focus,
+input:focus,
+button:focus,
+textarea:focus {
+outline: dotted 1px #eee;
+}
+
+body {
+background: #021;
+color: #eee;
+height: 100%;
+width: 98%;
+font-family: sans-serif;
+margin: 1% 1% 2% 1%;
+font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+ul,
+ol,
+dl,
+dd,
+dt,
+fieldset,
+pre,
+form,
+div {
+margin-top: 0;
+margin-bottom: 0.5em;
+}
+
+input[type="text"],
+form,
+textarea,
+fieldset,
+ul,
+ol,
+dl,
+li,
+dd,
+dt,
+blockquote,
+pre,
+video,
+img,
+audio {
+max-width: 100%;
+}
+
+
+
+/*
+CSS Toolbox
+===========
+*/
+
+.css-right {
+text-align: right;
+}
+
+.css-center {
+text-align: center;
+}
+
+.css-table {
+display: table;
+table-layout: fixed;
+border-spacing: 0.5em 0;
+width: 100%;
+}
+
+.css-table > div {
+display: table-cell;
+vertical-align: middle;
+}
+
+.css-table > div.css-top {
+vertical-align: top;
+}
+
+.css-table > div:first-child {
+width: 30%;
+}
+
+.css-toggle:empty {
+display: none !important;
+}
+
+.css-font-med,
+legend {
+font-size: 1.25em;
+}
+
+.css-font-big {
+font-size: 3em;
+font-weight: bold;
+margin: 4px 0;
+}
+
+.css-min-height {
+min-height: 4em;
+}
+
+.css-pad,
+.css-pad-big,
+.css-pad-sys {
+background: #241;
+padding: .5em;
+}
+
+.css-pad-big {
+padding: 1em;
+}
+
+.css-pad-sys {
+background: #410;
+border: 4px ridge #da9;
+}
+
+.css-margin {
+margin: 0.25em 0.25em 0.5em 0;
+}
+
+.css-margin-tall {
+margin: 1em 0;
+}
+
+.css-tall {
+min-height: 20em;
+}
+
+.js-css-invis {
+display: none;
+}
+
+
+
+
+/*
+== Hyperlinks and Control Widgets ==
+*/
+
+a:not(.css-wlink):not(.css-rlink) {
+ border-bottom: dashed 1px #eee;
+}
+
+.css-wlink,
+.css-rlink {
+text-decoration: none;
+}
+
+.css-rlink {
+color: #f93;
+}
+
+.css-index .css-wlink {
+background: #410;
+border: 1px solid #eee;
+padding: 0.25em;
+}
+
+.css-index > .css-wlink {
+margin: 0 0.25em 0.25em 0;
+}
+
+a,
+button,
+label,
+input {
+display: inline-block;
+color: #fd5;
+}
+
+a:hover img,
+a:focus img,
+button:hover img,
+button:focus img,
+label:hover img,
+label:focus img {
+opacity: 0.8;
+}
+
+a:hover,
+a:focus,
+label:hover,
+label:focus,
+button:hover,
+button:focus,
+input[type="file"]:focus,
+input[type="file"]:hover {
+cursor: pointer;
+background: #853 !important;
+color: #fff !important;
+}
+
+a:active,
+button:active,
+label:active {
+color: #000 !important;
+background: #eee !important;
+}
+
+a:active img,
+button:active img,
+label:active img {
+opacity: 0.7;
+}
+
+
+
+
+input[type="file"] {
+font-family: inherit;
+font-size: inherit;
+color: inherit;
+background: transparent;
+}
+
+input[type="text"],
+button,
+textarea,
+label {
+background: #410;
+border: 4px ridge #da9;
+font-size: inherit;
+font-family: inherit;
+padding: 0.25em;
+}
+
+input[type="text"],
+button {
+height: 2.25em;
+}
+
+input[type="text"],
+textarea,
+legend {
+width: 100%;
+color: inherit;
+}
+
+input[type="text"],
+textarea {
+background: #000;
+min-width: 8em;
+}
+
+textarea {
+font-family: monospace;
+white-space: pre;
+height: 6em;
+overflow: auto;
+}
+
+legend, fieldset {
+color: inherit;
+padding: 0.2em 0;
+border: none;
+}
+
+
+
+/*
+== Modal dialog box CSS ==
+*/
+
+.css-modal-sys,
+.css-modal {
+ z-index: 999;
+}
+
+.css-modal {
+ position: absolute;
+ min-height: 20%;
+ min-width: 20%;
+}
+
+.css-modal-sys {
+ position: fixed;
+ width: 100%;
+ height: 100%;
+ top: 0;
+ left: 0;
+ background: #000;
+ overflow: auto;
+}
+
+.css-modal-sys > div,
+.css-modal-sys > form {
+margin: 2% 2% 2% 2%;
+}
+
+
+
+/*
+User Content CSS
+================
+*/
+
+
+blockquote {
+ background: #040;
+ border-left: 0.5em solid #161;
+ margin: 0.75em 0.5em;
+ padding: 0.25em 0.5em;
+}
+
+pre {
+background: #021;
+border: 1px dotted #eee;
+padding: 0.5em;
+clear: both;
+overflow: auto;
+}
+
+pre > code {
+background: none;
+}
+
+pre, code {
+font-family: monospace;
+}
+
+code {
+background: #142;
+}
+
+table, td, th, tr, hr {
+border: 1px solid #eee;
+}
+
+td > p, th > p {
+margin: 0.5em;
+padding: 0;
+}
+
+img, video, audio {
+vertical-align: bottom;
+}
+
+video, audio {
+background: #000;
+}
+</style>
+</head>
+<body>
+
+ <h1 class="css-center css-font-big" id="js-page-title">
+  BareBonesWiki
+ </h1>
+ 
+ <div class="css-table css-pad">
+  <div>
+   <input type="text" id="js-txt-search">
+  </div>
+  <div>
+   <button type="button" id="js-b-search">Search</button>
+   <button type="button" id="js-b-index">Index▼</button>
+  </div>
+  <div class="css-right">
+   <button type="button" id="js-b-cfg">Options</button>
+   <button type="button" id="js-b-save">Save</button>
+   <button type="button" id="js-b-new">New</button>
+  </div>
+ </div>
+ 
+ <div class="css-table">
+  <div id="js-area-index" class="css-index css-top css-toggle js-content"></div>
+  <div id="js-area-content"></div>
+ </div>
+ 
+ <div class="css-pad">
+  <button type="button" id="js-b-top">To Top</button>
+  <button type="button" id="js-b-export">Export</button>
+  <button type="button" id="js-b-import">Import▼</button>
+ </div>
+
+ 
+<!--Hidden import wizard.-->
+<div class="css-modal-sys js-modal" tabindex="0" id="js-import-wiz">
+<form class="css-pad-sys">
+ <div class="css-font-big">Import Wizard</div>
+ <fieldset>
+ <legend>Import as...</legend>
+ <label><input type="radio" name="js-import-type" value="application/json" checked>As Dataset</label>
+ <label><input type="radio" name="js-import-type" value="text/x-bbm">As Wiki Entry</label>
+ <label><input type="radio" name="js-import-type" value="text/plain">As Plain Text</label>
+ </fieldset>
+ <fieldset>
+ <legend>Choose...</legend>
+ <label><input type="file" size="12" id="js-i-import" multiple></label>
+ </fieldset>
+ 
+ <fieldset>
+ <legend>Import Log</legend>
+ <textarea cols="80" rows="6" disabled></textarea>
+ </fieldset>
+ 
+ <div class="css-right">
+  <button type="button" class="js-b-close">Close</button>
+ </div>
+</form>
+</div>
+
+
+<!--Hidden configuration wizard.-->
+<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
+<form class="css-pad-sys">
+ <div class="css-font-big">Configuration Wizard</div>
+ <fieldset>
+ <legend>Title</legend>
+ <input type="text" class="js-i-title">
+ </fieldset>
+ <fieldset>
+ <legend>Startup Titles (Line-break delimited)</legend>
+ <textarea cols="30" rows="10" class="js-i-startup"></textarea>
+ </fieldset>
+ <fieldset>
+ <legend>Confirmations</legend>
+ <label>
+ <input type="checkbox" class="js-c-cfm-del"> On Delete
+ </label>
+ <label>
+ <input type="checkbox" class="js-c-cfm-nav"> On Navigating Away
+ </label>
+ </fieldset>
+ <fieldset>
+ <legend>Search options</legend>
+ <label>
+ <input type="checkbox" class="js-c-search-case"> Case sensitive
+ </label>
+ </fieldset>
+ <div class="css-right">
+  <button type="button" class="js-b-save">Ok</button>
+  <button type="button" class="js-b-close">Close</button>
+ </div>
+</form>
+</div>
+
+
+<!--Hidden Export wizard-->
+<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-export-wiz">
+<div class="css-pad-sys">
+<p class="css-font-big">Manual-saving & Exporting Wizard</p>
+<p>
+Your web browser can only export (save) data manually. Please mouse
+right-click (or long-tap) the link and choose...
+</p>
+<ul>
+<li><code>Save Link As...</code> under Google Chrome and Mozilla Firefox</li>
+<li><code>Download Linked Content As...</code> for Apple Safari</li>
+<li><code>Save Linked Content As...</code> in Opera</li>
+</ul>
+<p>
+*Note:* If you're "saving" the wiki under older versions of Mozilla Firefox,
+Google Chrome, or any web browser using the Gecko rendering engine, close
+this dialog box and press CTRL-S instead. Rename the file suffix into ".html"
+if you're saving, and ".json" if you're exporting wiki data.
+</p>
+<p>
+There are no plans to support Internet Explorer &lt; 10 for exporting data.
+</p>
+<p>
+<a href="" class="js-save-link css-font-med" target="_blank">Save this link target</a>
+</p>
+<button type="button" class="js-b-close">Close</button>
+</div>
+</div>
+
+<!--View Template-->
+<script type="text/html" id="js-t-view">
+<div class="css-pad-big js-form" tabindex="0">
+ <div class="css-right js-ctrl">
+  <button type="button" class="js-b-close-o">Close Others</button>
+  <button type="button" class="js-b-close">Close</button>
+  <button type="button" class="js-b-edit">Edit</button>
+ </div>
+ <div class="js-title css-font-big"></div>
+ <div class="js-subtitle"></div>
+ <div class="js-tags css-index"></div>
+ <div class="js-content css-margin-tall css-min-height"></div>
+</div>
+</script>
+
+
+<!--Edit Template-->
+<script type="text/html" id="js-t-edit">
+<form class="css-pad-big js-form" tabindex="0">
+<fieldset class="css-right js-ctrl">
+ <button type="button" class="js-b-delete">Delete</button>
+ <button type="button" class="js-b-cancel">Cancel</button>
+ <button type="button" class="js-b-finish">Finish</button>
+</fieldset>
+<fieldset>
+ <legend class="js-i-old-title"></legend>
+ <input class="js-i-title" type="text">
+</fieldset>
+<fieldset>
+ <legend>Mime type</legend>
+ <input class="js-i-mime" type="text">
+</fieldset>
+<fieldset>
+ <legend>WikiText source code</legend>
+ <textarea class="js-i-src css-tall" rows="20" cols="80"></textarea>
+</fieldset>
+<fieldset>
+ <legend>Tags (Separated by line breaks)</legend>
+ <textarea class="js-i-tags" rows="5" cols="80"></textarea>
+</fieldset>
+</form>
+</script>
+
+<!--Replaceable HTML fragments-->
+<script type="text/html" id="js-t-dl">
+<dl></dl>
+</script>
+<script type="text/html" id="js-t-dd">
+<dd></dd>
+</script>
+<script type="text/html" id="js-t-dt">
+<dt class="css-pad"></dt>
+</script>
+<script type="text/html" id="js-t-wlink">
+<a href="#" class="css-wlink js-wlink"></a>
+</script>
+<script type="text/html" id="js-t-para">
+<p class="css-margin"></p>
+</script>
+<script type="text/html" id="js-t-button">
+<button type="button"></button>
+</script>
+
+
+
+<!--Popup app-level modal box.-->
+<script type="text/html" id="js-t-popup">
+<div class="css-modal js-popup" tabindex="0">
+ <div class="css-font-med js-title"></div>
+ <div class="js-p-content css-index css-min-height"></div>
+ <div class="css-right">
+  <button type="button" class="js-b-close">Close</button>
+ </div>
+</div>
+</script>
+
+
+
+<!--
+JSON Data storage.
+
+Unescape HTML entities "&amp; &lt; &gt;" prior to parsing, if extracting
+directly from here.
+-->
+<script type="application/json" id="js-db">{
+ "NODES": {},
+ "EDGES": {},
+ "CONFIG": {
+  "title": "BareBonesWiki",
+  "startup": [
+   "BareBonesWiki"
+  ],
+  "cfmDel": false,
+  "cfmNav": true,
+  "searchCase": false
+ }
+}</script>
+
+<!--Runtime code-->
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+var $IMPORT = (function (){
+
+ var MSIZE = Math.pow(2, 20) * 10,
+  $fileEle = $("#js-i-import");
+  
+ var delegate = (File && FileReader) ? function (evt)
+ {
+  var files = this.files;
+  for (var i = 0, ii = files.length; i < ii; i += 1)
+  {
+   var file = files[i],
+    fReader = null,
+    fSize = file.size || file.fileSize,
+    fName = file.name;
+   
+   if (fSize <= MSIZE)
+   {
+    fReader = new FileReader();
+    fReader.onload = onLoad;
+    fReader.onerror = onError;
+    fReader.onprogress = onProgress;
+    fReader.readAsText(files[i], "utf-8");
+   }
+   else
+   {
+    console.log(sizeErrMsg(fName, MSIZE, fSize));
+   }
+  }
+ } : function (evt){};
+  
+
+ function sizeErrMsg(fName, max, real)
+ {
+  return fName + " is too large. (" + maxSize + " >= max " + real + " bytes)";
+ }
+ 
+ function onError(evt)
+ {
+  console.log(evt);
+ }
+ 
+ function onLoad(evt)
+ {
+  //console.log("Done!");
+  console.log(evt.target.result);
+ }
+ 
+ return $fileEle.on("change", delegate);
+}());
+
+</script>
+
+</body>
+</html>

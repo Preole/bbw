@@ -1,0 +1,80 @@
+Welcome to the introductory tutorial for BareBonesWiki. This 
+tutorial shall get you started and ready for authoring a personal 
+wiki.
+
+
+
+Browser Support
+---------------
+
+You should first check whether your web browser supports saving 
+back to the file system before using it.
+
+1. Create a new wiki entry, save it, then press the save button 
+   Follow the instructions in the popup dialog box, or download 
+   the generated file into your computer.
+
+2. Open the saved wiki with your browser, and locate the wiki 
+   entry you've just created. A trip to the Titles (Alphabetical)
+   index should help you locate the entry.
+
+
+
+Basic Workflow
+--------------
+
+1. Create a new wiki entry with the "new" button.
+2. Edit the entry. If you need syntax help with editing, refer 
+   to the syntax.txt page.
+
+   Tag this entry as necessary.
+
+3. Click on the "finish" button.
+4. Repeat previous steps as needed.
+5. Press the "save" button and go from there.
+
+Other buttons, such as "Delete" should be self explanatory.
+
+
+
+Indexing
+--------
+
+There are seven different kinds of indices available to BareBonesWiki, 
+located at the upper left hand corner of the interface. You may also 
+perform a simple full text search in the entire wiki through the 
+text search box. These facilities are used to assist you in finding 
+the entry you're looking for.
+
+; Titles
+
+  : Lists all wiki entries in lexicographical (alphabetical) order.
+  
+; Created
+
+  : Lists wiki entries by the date they're created, in units of whole 
+    days.
+
+; Recent
+
+  : As **Created**, but sorts by last edit date instead.
+  
+; Tags
+
+  : Sorts wiki entries by the tag they're associated with in 
+    lexicographical order.
+    
+; Orphans
+
+  : Lists entries that have no other entries referring to them, 
+    excluding self-loops.
+
+; BackLink
+
+  : List all incoming links for each wiki entry.
+  
+; Mime
+
+  : Organizes wiki entries by its MIME type.
+
+

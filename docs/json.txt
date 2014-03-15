@@ -1,0 +1,168 @@
+BareBonesWiki JSON
+==================
+
+This document is a short, detailed explanation about BareBonesWiki's back end 
+data structure serialized as JSON. The document provides a sample JSON and 
+describes each data field, as well as all possibilities formations of the 
+database.
+
+
+Sample JSON Data
+----------------
+
+{
+ /*
+ A set of unique wiki entries organized by their names. This lists all 
+ entries that currently reside in the wiki.
+ */
+ "NODES": {
+
+ 
+ 
+  /*
+  An example wiki entry, which is a String value connected to a wiki node 
+  object. This string value must have no leading or trailing spaces, and 
+  must not contain any control characters.
+  
+  Consecutive space characters of differing flavors should be normalized 
+  to a single ASCII (0020) space character. No control characters (such 
+  as line feed) are allowed in the key field.
+  */
+  "BareBonesWiki": { 
+  
+  
+  
+   /*
+   String; The string value must match the containing wiki node's key value, 
+   case sensitive.
+   */
+   "title": "BareBonesWiki", 
+   
+   
+   
+   /*
+   Number (Integer); Date UTC in milliseconds. This is the date this
+   entry was last edited.
+   */
+   "edited": 1391063754000,
+   
+   
+   
+   /*
+   Number (Integer); Date UTC in milliseconds. The date this entry
+   was created.
+   */
+   "created": 1390971816000,
+   
+   
+   
+   /*
+   An Array of unique String values. Lexicographic order is not required, 
+   but it should contain at least one non-empty string value. In the case
+   of an empty tag array, a default tag name must be supplied.
+   (e.g: "Uncategorized")
+   */
+   "tags": [
+    "Built-in"
+   ],
+   
+   
+   
+   //String; The wiki entry's source code in plain text.
+   "src": "SomeText",
+   
+   
+   /*
+   String; The wiki entry's MIME type, which determines the way the wiki
+   entry will be rendered. Currently, there are three significant mime
+   types the wiki will respond to:
+   
+   ; "text/x-bbm"
+   : Default mime type; Parses the content as wiki text.
+   
+   ; "text/html"
+   : Straight embedded HTML, in case wiki text is not powerful enough.
+   
+   ; Anything else
+   : Plain text; The source code of the wiki entry is simply stuffed 
+     into a pre-formatted text block.
+   */
+   "mime": ""
+  }
+ },
+ 
+ 
+ 
+ /*
+ Denotes directed edges (Arrows) from one wiki entry onto another wiki 
+ entry, referenced by their names (title). These edges can only be extracted 
+ after compiling an entry's source code. As such, it's possible for the 
+ source text to be out of sync with the model represented here.
+ 
+ Contains a unique set of objects, where each objects contains a unique 
+ set of String values (Target entry).
+ 
+ The key values under "EDGES" must also exist under "NODES".
+ */
+ "EDGES": {
+ 
+  /*
+  Example source edge.
+  */
+  "BareBonesWiki" : {
+  
+   /*
+   Number; Any positive integer; Which denotes there's at least one link 
+   from the current node to the destination.
+   
+   The destination node is denoted by the key value, which does not have
+   to exist in the set "NODES".
+   */
+   
+   "DoesNotExist" : 1,
+   "AnotherTitle" : 1
+  },
+ },
+ 
+ 
+ 
+ /*
+ Configuration object used by BareBonesWiki engine.
+ */
+ "CONFIG": {
+ 
+  /*
+  The Wiki's Title. Must not be an empty String.
+  */
+  "title": "BareBonesWiki",
+  
+  /*
+  A unique array of String values, denoting the list of entries to display 
+  on startup. Names listed later should be displayed first.
+  */
+  "startup": [
+   "BareBonesWiki"
+  ],
+  
+  
+  
+  /*
+  Boolean; Displays warning on deleting entries.
+  */
+  "cfmDel": true, 
+  
+  
+  
+  /*
+  Boolean; Displays warning on closing the wiki (Navigating away)
+  */
+  "cfmNav": true,
+  
+  
+  
+  /*
+  Boolean; Letter case sensitivity for full-text search.
+  */
+  "searchCase": false
+ }
+}

@@ -1,0 +1,139 @@
+Basic Build Instructions
+========================
+
+1. Install ?<http://nodejs.org/>-[node.js]. 
+
+2. Jump to the project's root directory using command-line and type 
+   """node build.js""". If you're on Windows, shift-right click the
+   open white space in the Explorer window and select """Open 
+   command-prompt"""
+   
+3. Retrieve the generated HTML file in """./dist/""".
+
+
+
+Slightly more complicated builds
+================================
+
+Assuming you're in the project's root directory in the command line, with 
+node.js installed, install the following node.js modules:
+
+"""
+npm install jscombiner
+npm install fuse
+"""
+
+The former is a javascript file concatenator, while the latter is a HTML, 
+CSS, and Javascript file injector.
+
+If you'll be using the wiki in older web browsers, Navigate to the source code 
+directory and switch jQuery library versions located in """./src/lib/""". 
+**Note**: this operation does not enable Internet Explorer 8-9 to commit 
+persistent changes to the wiki.
+
+"""
+cd src/lib/
+ren jQuery.min.js jQuery.min.old.js
+cp jQuery1.x.min.js jQuery.min.js
+"""
+
+Retrieve the generated HTML file in """./dist/"""
+
+
+
+
+
+Hard Dependencies
+=================
+
+They're already included in the source code, but just in case updates come 
+out:
+
+; jQuery 
+
+  : Download the minified library from ?<http://jquery.com/download/>
+     -[the official website], then put it into the source folder. Download 
+     the 1.x branch if planning to use the wiki with older web browsers.
+     (Not Internet Explorer, unfortunately)
+     
+  : Use one of the pre-built jQuery inside """./src/lib/""", or create a 
+    custom build of jQuery as explained in the section **jQuery Custom Build**.
+    
+    Use this option if you're planning to compress your wiki as much as 
+    possible.
+    
+; bbm (BakaBakaMark; The markup syntax used in the wiki)
+
+  : ?<https://github.com/Preole/bbm>
+
+
+
+
+
+jQuery Build Instruction
+========================
+
+This build instruction assumes that the following commands are available in 
+the command line shell:
+
+- node (?<node.js>)
+- npm (Comes along with node.js)
+- git (?<git>)
+- grunt-cli ("""npm install grunt-cli -g""")
+
+:{node.js}: http://nodejs.org/
+:{git}: http://www.vogella.com/tutorials/Git/article.html#installation
+
+From the command line in the github directory, clone jQuery's repository
+and build its dependencies using the following commands:
+
+"""
+git clone git://github.com/jquery/jquery.git
+cd jquery
+npm run build
+"""
+
+Follow the instruction for building customized jQuery library in its 
+readme file.
+
+
+
+Choice A: 1.x
+-------------
+
+Use the 1.x branch for usages with slightly older, but W3C standards-
+compliant web browsers, such as most gecko or webkit-based ones; e.g: 
+    
+- Firefox 3.6
+- Lunascape 5 with Gecko rendering engine
+- Avant web browser
+
+Note that this operation does not enable saving changes to the wiki in 
+Internet Explorer 8-9, as this is a fundamentally different issue.
+
+Check out the 1.x branch using git. At the time of writing, v1.10.0 is the 
+latest jQuery version for this branch. Afterwards, run the custom build 
+command via grunt.
+
+"""
+git checkout 1.10.0
+grunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callbacks,-queue,-forms,-deprecated,-exports/amd,-css
+"""
+
+
+
+Choice B: 2.x
+-------------
+
+Checkout the 2.x branch if you'll always be using the latest versions of 
+web browsers (Currently 2.1.0). Again, the project uses a custom build to 
+exclude unnecessary components.
+
+"""
+git checkout 2.1.0
+grunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callbacks,-queue,-forms,-deprecated,-sizzle,
+"""
+
+Drop the minified jquery from """$(jQueryRoot)/dist/jquery.min.js""" 
+to the wiki's source directory: """$(bbwRoot)/src/lib/jquery.min.js"""
+
