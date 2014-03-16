@@ -1,47 +1,45 @@
 
 
-function WikiNode(title, src, mime, tags, edges)
-{
- var obj = {}, now = utc.now();
+var WikiNode = (function (){
 
- this.title = title;
- this.src = src;
- this.tags = tags;
- this.mime = mime;
- this.created = now;
- this.edited = now;
- 
- this.validate();
- 
- if (this.title.length <= 0)
+ function WikiNode(title, src, mime, tags)
  {
-  this.title = newName();
- }
- if (obj.mime.length <= 0) 
- {
-  this.mime = "text/x-bbm";
- }
- 
- return obj;
-}
-
-WikiNode.prototype = (function (){
- 
- function validate()
- {
-  this.title = str_.titleize(title);
-  this.tags = 
+  if (!(this instanceof WikiNode))
+  {
+   return new WikiNode(title, src, mime, tags)
+  }
+  var now = utc.now();
   
-  if (this.title.length)
- }
- 
- function defaults()
- {
-  this.mime = this.mime || "text/x-bbm";
-  this.tags = this.tags || ["Uncategorized"];
- }
- 
- return {
+  this.title = title || "";
+  this.src = src || "";
+  this.tags = (tags instanceof Array) ? tags : [];
+  this.mime = (typeof mime === "string") ? mime : "text/x-bbm";
+  this.created = now;
+  this.edited = now;
+  this.defaults();
   
- };
-});
+  return this;
+ }
+ 
+ WikiNode.prototype = (function (){
+  var funcObj =
+  {
+   validate : validate
+  };
+  
+  function validate()
+  {
+   this.title = str_.titleize(this.title);
+   if (this.title.length <= 0)
+   {
+    throw new RangeError("No empty/space wiki entry titles allowed.");
+   }
+   return this;
+  }
+  
+  return funcObj;
+ }());
+ 
+ 
+ return WikiNode;
+}());

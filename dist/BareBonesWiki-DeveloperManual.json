@@ -9,6 +9,26 @@
    "mime": "text/x-bbm",
    "created": 1394841548715,
    "edited": 1394841548711
+  },
+  "Possible Back-end Enhancement": {
+   "title": "Possible Back-end Enhancement",
+   "src": "Database\n========\n\nConsider separating tags from wiki entries, rather than \nintegrated as part of wiki entry objects. Tag objects should \nhave its own module for enforcing business constraints, which \nare essential for effective tagging (partitioning) of wiki \nentries based on categories. Specifically, \n\n- There can only be one unique tag per application instance,\n  determined by the tag name.\n- Each tag can refer to at most one unique wiki entry \n  identified by their title text.\n- Similarly, each wiki entry can be tagged at most once by \n  any given tag object.\n- Control characters **must be stripped** from tag names.\n- All consecutive white space characters in tag names **must**\n  be collapsed into a single ASCII white space. However, single\n  non-ASCII space characters are permitted to remain as they \n  are.\n\nWiki entries are not supposed to know which categories they \nbelong to; They should know when they're last edited, the date \nthey're created, its title and its source code.\n\n\n\nDatabase Indexing\n=================\n\nCurrently, there are seven different kinds of indices in the \nwiki. The code necessary to generate the HTML DOM element and \nthe underlying is verbose, often repeated and tedious. This is \ndue to the nature of HTML DOM, which are mostly sequential and \nlinear, opposed to a wiki which provides random access.\n\nIf able, these indices should be isolated from the database \nobject as an aggregate, which will be generated on the fly.\n\n\nDatabase Object\n===============\n\nThe database object itself is a bit too simple; It's simply a \nraw javascript object that used property names for different \npurposes, sometimes leaving the property values unused. The \ndesign flaw can be seen with edges (directed links) between \nwiki entries, where an integer value \"1\" is used as a property \nvalue that doesn't contribute anything.\n\nThe database object should be a more formally defined data \nstructure, namely a Graph, with sufficient support for linking in \nreverse direction. Otherwise, finding all nodes that linked to a \nparticular node can be an expensive O(n^^2^^) operation.\n\n\n\nView Controller \n===============\n\nThe code base currently has severe problems with string literals \nrepeatedly used in different areas. The worst offending use case \nare **jQuery CSS selectors**, which often have little to no variation \nfrom one another, but are used as string literals because of the \nCSS selector syntax:\n\n\"\"\"\n$(\"#someConstantModule\").on(\"someEvent\", \".js-wlink\", ...)\n\nfunction doSomething(evt)\n{\n if ($(evt.target).hasClass(\"js-wlink\"))\n {\n  //Do something fancy.\n }\n}\n\"\"\"\n\nHere, the class \"js-wlink\" refers to \"javascript wiki links\", \nwhich opens a wiki entry when they're clicked. Due to the nature \nof CSS selectors, the string value has to be repeated every time \nthere's a different relationship regarding the link, such as \nwhether it's a descendant of a particular kind of \"\"\"div\"\"\". \nInstances of such string constants lead to difficult maintenance.\n\n\n\nAPI & Architecture Design Flaws\n===============================\n\n1. In order to find forward links within a wiki entry, the engine \n   must perform the following procedure every time a wiki entry is \n   saved.\n\n   1. Parse the text into HTML strings.\n   2. Build the HTML DOM.\n   3. Query the DOM for a list of links.\n\n   The third step in the parsing process is critical for indexing \n   orphaned entries and their back links, which are very convenient \n   features to end-users. The other two steps are basic plain text \n   - HTML transformation. None of these steps can be combined or \n   simplified at the current state of affairs.\n\n2. Rendering a wiki entry requires a database query to determine \n   whether to display links in a different way. (Red linking)\n\n3. The rendering engine should not have to generate the same data \n   structure as ones used within the database. (Retrieving \n   edges from HTML DOM)\n\n",
+   "tags": [
+    "Uncategorized"
+   ],
+   "mime": "text/x-bbm",
+   "created": 1395004854914,
+   "edited": 1395004854880
+  },
+  "Possible Front-end Enhancement": {
+   "title": "Possible Front-end Enhancement",
+   "src": "Editing Interface\n=================\n\nThe **mime type** field of the editing interface should be a \ndrop-down box offering a slew of choices with a default \npre-selected. A simple text field may be too primitive an \ninterface.\n\nThe **tags** field of the editing interface can use the same \ntreatment; Either selecting a pre-existing tag or enter a \nnew tag string manually.\n\nThe search & indexing result panel should have an explicit \nclose button, rather than relying on an empty search query \nto close it.\n\n",
+   "tags": [
+    "Uncategorized"
+   ],
+   "mime": "text/x-bbm",
+   "created": 1395000557212,
+   "edited": 1395005674292
   }
  },
  "EDGES": {},
