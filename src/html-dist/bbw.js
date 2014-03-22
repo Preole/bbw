@@ -1533,9 +1533,7 @@ var $IMPORTWIZ = (function (){
  });
  
  $fileEle.on(EV.CLICK, function (evt){
-  //$fileEle.wrap("form").get(0).reset();
   $wiz.get(0).reset();
-  //$/ileEle.unwrap();
  });
  
  $fileEle.on(EV.CHANGE, importDelegate);

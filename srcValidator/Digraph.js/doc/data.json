@@ -1,0 +1,546 @@
+{
+    "project": {},
+    "files": {
+        "src\\Digraph.js": {
+            "name": "src\\Digraph.js",
+            "modules": {},
+            "classes": {
+                "Digraph": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Digraph": {
+            "name": "Digraph",
+            "shortname": "Digraph",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src\\Digraph.js",
+            "line": 81,
+            "description": "A basic directed graph class. It contains basic nodes and edges \nmanipulation methods with a fairly readable JSON serialization.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "edgeType",
+                    "description": "\n\"full\", \"half\", \"loose\"; One of the types in Digraph.prototype.EDGE_ENUM.\nRefer to the property EDGE_ENUM for detailed behaviors.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "selfLoop",
+                    "description": "\nIf true, adding self-loops raises errors.",
+                    "type": "Boolean",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "a newly generated Digraph instance.",
+                "type": "Digraph"
+            }
+        }
+    },
+    "classitems": [
+        {
+            "file": "src\\Digraph.js",
+            "line": 8,
+            "description": "An enumeration of edge types used in this directed graph. They will\nenforce the following semantics within the graph.\n\n- \"LOOSE\": Edges and nodes have no relationship with each other.\n- \"HALF\": Edges cannot have empty source endpoint. All outgoing edges\n  are deleted from the node when it is removed.\n- \"FULL\": Edges cannot have any endpoint left dangling. All edges related \n  to the node will be removed when the node is removed.",
+            "itemtype": "property",
+            "name": "Digraph.prototype.EDGE_ENUM",
+            "type": "{object}",
+            "final": 1,
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 99,
+            "description": "Denotes whether the graph allows self-looping edges.",
+            "itemtype": "property",
+            "name": "SELFLOOP",
+            "final": 1,
+            "type": "{boolean}",
+            "default": "false",
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 110,
+            "description": "Denotes the degree of tolerance for edges with dangling endpoint.",
+            "itemtype": "property",
+            "name": "EDGETYPE",
+            "final": 1,
+            "type": "{string}",
+            "default": "\"loose\" or Digraph.prototype.EDGE_ENUM.LOOSE",
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 121,
+            "description": "A map of nodes' identifiers to their associated data.\n\nSample JSON for an employee catalog:\n\n```\n{\n \"Joe Smith\" : \n {\n  \"Name\" : \"Joe Smith\",\n  \"Phone\" : \"3333-333333-3333\",\n  \"EmploymentDateUTC : 8981214573\n }\n}\n```",
+            "itemtype": "property",
+            "name": "NODES",
+            "type": "{object}",
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 142,
+            "description": "A map of directed edges, where the keys are the source nodes' ID, and the\nvalues are objects. The keys of the nested objects are the destination\nnode's ID, and their values are the edge's associated data.\n\nSample JSON of a inter-personal relationship graph:\n\n```\n{\n \"A\" : \n {\n  \"B\" : \"Abuse\",\n  \"C\" : \"Rivalry\"\n },\n \"B\" :\n {\n  \"D\" : \"Friendship\"\n }\n}\n```",
+            "itemtype": "property",
+            "name": "EDGES",
+            "type": "{object}",
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 232,
+            "description": "Adds a set of nodes into the graph.",
+            "itemtype": "method",
+            "name": "addNode",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "\nA mapping of node identifiers and their associated data values. The \nkeys are the identifier, while the value is the data associated with \nthe node.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The modified graph instance.",
+                "type": "Digraph"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 250,
+            "description": "Adds a node into the graph with a given identifier and a block\nof data.",
+            "itemtype": "method",
+            "name": "addNode",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "\nThe identifier of the node.",
+                    "type": "String"
+                },
+                {
+                    "name": "dataObj",
+                    "description": "\nThe data object of the node, which can be anything.",
+                    "type": "Anything",
+                    "optional": true,
+                    "optdefault": "null"
+                }
+            ],
+            "return": {
+                "description": "The modified graph instance.",
+                "type": "Digraph"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 276,
+            "description": "Kills a list of nodes, calling rmNode(id) for each identifier\nin the array.",
+            "itemtype": "method",
+            "name": "rmNode",
+            "params": [
+                {
+                    "name": "idArray",
+                    "description": "An array of identifier strings.",
+                    "type": "Array of string"
+                }
+            ],
+            "return": {
+                "description": "The modified graph instance.",
+                "type": "Digraph"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 292,
+            "description": "Kills a node with a given identifier if it exists.\nFor full-edge Digraphs, all edges associated with this node will be\nremoved, while half-edge digraphs will remove all outgoing edges of\nthis node.",
+            "itemtype": "method",
+            "name": "rmNode",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "The node's identifier string",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The modified graph instance",
+                "type": "Digraph"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 330,
+            "description": "Retrieves the data object of the node with the identifier id.",
+            "itemtype": "method",
+            "name": "getNode()",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "The node's identifier string",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "\nThe data associated with the node if the node exists. Returns \n`undefined` otherwise.",
+                "type": "Anything"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 343,
+            "description": "Determines whether a node with the identifier id exists.",
+            "itemtype": "method",
+            "name": "hasNode()",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "The node's identifier string",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "True if the node exists; false otherwise.",
+                "type": "Boolean"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 374,
+            "description": "Adds a collection of directed edges into the graph.",
+            "itemtype": "method",
+            "name": "addEdge",
+            "params": [
+                {
+                    "name": "idObject",
+                    "description": "An object, where the keys are the identifiers\nof the source node. The values can either be a string, object, or an \narray with the following formulations:\n\n- string: Adds a single directed edge from node A to node B. The data\n  value for this edge shall be `null`.\n- Array of strings: Adds a directed edge from node A to each node\n  specified in the array. These edges' associated data will be the\n  value `null`.\n- Object: The keys denote the identifier of the destination node, \n  while the values denote any data associated with the edge object.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "\nThe modified Digraph instance.",
+                "type": "Digraph"
+            },
+            "throws": {
+                "description": "\nThe same error as the three-parameter formulation.",
+                "type": "TypeError"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 415,
+            "description": "Adds one directed edge that points from node A to node B.",
+            "itemtype": "method",
+            "name": "addEdge",
+            "params": [
+                {
+                    "name": "fromID",
+                    "description": "Source node's identifier",
+                    "type": "String"
+                },
+                {
+                    "name": "toID",
+                    "description": "Destination node's identifier.",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "Any data associated with the edge.",
+                    "type": "Anything",
+                    "optional": true,
+                    "optdefault": "null"
+                }
+            ],
+            "return": {
+                "description": "The modified Digraph instance.",
+                "type": "Digraph"
+            },
+            "throws": {
+                "description": "On one of the following situations:\n- Full-edge graph & either endpoint has no node.\n- Half-edge graph & source endpoint has no node.\n- Self-loops in graphs that explicitly forbids it.\n- Non-string identifiers in either fromID or toID.",
+                "type": "TypeError"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 478,
+            "description": "Kills all outbound edge for all nodes in this array, specified by their\nidentifier string.",
+            "itemtype": "method",
+            "name": "rmEdge",
+            "params": [
+                {
+                    "name": "idArray",
+                    "description": "An array of string (identifiers).",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "The modified Digraph instance.",
+                "type": "Digraph"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 493,
+            "description": "Kills a set of directed edges specified by the object. The option object\nused in `addEdge(idObject)` shall remove the set of edges added by that \nobject.",
+            "itemtype": "method",
+            "name": "rmEdge",
+            "params": [
+                {
+                    "name": "idObj",
+                    "description": "The set of directed edges to remove.",
+                    "type": "Object or Array"
+                }
+            ],
+            "return": {
+                "description": "The modified Digraph instance.",
+                "type": "Digraph"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 522,
+            "description": "Removes one, or a set of directed edges depending on the identifiers\nspecified for each endpoint:\n\n- Both parameters provided: Kills the directed edge A -> B.\n- First parameter only: Kills all outbound edges of A: A -> *.\n- Second parameter only : Kills all inbound edges of B: * -> B.\n\nDoes nothing if no parameters are supplied.",
+            "itemtype": "method",
+            "name": "rmEdge",
+            "params": [
+                {
+                    "name": "fromID",
+                    "description": "Identifier of the source node. May be omitted\nif there's a 2nd parameter.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "toID",
+                    "description": "Identifier of the destination.",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The modified Digraph instance.",
+                "type": "Digraph"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 587,
+            "description": "Resets the edges from one node to another, or one node to a set of other\n    nodes. Effectively the same as calling `rmEdge()` and `addEdge()` in that \n    order with the same parameters.",
+            "itemtype": "method",
+            "name": "setEdge",
+            "params": [
+                {
+                    "name": "fromID",
+                    "description": "",
+                    "type": "String or Array or object"
+                },
+                {
+                    "name": "toID",
+                    "description": "",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The modified Digraph instance.",
+                "type": "Digraph"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 604,
+            "description": "Retrieves a specified set of edge objects.",
+            "itemtype": "method",
+            "name": "getEdge",
+            "params": [
+                {
+                    "name": "fromID",
+                    "description": "Identifier of the source node.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "toID",
+                    "description": "Identifier of the destination.",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "\n- If both parameters are supplied, returns the data object of the edge.\n- If only the first parameter is supplied, same as `getEdgesOut()`.\n- If only the 2nd parameter is provided, same as `getEdgesIn()`.\n\nOmitting parameters returns the entire edge set, where the keys\n    denote the source node identifier. Each key points to another object, \n    where their keys are the destination nodes' identifier, and their \n    values the data object of that edge.",
+                "type": "Anything"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 643,
+            "description": "Tests whether there's a link from node A to node B.",
+            "itemtype": "method",
+            "name": "hasEdge",
+            "params": [
+                {
+                    "name": "fromID",
+                    "description": "Identifier of the source node.",
+                    "type": "String"
+                },
+                {
+                    "name": "toID",
+                    "description": "Identifier of the destination.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "true if there's a link from \"fromID\" to \"toID\"",
+                "type": "Boolean"
+            },
+            "throws": {
+                "description": "Both parameters must be of type string.",
+                "type": "TypeError"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 660,
+            "description": "Retrieves all incoming edge objects going into a particular node.",
+            "itemtype": "method",
+            "name": "getEdgesIn",
+            "params": [
+                {
+                    "name": "nodeID",
+                    "description": "The identifier of the node.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "An object, where the keys represent the source of\nof the edge, and the value represents any data associated with the\nedge object. Returns undefined if the node doesn't exist.",
+                "type": "Object"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 674,
+            "description": "Retrieves all outgoing edge objects originating from a particular node.",
+            "itemtype": "method",
+            "name": "getEdgesOut",
+            "params": [
+                {
+                    "name": "nodeID",
+                    "description": "The identifier of the node.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "An object, where the keys represent the destination\nof the edge, and the value represents any data associated with the\nedge object. Returns undefined if the node doesn't exist.",
+                "type": "Object"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 688,
+            "description": "Retrieves the number of incoming edges into a particular node.",
+            "itemtype": "method",
+            "name": "getDegreesIn",
+            "params": [
+                {
+                    "name": "nodeID",
+                    "description": "The identifier of the node.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The number of incoming edges for the given node ID.\nReturns 0 if the node doesn't exist.",
+                "type": "Number"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 705,
+            "description": "Retrieves the number of outgoing edges from a particular node.",
+            "itemtype": "method",
+            "name": "getDegreesOut",
+            "params": [
+                {
+                    "name": "nodeID",
+                    "description": "The identifier of the node.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The number of outgoing edges for the given node ID.\nReturns 0 if the node doesn't exist.",
+                "type": "Number"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 722,
+            "description": "Reverse the direction of all edges in the graph.",
+            "itemtype": "method",
+            "name": "transpose",
+            "return": {
+                "description": "The same Digraph transposed.",
+                "type": "Digraph"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 736,
+            "description": "Generates a serializable view of the Digraph instance to be\nturned into JSON string using JSON.stringify();",
+            "itemtype": "method",
+            "name": "toJSON",
+            "return": {
+                "description": "The serializable version of the Digraph instance.",
+                "type": "Object"
+            },
+            "class": "Digraph"
+        },
+        {
+            "file": "src\\Digraph.js",
+            "line": 752,
+            "description": "Imports graph data with a JSON string or a plain javascript object.",
+            "itemtype": "method",
+            "name": "fromJSON",
+            "params": [
+                {
+                    "name": "input",
+                    "description": "\nThe graph data to import from. Effectively, it takes the `NODES` and \n`EDGES` property of the object and calls `addNodes()` followed by \n`addEdges()`.",
+                    "type": "String or object"
+                }
+            ],
+            "return": {
+                "description": "The modified graph instance.",
+                "type": "Digraph"
+            },
+            "throws": {
+                "description": "\nIf the import violates the semantic rules defined for edges in this \ngraph, such as a graph containing self loops when it is explicitly\nforbidden.",
+                "type": "TypeError"
+            },
+            "class": "Digraph"
+        }
+    ],
+    "warnings": []
+}

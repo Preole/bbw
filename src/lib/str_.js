@@ -15,7 +15,6 @@ var str_ = (function()
   REGEX_NL_G.lastIndex = 0;
   var lines = str.split(REGEX_NL_G), obj = {}, arr = [], i = 0, ii = 0;
 
-
   for (i = 0, ii = lines.length; i < ii && titleize; i += 1)
   {
    lines[i] = str_titleize(lines[i]); //forEach

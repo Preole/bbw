@@ -54,6 +54,21 @@ margin: 1% 1% 2% 1%;
 font-size: 16px;
 }
 
+/*Superscript and subscript line height fixes*/
+sup {
+ font-size: smaller;
+ vertical-align: baseline;
+ position: relative;
+ bottom: 0.33em;
+}
+
+sub {
+ font-size: smaller;
+ vertical-align: baseline;
+ position: relative;
+ bottom: -0.25em;
+}
+
 h1,
 h2,
 h3,
