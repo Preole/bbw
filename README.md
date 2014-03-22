@@ -3,6 +3,17 @@
 coded and difficult to maintain, and a human-readable rewrite is 
 in progress.**
 
+Currently, there are two branches to the project:
+
+; master
+: The stable branch ready for use, once the project is stable enough
+  to be deployed.
+
+; dev
+: Ongoing evaluations and improvements.
+
+
+
 BareBonesWiki
 =============
 
@@ -65,8 +76,8 @@ Highlights
 Usage
 -----
 
-1. Download the file. If you feel a tutorial is necessary, download 
-   the tutorial JSON file as well.
+1. Download the file from """./dist/BareBonesWiki.html""". If you feel a 
+   tutorial is necessary, download the manual files as well.
 2. Open it with a web browser.
 3. Enable Javascript, if not enabled already.
 4. Enjoy.
