@@ -5,6 +5,7 @@ var $IMPORTWIZ = (function (){
  var $wiz = $("#js-import-wiz"),
   $radios = $wiz.find("input[type='radio'][name='js-import-type']"),
   $fileEle = $wiz.find("#js-i-import"),
+  $fileEleClone = $fileEle.clone(),
   $log = $wiz.find("textarea").first(),
   MSIZE = Math.pow(2, 20) * 10;
  
@@ -25,10 +26,12 @@ var $IMPORTWIZ = (function (){
     fReader = new FileReader();
     fReader.onload = onLoad;
     fReader.onerror = onError;
-    fReader.readAsText(files[i], "utf-8");
+    fReader.readAsText(files[i]);
    }
    else {$log.log(sizeErrMsg(fName, MSIZE, fSize));}
   }
+  
+  resetFileEle();
  }
  
  function onLoad(evt)
@@ -66,17 +69,21 @@ var $IMPORTWIZ = (function (){
   return fName + " is too large. (" + maxSize + " >= max " + real + " bytes)";
  }
  
+ function resetFileEle()
+ {
+  $fileEle = $fileEleClone.clone().replaceAll($fileEle);;
+  $fileEle.on(EV.CHANGE, importDelegate);
+ }
+ 
  $wiz.on(EVT.CLOSE, FUNC.CLOSE);
  $wiz.on(EVT.LOAD, function (evt){
   $wiz.toggleClass("js-css-invis", false).focus();
   $log.unlog();
  });
- 
- $fileEle.on(EV.CLICK, function (evt){
-  $wiz.get(0).reset();
- });
- 
+
  $fileEle.on(EV.CHANGE, importDelegate);
+
+ 
 
  
  return $wiz;

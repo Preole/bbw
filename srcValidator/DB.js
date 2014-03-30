@@ -1,145 +1,472 @@
-/* requires ./lib/str_.js */
-/* requires ./lib/obj_.js */
-/* requires ./lib/Digraph.js */
-/* requires ./WikiNode.js */
-/* requires ./Config.js */
+/* requires ./lib/PO.js */
+/* requires ./lib/STR.js */
+/* requires ./lib/LooseEdge.js */
+
 
 
 var DB = (function ()
 {
- var utc =
+ //List of recognized charsets.
+ var CHARSET_ENUM =
  {
-  ms : 1,
-  sec : 1000,
-  min : 1000 * 60,
-  hour : 1000 * 60 * 60,
-  day : 1000 * 60 * 60 * 24,
-  month : 1000 * 60 * 60 * 24 * 31,
-  year : 1000 * 60 * 60 * 24 * 31 * 12,
-  now : function() {return Date.now() || (new Date()).getTime();}
- },
+  UTF8 : "UTF-8"
+ };
+ 
+ //Lsit of recognized mime types.
+ var MIME_ENUM =
+ {
+  TEXT : "text/plain",
+  HTML : "text/html",
+  WIKI : "text/x-bbm",
+  JSON : "application/json"
+ };
+
+ //Configuration Object prototype
+ var Config = (function (){
+  
+  function Config(title, startup, cfmDel, cfmNav, searchCase)
+  {
+   if (!(this instanceof Config))
+   {
+    return new Config(title, startup, cfmDel, cfmNav, searchCase);
+   }
+   this.title = PO.isString(title) ? STR.titleize(title) : "BareBoneswiki";
+   this.startup = uniqueLines(startup);
+   this.cfmDel = !!cfmDel;
+   this.cfmNav = !!cfmNav;
+   this.searchCase = !!searchCase;
+   return this;
+  }
+  
+  Config.prototype = (function (){
+   function compact(configObj)
+   {
+    return Config.call(this,
+     configObj.title,
+     configObj.startup,
+     configObj.cfmDel,
+     configObj.cfmNav,
+     configObj.searchCase
+    );
+   }
+   
+   function fromJSON(objOrString)
+   {
+    var obj = PO.isString(objOrString) ? JSON.parse(objOrString) :
+     PO.isObject(objOrString) ? objOrString : {};
+     
+    return compact.call(this, obj);
+   }
+   
+   function toJSON()
+   {
+    return compact.call(this, this);
+   }
+  
+   return {
+    compact : compact,
+    fromJSON : fromJSON,
+    toJSON : toJSON
+   };
+  }());
+  
+  return Config;
+ }());
+
+ //WikiNode factory.
+ var WikiNode = (function (){
+  function defaultTags(tagStr)
+  {
+   var tags = uniqueLines(startupStr);
+   if (tags.length < 1)
+   {
+    tags.push("Uncategorized");
+   }
+   return tags;
+  }
+  
+  function defaultMime(mimeStr)
+  {
+   if (PO.isString(mimeStr))
+   {
+    for (var each in MIME_ENUM)
+    {
+     if (MIME_ENUM[each] === mimeStr) {return mimeEnum;}
+    }
+   }
+   return MIME.TEXT;
+  }
+  
+  function defaultSrc(srcStr)
+  {
+   return PO.isString(srcStr) ? srcStr : "";
+  }
+
+  function create(title, src, mime, tags, created, edited)
+  {
+   var obj =
+   {
+    title : STR.titleize(title),
+    src : defaultSrc(src),
+    mime : defaultMime(mime),
+    tags : defaultTags(tags),
+    created : parseInt(created, 10) || Date.now(),
+    edited : parseInt(edited, 10) || Date.now() + 1000)
+   };
+   
+   if (obj.title.length <= 0)
+   {
+    throw new RangeError("A WikiNode cannot have an empty title.");
+   }
+   
+   return obj;
+  }
+   
+  function doSearch(obj, wordList, caseSense)
+  {
+   return STR.hasSubstring(obj.title, word, caseSense) ||
+    STR.hasSubstringArray(obj.tags, word, caseSense) ||
+    STR.hasSubstring(obj.src, word, caseSense);
+  }
+  
+  function search(obj, wordList, caseSense)
+  {
+   if (!validate(obj)) {return false;}
+  
+   var repeats = [];
+   for (var i = 0, ii = wordList.length; i < ii; i += 1)
+   {
+    var word = wordList[i];
+    if (!PO.isString(word)) {continue;}
+    if (repeats.indexOf(word) !== -1) {continue;}
+    
+    repeats.push(word);
+    if (!doSearch(obj, word, caseSense)) {return false;}
+   }
+   return true;
+  }
+
+  function validate(obj)
+  {
+   return PO.isObject(obj)
+    PO.isString(obj.title) && STR.trim(obj.title).length > 0 &&
+    PO.isArray(obj.tags) && obj.tags.every(PO.isString)
+    PO.isString(obj.src) &&
+    PO.isString(obj.mime) &&
+    PO.isNum(obj.created) &&
+    PO.isNum(obj.edited) &&
+    obj.edited >= obj.created;
+  }
+  
+  
+  
+  return {
+   create : create,
+   search : search,
+   validate : validate,
+   MIME : MIME_ENUM
+  };
+ }());
+
+
  
  //Index cache
- TAGTITLE = null,
- TITLES = null,
- EDITED = null,
- CREATED = null,
- ORPHAN = null,
- BACKLINKS = null,
- MIME = null,
+ var TAGTITLE = null,
+  TITLES = null,
+  EDITED = null,
+  CREATED = null,
+  ORPHAN = null,
+  BACKLINKS = null,
+  MIME = null;
  
  //Global states
- HAS_EDITED = false,
- UUID = 0,
- DEF_NAME = "New Entry ";
- 
- //Persistent models.
- GRAPH = Digraph({
+ var CHANGED = false,
+  PREF = "New Entry ",
+  DATE = new Date(),
+  UUID = 0;
   
- }),
- CONFIG = Config.DEFAULTS();
+  
+ //Persistent models.
+ var NODES = new PO(),
+  EDGES = new LooseEdge(),
+  CONFIG = new Config();
 
  
-
-
- function truncate(num, unit) {return (num - (num % unit));}
- function remainder(num, unit) {return (num % unit);}
  
+ //String array transformation.
+ function uniqueLines(strArr)
+ {
+  var strArray = PO.isString(strArr) ? STR.lines(strArr) :
+   PO.isArray(strArr) ? strArr.filter(PO.isString) : [];
+   
+  return strArray.map(STR.titleize)
+   .filter(STR.isBlankString)
+   .filter(itFilterUnique);
+ }
+ 
+ function uniqueWords(strArr)
+ {
+  var strArray = PO.isString(strArr) ? STR.words(strArr) :
+   PO.isArray(strArr) ? strArr.filter(PO.isString) : [];
+   
+  return strArray.filter(itFilterUnique);
+ }
+ 
+ //Iterators
+ function itUniqueArray(value, index, array)
+ {
+  return array.indexOf(value) === index;
+ }
+
+ function itSearchNode(wNode)
+ {
+  var wordList = this;
+  return WikiNode.search(wNode, wordList, CONFIG.caseSense);
+ }
+
+ function itValidNode(wNode, key, obj)
+ {
+  return WikiNode.validate(wNode) && wNode.title === key;
+ }
+ 
+ 
+ 
+ //Iterators for sortable, nested indices.
+ function itGroupTitleByDate(acc, wNode, propStr)
+ {
+  DATE.setTime(wNode[propStr]);
+  
+  var last = acc[acc.length - 1],
+   time = DATE.toLocaleDateString();
+  
+  if (last && last.key === time)
+  {
+   last.vals.push(wNode.title);
+  }
+  else
+  {
+   acc.push({key : time, vals : [wNode.title]});
+  }
+  return acc;
+ }
+ 
+ function itGroupTitleByCreated(acc, wNode)
+ {
+  return itGroupByDate.call(null, acc, wNode, "created");
+ }
+ 
+ function itGroupTitleByEdited(acc, wNode)
+ {
+  return itGroupByDate.call(null, acc, wNode, "edited");
+ }
+
+ //Iterators for nested indices assisted by LooseEdge.js
+ function itGroupTitleByMime(acc, wNode)
+ {
+  return prevEdge.addEdge(wNode.mime, wNode.title);
+ }
+ 
+ function itGroupTitleByTags(prevEdge, wNode)
+ {
+  return prevEdge.addEdge(wNode.title, wNode.tags);
+ }
+ 
+ //Comparators
+ function compareByEdited(t1, t2)
+ {
+  return t2.edited - t1.edited;
+ }
+ 
+ function compareByCreated(t1, t2)
+ {
+  return t2.created - t1.created;
+ }
+
+
+ //Indexing data structures for UI display.
+ function indexMime()
+ {
+  MIME = MIME || NODES.values()
+   .reduce(itGroupTitleByMime, new LooseEdge())
+   .listInboundOutbound(true);
+   
+  return MIME;
+ }
+ 
+ function indexTags()
+ {
+  TAGTITLE = TAGTITLE || NODES.values()
+   .reduce(itGroupTitleByTag, new LooseEdge())
+   .listInboundOutbound();
+   
+  return TAGTITLE;
+ }
+ 
+ function indexTagSingle(tagName)
+ {
+  for (var i = 0, ii = indexTags().length; i < ii; i += 1)
+  {
+   if (TAGTITLE[i].key === tagName) {return TAGTITLE[i].vals;}
+  }
+  return [];
+ }
+
+ function indexTitles()
+ {
+  TITLES = TITLES || NODES.keys().sort();
+  return TITLES;
+ }
+ 
+ function indexCreated()
+ {
+  CREATED = CREATED || NODES.values()
+   .sort(compareByCreated)
+   .reduce(itGroupTitleByCreated, []);
+   
+  return CREATED;
+ }
+ 
+ function indexEdited()
+ {
+  EDITED = EDITED || NODES.values()
+   .sort(compareByEdited)
+   .reduce(itGroupByEdited, []);
+   
+  return EDITED;
+ }
+ 
+ function indexEditedFlat()
+ {
+  return NODES.values().sort(compareByEdited);
+ }
+ 
+ function indexBacklinks()
+ {
+  BACKLINKS = BACKLINKS || EDGES.listInboundOutbound();
+  return BACKLINKS;
+ }
+ 
+ function indexOrphans()
+ {
+  ORPHANS = ORPHANS || EDGES.listOrphans();
+  return ORPHANS;
+ }
+ 
+ function indexSearch(wordList)
+ {
+  return NODES.values()
+   .filter(itSearchNode, uniqueWords(wordList))
+   .sort();
+ }
+
+ 
+ 
+ //CRUD and name generation
  function nextName()
  {
-  return DEF_NAME + (UUID += 1);
+  return PREF + (UUID += 1);
  }
  
  function newName()
  {
   var defTitle = nextName();
-  while (GRAPH.hasNode(defTitle)) {defTitle = nextName();}
+  while (hasNode(defTitle))
+  {
+   defTitle = nextName();
+  }
   return defTitle;
  }
  
- function buildTagTitle()
+ function newNodeNoConflict(src, mime)
  {
-  tagTitle = Digraph();
-  var nodes = GRAPH.listNodes();
-  
-  for (var i = 0, ii = nodes.length; i < ii; i += 1)
-  {
-   var tags = nodes[i].tags;
-   for (var j = 0, jj = tags.length; j < jj; j += 1)
-   {
-    tagTitle.addEdge(tags[j], nodes[i].title);
-   }
-  }
-  return tagTitle.listDirectionByKeys(true);
- }
-
- function buildTitleList()
- {
-  return GRAPH.listNodeKeys();
+  return newNode(newName(), src, mime);
  }
  
- function buildBacklinks()
+ function newNode(title, src, mime, tags)
  {
-  return GRAPH.listDirectionByKey();
- }
-
- function buildOrphanList()
- {
-  return GRAPH.listOrphansByKey();
+  return WikiNode.create(title, src, mime, tags);
  }
  
- function buildMime()
+ function editNode(wNode, targetList, oldTitle)
  {
-  var graph = Digraph();
-  var nodes = GRAPH.listNodes();
-  
-  for (var i = 0, ii = nodes.length; i < ii; i += 1)
+  if (!WikiNode.validate(wNode))
   {
-   graph.addEdge(nodes[i].mime, nodes[i].title);
+   throw new TypeError("Schema error in wiki node objects.");
   }
-  return graph.listDirectionByKeys(true);
- }
-
- /*
- [
+  if (hasNode(oldTitle))
   {
-   key : "October 21st, 2011",
-   vals : ["Title", "Title2"]...
+   wNode.created = getNode(oldTitle).created;
   }
- ]
- */
- function buildCreated(edited)
- {
-  var ms = 0;
-  var outList = [];
-  var propStr = edited ? "edited" : "created";
-  var nodes = GRAPH.listNodes().sort(function (t1, t2){
-   return (t2[propStr] - t1[propStr]);
-  });
   
-  for (var i = 0, ii = nodes.length; i < ii; i += 1)
-  {
-   var node = nodes[i];
-   var msDay = truncate(node[propStr], utc.day);
+  NODES.remove(oldTitle)
+   .remove(wNode.title)
+   .put(wNode.title);
    
-   if (ms !== msDay)
-   {
-    ms = msDay;
-    d.setTime(node[propStr]);
-    outList.push({
-     key : d.toLocaleDateString(),
-     vals : [node.title]
-    });
-   }
-   else
-   {
-    outList[outList.length - 1].vals.push(node.title);
-   }
+  EDGES.rmEdge(oldTitle)
+   .rmEdge(wNode.title)
+   .addEdge(wNode.title, targetList);
+  
+  nullifyCache();
+ }
+ 
+ function rmNode(title)
+ {
+  NODES.remove(title);
+  EDGES.remove(title);
+  nullifyCache();
+ }
+ 
+ function hasNode(title)
+ {
+  return NODES.has(title);
+ }
+ 
+ function getNode(title)
+ {
+  if (hasNode(title))
+  {
+   return NODES.get(title);
   }
   
-  return outList;
+  return WikiNode.create(title);
  }
 
+
+ 
+ function config(cfgObj)
+ {
+  var newConfig = Config.fromJSON(cfgObj);
+  
+  CHANGED = !!(CHANGED || cfgObj);
+  CONFIG = PO.isObject(newConfig) ? newConfig : CONFIG;
+  
+  return CONFIG;
+ }
+ 
+ function hasChanged()
+ {
+  return CHANGED;
+ }
+ 
+ function fromJSON(input)
+ {
+  var jsonObj = PO.isString(input) ? JSON.parse(input) :
+   PO.isObject(input) ? input : {};
+  
+  CONFIG.fromJSON(jsonObj.CONFIG);
+  EDGES.fromJSON(jsonObj.EDGES);
+  NODES.fromJSON(jsonObj.NODES).filter(itValidNode);
+ }
+ 
+ function toJSON()
+ {
+  return {
+   NODES : NODES,
+   EDGES : EDGES,
+   CONFIG : CONFIG
+  };
+ }
+ 
  //On (C), R, (U), (D) operations, invalidate indices.
  function nullifyCache(isEdit)
  {
@@ -150,139 +477,41 @@ var DB = (function ()
   ORPHAN = null;
   BACKLINKS = null;
   MIME = null;
-  HAS_EDITED = HAS_EDITED || !isEdit;
+  CHANGED = CHANGED || !isEdit;
  }
 
 
  return {
-  WikiNode : WikiNode,
-  config : function(cfgJSON)
-  {
-   HAS_EDITED = HAS_EDITED || cfgJSON;
-   CONFIG.fromJSON(cfgJSON);
-   return CONFIG;
-  },
-  newName : function()
-  {
-   return newName();
-  },
-  edit : function(wNode, targets, oldTitle)
-  {
-   if (!(wNode instanceof WikiNode)
-   {
-    throw new TypeError();
-   }
-   if (GRAPH.has(oldTitle) instanceof WikiNode)
-   {
-    wNode.created = GRAPH.get(oldTitle).created;
-   }
-   
-   GRAPH.rmNode(wNode.title)
-    .rmEdge(wNode.title)
-    .addNode(wNode.title, wNode)
-    .addEdge(wNode.title, targets);
-    
-   HAS_EDITED = true;
-   nullifyCache();
-  },
-  rm : function(title)
-  {
-   GRAPH.rmNode(title).rmEdge(title);
-   HAS_EDITED = true;
-  },
-  get : function(title)
-  {
-   if (GRAPH.hasNode(title)) {return GRAPH.getNode(title);}
-   return WikiNode(title, "\"" + title + "\" does not exist.", "", "");
-  },
-  has : function(title)
-  {
-   return GRAPH.hasNode(title);
-  },
-  getOrphans : function()
-  {
-   ORPHAN = ORPHAN || buildOrphanList();
-   return ORPHAN;
-  },
-  getTagMap : function()
-  {
-   TAGTITLE = TAGTITLE || buildTagTitle();
-   return TAGTITLE;
-  },
-  getTitlesInTag : function(tagName)
-  {
-   TAGTITLE = TAGTITLE || buildTagTitle();
-   for (var i = 0, ii = TAGTITLE.length; i < ii; i += 1)
-   {
-    if (TAGTITLE[i].key === tagName) {return TAGTITLE[i].vals;}
-   }
-   return [];
-  },
-  getRecent : function()
-  {
-   EDITED = EDITED || buildCreated(true);
-   return EDITED;
-  },
-  getCreated : function()
-  {
-   CREATED = CREATED || buildCreated(false);
-   return CREATED;
-  },
-  getTitles : function()
-  {
-   TITLES = TITLES || buildTitleList();
-   return TITLES;
-  },
-  getBackLinks : function()
-  {
-   BACKLINKS = BACKLINKS || buildBacklinks();
-   return BACKLINKS;
-  },
-  getMimeMap : function()
-  {
-   MIME = MIME || buildMime();
-   return MIME;
-  },
-  getMimeList : function()
-  {
-   MIME = MIME || buildMime();
-   return obj_.keys(MIME).sort();
-  },
-  search : function(wordList)
-  {
-   var caseSense = CONFIG.searchCase;
-   var nodes = GRAPH.listNodes();
-   var res = [];
-   
-   for (var i = 0, ii = nodes.length; i < ii; i += 1)
-   {
-    var node = nodes[i];
-    if (node.search(wordList, caseSense))
-    {
-     res.push(node.title);
-    }
-   }
-   nodes = null;
-   return res.sort();
-  },
-  hasEdited : function()
-  {
-   return HAS_EDITED;
-  },
+  //Supported Mime types
+  MIME : MIME_ENUM,
+  CHARSET : CHARSET_ENUM,
+ 
+  //CRUD methods
+  config : config,
+  newName : newName,
+  newNode : newNode,
+  newNodeNoConflict : newNodeNoConflict,
+  editNode : editNode,
+  rmNode : rmNode,
+  getNode : getNode,
+  hasNode : hasNode,
+  hasChanged : hasChanged,
   
-  fromJSON : function(jsonStr)
-  {
-   GRAPH.fromJSON(jsonStr);
-   CONFIG.fromJSON(jsonStr);
-   HAS_EDITED = true;
-  },
-  toJSON : function()
-  {
-   return {
-    GRAPH : GRAPH,
-    CONFIG : CONFIG
-   };
-  }
+  //Indexing methods
+  indexSearch : indexSearch,
+  indexOrphans : indexOrphans,
+  indexTags : indexTags,
+  indexTagSingle : indexTagSingle,
+  indexEdited : indexEdited,
+  indexEditedFlat : indexEditedFlat,
+  indexCreated : indexCreated,
+  indexTitles : indexTitles,
+  indexMime : indexMime,
+  indexBacklinks : IndexBacklinks,
+  
+  //Serialization & De-serialization methods
+  fromJSON : fromJSON,
+  toJSON : toJSON
  };
 }());
 

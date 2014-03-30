@@ -18,10 +18,7 @@
   var rect = target.getBoundingClientRect();
   
   $target.parent().append($ele.focus());
-  
   modal.style.left = rect.left + "px";
-  modal.style.top = rect.top + rect.height + "px";
-  
   return $ele;
  }
  

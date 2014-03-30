@@ -40,6 +40,7 @@ var str_ = (function()
   REGEX_NL_G.lastIndex = 0;
   var lines = str.split(REGEX_NL_G), obj = {}, arr = [], i = 0, ii = 0;
 
+
   for (i = 0, ii = lines.length; i < ii && titleize; i += 1)
   {
    lines[i] = str_titleize(lines[i]); //forEach
@@ -1464,7 +1465,6 @@ var $IMPORTWIZ = (function (){
  var $wiz = $("#js-import-wiz"),
   $radios = $wiz.find("input[type='radio'][name='js-import-type']"),
   $fileEle = $wiz.find("#js-i-import"),
-  $fileEleClone = $fileEle.clone(),
   $log = $wiz.find("textarea").first(),
   MSIZE = Math.pow(2, 20) * 10;
  
@@ -1485,12 +1485,10 @@ var $IMPORTWIZ = (function (){
     fReader = new FileReader();
     fReader.onload = onLoad;
     fReader.onerror = onError;
-    fReader.readAsText(files[i]);
+    fReader.readAsText(files[i], "utf-8");
    }
    else {$log.log(sizeErrMsg(fName, MSIZE, fSize));}
   }
-  
-  resetFileEle();
  }
  
  function onLoad(evt)
@@ -1528,21 +1526,17 @@ var $IMPORTWIZ = (function (){
   return fName + " is too large. (" + maxSize + " >= max " + real + " bytes)";
  }
  
- function resetFileEle()
- {
-  $fileEle = $fileEleClone.clone().replaceAll($fileEle);;
-  $fileEle.on(EV.CHANGE, importDelegate);
- }
- 
  $wiz.on(EVT.CLOSE, FUNC.CLOSE);
  $wiz.on(EVT.LOAD, function (evt){
   $wiz.toggleClass("js-css-invis", false).focus();
   $log.unlog();
  });
-
- $fileEle.on(EV.CHANGE, importDelegate);
-
  
+ $fileEle.on(EV.CLICK, function (evt){
+  $wiz.get(0).reset();
+ });
+ 
+ $fileEle.on(EV.CHANGE, importDelegate);
 
  
  return $wiz;
@@ -1572,7 +1566,10 @@ var $IMPORTWIZ = (function (){
   var rect = target.getBoundingClientRect();
   
   $target.parent().append($ele.focus());
+  
   modal.style.left = rect.left + "px";
+  modal.style.top = rect.top + rect.height + "px";
+  
   return $ele;
  }
  
