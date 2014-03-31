@@ -131,5 +131,27 @@ the database object.
   return this;
  };
 
+ $.fn.setOffset = function (offsetObj){
+  return this.each(function (){
+   this.style.left = offsetObj.left;
+   this.style.top = offsetObj.top
+  });
+ };
+ 
+ $.fn.getOffset = function (){
+  var ele = this.get(0);
+  if (!(ele instanceof HTMLElement)) {return;}
+  
+  var xPosition = 0;
+  var yPosition = 0;
+  while (ele)
+  {
+   xPosition += (ele.offsetLeft - ele.scrollLeft + ele.clientLeft);
+   yPosition += (ele.offsetTop - ele.scrollTop + ele.clientTop);
+   ele = ele.offsetParent;
+  }
+  return {left : xPosition, top: yPosition};
+ };
+
 }(jQuery));
 

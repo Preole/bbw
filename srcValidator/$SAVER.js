@@ -1,6 +1,5 @@
-/* requires ./lib.saver/autosave.js */
+/* requires ./lib.saver/autoSave.js */
 /* requires $EXPORTWIZ.js */
-
 
 
 var $SAVER = (function ($detachList){
@@ -16,19 +15,15 @@ var $SAVER = (function ($detachList){
   return "<!DOCTYPE HTML>\n" + uOuterHTML($(document.documentElement));
  }
  
- function save(evt, text, mime, charset, fname)
+ function save(evt, text, mime, fname)
  {
-  if (autosave(text, mime, charset, fname))
-  {
-   return;
-  }
-  
-  $EXPORTWIZ.trigger(EVT.LOAD, [dataURI(text, mime, charset)]);
+  if (autoSave.save(text, mime, fname)) {return;}
+  $EXPORTWIZ.trigger(EVT.LOAD, [dataURI(text, mime)]);
  }
  
  function saveJson(evt, jsonStr, fname)
  {
-  save(evt, jsonStr, DB.MIME.JSON, DB.CHARSET.UTF8, fname);
+  save(evt, jsonStr, DB.MIME.JSON, fname);
  }
  
  function saveDoc(evt, fname)
@@ -39,7 +34,7 @@ var $SAVER = (function ($detachList){
    cList.push($(this).contents().detach());
   });
   
-  save(evt, uExportWhole(), DB.MIME.HTML, DB.CHARSET.UTF8, fname);
+  save(evt, uExportWhole(), DB.MIME.HTML, fname);
   
   cList = cList.reverse();
   $detachList.each(function (){

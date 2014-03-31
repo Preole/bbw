@@ -3,7 +3,8 @@
 
 /*
 Non-API Note: Since the wiki has no need for a full-blown Graph data structure 
-algorithm library yet, only limited algorithms and applications are implemented.
+algorithm library yet, only limited algorithms and use cases are implemented.
+//TODO: Test cases
 */
 
 /**
@@ -23,6 +24,7 @@ algorithm library yet, only limited algorithms and applications are implemented.
  * 
  * @module LooseEdge
  * @main LooseEdge
+ * @requires PO
  */
 var LooseEdge = (function (){
 

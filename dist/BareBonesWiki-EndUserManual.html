@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html><head>
 <meta charset="UTF-8">
-<title>BareBonesWiki-EndUserManual</title>
+<title>BareBonesWiki</title>
 <style type="text/css">
 /*
 == Basic rules & CSS Resets ==
@@ -49,6 +49,17 @@ textarea:focus {
 outline: dotted 1px #eee;
 }
 
+body {
+background: #021;
+color: #eee;
+height: 100%;
+width: 98%;
+font-family: sans-serif;
+margin: 1% 1% 2% 1%;
+font-size: 16px;
+}
+
+/*Superscript and subscript line height fixes*/
 sup {
  font-size: smaller;
  vertical-align: baseline;
@@ -61,16 +72,6 @@ sub {
  vertical-align: baseline;
  position: relative;
  bottom: -0.25em;
-}
-
-body {
-background: #021;
-color: #eee;
-height: 100%;
-width: 98%;
-font-family: sans-serif;
-margin: 1% 1% 2% 1%;
-font-size: 16px;
 }
 
 h1,
@@ -305,7 +306,6 @@ min-width: 8em;
 
 textarea {
 font-family: monospace;
-white-space: pre;
 height: 6em;
 overflow: auto;
 }
@@ -404,11 +404,13 @@ background: #000;
 </head>
 <body>
 
- <h1 class="css-center css-font-big" id="js-pg-title">BareBonesWiki-EndUserManual</h1>
+ <h1 class="css-center css-font-big" id="js-pg-title">
+  BareBonesWiki
+ </h1>
  
  <div class="css-table css-pad">
   <div>
-   <input type="text" id="js-txt-search">
+   <input id="js-txt-search" type="text">
   </div>
   <div>
    <button type="button" id="js-b-search">Search</button>
@@ -439,13 +441,13 @@ background: #000;
  <div class="css-font-big">Import Wizard</div>
  <fieldset>
  <legend>Import as...</legend>
- <label><input type="radio" name="js-import-type" value="application/json" checked="">As Dataset</label>
- <label><input type="radio" name="js-import-type" value="text/x-bbm">As Wiki Entry</label>
- <label><input type="radio" name="js-import-type" value="text/plain">As Plain Text</label>
+ <label><input name="js-import-type" value="application/json" checked="" type="radio">As Dataset</label>
+ <label><input name="js-import-type" value="text/x-bbm" type="radio">As Wiki Entry</label>
+ <label><input name="js-import-type" value="text/plain" type="radio">As Plain Text</label>
  </fieldset>
  <fieldset>
  <legend>Choose...</legend>
- <label><input type="file" id="js-i-import" multiple=""></label>
+ <label><input id="js-i-import" multiple="" type="file"></label>
  </fieldset>
  
  <fieldset>
@@ -461,12 +463,12 @@ background: #000;
 
 
 <!--Hidden configuration wizard.-->
-<div class="css-modal-sys js-modal js-css-invis" tabindex="0" id="js-cfg-wiz">
+<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
 <form class="css-pad-sys">
  <div class="css-font-big">Configuration Wizard</div>
  <fieldset>
  <legend>Title</legend>
- <input type="text" class="js-i-title">
+ <input class="js-i-title" type="text">
  </fieldset>
  <fieldset>
  <legend>Startup Titles (Line-break delimited)</legend>
@@ -475,16 +477,16 @@ background: #000;
  <fieldset>
  <legend>Confirmations</legend>
  <label>
- <input type="checkbox" class="js-c-cfm-del"> On Delete
+ <input class="js-c-cfm-del" type="checkbox"> On Delete
  </label>
  <label>
- <input type="checkbox" class="js-c-cfm-nav"> On Navigating Away
+ <input class="js-c-cfm-nav" type="checkbox"> On Navigating Away
  </label>
  </fieldset>
  <fieldset>
  <legend>Search options</legend>
  <label>
- <input type="checkbox" class="js-c-search-case"> Case sensitive
+ <input class="js-c-search-case" type="checkbox"> Case sensitive
  </label>
  </fieldset>
  <div class="css-right">
@@ -870,7 +872,6 @@ var str_ = (function()
  {
   REGEX_NL_G.lastIndex = 0;
   var lines = str.split(REGEX_NL_G), obj = {}, arr = [], i = 0, ii = 0;
-
 
   for (i = 0, ii = lines.length; i < ii && titleize; i += 1)
   {
@@ -1553,6 +1554,28 @@ the database object.
  $.fn.unlog = function (){
   this.val("");
   return this;
+ };
+ 
+ $.fn.setOffset = function (offsetObj){
+  return this.each(function (){
+   this.style.left = offsetObj.left;
+   this.style.top = offsetObj.top
+  });
+ };
+ 
+ $.fn.getOffset = function (){
+  var ele = this.get(0);
+  if (!(ele instanceof HTMLElement)) {return;}
+  
+  var xPosition = 0;
+  var yPosition = 0;
+  while (ele)
+  {
+   xPosition += (ele.offsetLeft - ele.scrollLeft + ele.clientLeft);
+   yPosition += (ele.offsetTop - ele.scrollTop + ele.clientTop);
+   ele = ele.offsetParent;
+  }
+  return {left : xPosition, top: yPosition};
  };
 
 }(jQuery));
@@ -2296,6 +2319,7 @@ var $IMPORTWIZ = (function (){
  var $wiz = $("#js-import-wiz"),
   $radios = $wiz.find("input[type='radio'][name='js-import-type']"),
   $fileEle = $wiz.find("#js-i-import"),
+  $fileEleClone = $fileEle.clone(),
   $log = $wiz.find("textarea").first(),
   MSIZE = Math.pow(2, 20) * 10;
  
@@ -2316,10 +2340,12 @@ var $IMPORTWIZ = (function (){
     fReader = new FileReader();
     fReader.onload = onLoad;
     fReader.onerror = onError;
-    fReader.readAsText(files[i], "utf-8");
+    fReader.readAsText(files[i]);
    }
    else {$log.log(sizeErrMsg(fName, MSIZE, fSize));}
   }
+  
+  resetFileEle();
  }
  
  function onLoad(evt)
@@ -2357,19 +2383,21 @@ var $IMPORTWIZ = (function (){
   return fName + " is too large. (" + maxSize + " >= max " + real + " bytes)";
  }
  
+ function resetFileEle()
+ {
+  $fileEle = $fileEleClone.clone().replaceAll($fileEle);;
+  $fileEle.on(EV.CHANGE, importDelegate);
+ }
+ 
  $wiz.on(EVT.CLOSE, FUNC.CLOSE);
  $wiz.on(EVT.LOAD, function (evt){
   $wiz.toggleClass("js-css-invis", false).focus();
   $log.unlog();
  });
- 
- $fileEle.on(EV.CLICK, function (evt){
-  //$fileEle.wrap("form").get(0).reset();
-  $wiz.get(0).reset();
-  //$/ileEle.unwrap();
- });
- 
+
  $fileEle.on(EV.CHANGE, importDelegate);
+
+ 
 
  
  return $wiz;
@@ -2394,15 +2422,8 @@ var $IMPORTWIZ = (function (){
  
  function placeAfter($ele, $target)
  {
-  var modal = $ele[0];
-  var target = $target[0];
-  var rect = target.getBoundingClientRect();
-  
-  $target.parent().append($ele.focus());
-  
-  modal.style.left = rect.left + "px";
-  modal.style.top = rect.top + rect.height + "px";
-  
+  $target.parent().append($ele);
+  $ele.focus().setOffset($target.getOffset());
   return $ele;
  }
  

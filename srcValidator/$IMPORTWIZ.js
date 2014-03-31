@@ -1,5 +1,6 @@
 /* requires $plugins.js */
 /* requires $CONTENT.js */
+/* requires $CONFIGWIZ.js */
 
 var $IMPORTWIZ = (function ($wiz){
  var $importAs = $wiz.find("input[type='radio'][name='js-import-type']"),
@@ -44,6 +45,7 @@ var $IMPORTWIZ = (function ($wiz){
    try
    {
     DB.fromJSON(text);
+    $CONFIGWIZ.trigger(EVT.UPDATE, [DB.config()]);
     $log.val("Successfully imported JSON dataset");
    }
    catch (err)
@@ -53,7 +55,6 @@ var $IMPORTWIZ = (function ($wiz){
    return;
   }
   $log.val("Data entry import success.");
-  
   
   var wNode = DB.newNodeNoConflict(text, type);
   DB.editNode(wNode, $.parseBBM(text, type).getEdges());

@@ -1,61 +1,66 @@
 /* requires dataURI.js */
-/*
-A browser module performing client-side automatic data download:
 
-- IE10+
-- <a download="...">
-
-Parameters:
- string dataStr: The text data to save.
- [string] mimeStr: Data mime type. Default: "text/html"
- [string] charsetStr: Data charset. Default: "utf-8"
- [string] fileName: Suggested file name. Default: "default"
-
-returns: true if automatic download; false o/w
-*/
-var autosave = (function()
+/**
+ * A convenience browser module for performing automatic client-side
+ * data download. Works for the following kinds of web browsers:
+ *
+ * - IE10 or later
+ * - Supports the anchor download attribute `<a download="...">`
+ *
+ * Sample code:
+ *
+ * ```
+ * autoSave.save("Arbitrary data", "text/plain", "myFile.txt");
+ * ```
+ * @module autoSave
+ * @main autoSave
+ * @requires dataURI
+ */
+var autoSave = (function()
 {
  var a = document.createElement("a"),
- data = "",
- mime = "",
- fName = "",
- charset = "",
- failsave = function() {return false;},
- msieDL = (!!navigator.msSaveBlob) ? function()
+  hasMSIE = (!!navigator.msSaveBlob),
+  hasDownload = (typeof a.download !== "undefined"),
+  useFunc = hasMSIE ? msieDownload : hasDownload ? autoDownload : void(0);
+  
+ a.style.display = "none";
+ a.target = "_blank";
+ 
+ function autoDownload(dataStr, mimeStr, fileName)
  {
-  var blob = new Blob([data], {type: mime});
-  window.navigator.msSaveBlob(blob, fName);
-  return true;
- } : failsave,
-
- autoDL = (typeof a.download !== "undefined") ? function()
- {
-  a.target = "_blank";
-  a.download = fName;
-  a.href = dataURI(data, mime, charset);
+  a.href = dataURI(dataStr, mimeStr);
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   a.href = "";
-  return true;
- } : failsave;
- a.style.display = "none";
+ }
  
- 
- 
- return function(dataStr, mimeStr, charsetStr, fileName)
+ function msieDownload(dataStr, mimeStr, fileName)
  {
-  var res = false;
+  var blob = new Blob([data], {type: mime});
+  window.navigator.msSaveBlob(blob, fName);
+ }
  
-  data = dataStr;
-  mime = mimeStr || "text/plain";
-  fName = fileName || "default";
-  charset = charsetStr || "utf-8";
-  res = msieDL() || autoDL();
-  data = "";
-  mime = "";
-  fName = "";
-  charset = "";
-  return res;
- };
+ 
+ /**
+  * @method save
+  * @param dataStr {string} The text data to save.
+  * @param [mimeStr] {string}
+  * Data mime type, which affects the way the input data is interpreted.
+  * Default: "text/plain" (.txt files)
+  * @param [fileName] {string}
+  * Suggested file name; This is a hint to the web browser for file naming.
+  * The actual file name is not guaranteed to the same as the specified
+  * name. Default: "default" 
+  * @return {boolean}
+  * true if the web browser has handled automatic data saving, (which will
+  * trigger client-side prompts for saving) false otherwise.
+  */
+ function handleDownload(dataStr, mimeStr, fileName)
+ {
+  if (useFunc) {useFunc.call(this, dataStr, mimeStr, fileName);}
+  return !!(useFunc);
+ }
+ 
+ return {save : handleDownload};
 }());

@@ -21,10 +21,8 @@ var $CONFIGWIZ = (function ($cfg){
    searchCase : $searchCase.checked()
   });
   
-  document.title = newCfg.title;
-  $pgTitle.text(newCfg.title);
-  
   $cfg.trigger(EVT.CLOSE);
+  $cfg.trigger(EVT.UPDATE, newCfg);
  });
  
  $cfg.on(EVT.LOAD, function (evt){
@@ -37,6 +35,11 @@ var $CONFIGWIZ = (function ($cfg){
   $searchCase.checked(cfg.searchCase);
   
   $cfg.toggleVis(true, true);
+ });
+ 
+ $cfg.on(EVT.UPDATE, function (evt, cfgObj){
+  document.title = cfgObj.title;
+  $pgTitle.text(cfgObj.title);
  });
  
  

@@ -44,7 +44,7 @@
   }
   else if ($delegate.hasClass(CLS.TAGS))
   {
-   $POPUPWIZ.trigger(EVT.TAG, [$src.data().title]).under($src);
+   $POPUPWIZ.trigger(EVT.TAG, [$src.data().title]).placeUnder($src);
   }
   evt.preventDefault();
  });
@@ -79,7 +79,7 @@
  });
  
  $("#js-b-index").on(EV.CLICK, function (evt){
-  $POPUPWIZ.trigger(EVT.INDEX).under($(evt.target));
+  $POPUPWIZ.trigger(EVT.INDEX).placeUnder($(evt.target));
  });
  
  $("#js-b-cfg").on(EV.CLICK, function (evt){

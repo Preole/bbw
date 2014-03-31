@@ -2,6 +2,10 @@
 /* requires ./lib/bbm.min.js*/
 /* requires DB.js */
 
+/*
+jQuery plugins, CSS and event constants.
+*/
+
 
 //Application-specific events
 var EVT =
@@ -24,6 +28,7 @@ var EVT =
  POST : "post",
  SAVE : "save",
  LOAD : "load",
+ UPDATE : "update",
  EXPORT : "export",
  IMPORT : "import",
 };
@@ -85,18 +90,10 @@ var CSS =
    return this.prop("checked");
   }
   
-  function under($target)
+  function placeUnder($target)
   {
-   var modal = this.get(0);
-   var rect = $target.get[0].getBoundingClientRect();
-   
-   if (modal && rect)
-   {
-    $target.parent().append(modal.focus());
-    modal.style.left = rect.left + "px";
-   }
-   
-   return this;
+   $target.parent().append(this);
+   return this.setOffset($target.getOffset()).focus();
   }
   
   function links()
@@ -141,6 +138,32 @@ var CSS =
    return this.toggleClass("js-css-rlink", !!forceSwitch);
   }
  
+  //Position querying methods for use cases without css module in jQuery
+  function getOffset()
+  {
+   var ele = this.get(0);
+   if (!(ele instanceof HTMLElement)) {return;}
+  
+   var xPos = 0;
+   var yPos = 0;
+   while (ele)
+   {
+    xPos += (ele.offsetLeft - ele.scrollLeft + ele.clientLeft);
+    yPos += (ele.offsetTop - ele.scrollTop + ele.clientTop);
+    ele = ele.offsetParent;
+   }
+   return {left : xPos, top: yPos};
+  }
+  
+  function setOffset(offsetObj)
+  {
+   return this.each(function (){
+    this.style.left = offsetObj.left;
+    this.style.top = offsetObj.top;
+   });
+  }
+
+
   return {
    filterChecked : filterChecked,
    checked : checked,
@@ -152,7 +175,10 @@ var CSS =
    tabify : tabify,
    toggleVis : toggleVis,
    toggleWikiLink : toggleWikiLink,
-   toggleRedLink : toggleRedLink
+   toggleRedLink : toggleRedLink,
+   
+   setOffset : setOffset,
+   getOffset : getOffset
   };
  }());
 

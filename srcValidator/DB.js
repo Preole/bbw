@@ -12,7 +12,7 @@ var DB = (function ()
   UTF8 : "UTF-8"
  };
  
- //Lsit of recognized mime types.
+ //List of recognized mime types.
  var MIME_ENUM =
  {
   TEXT : "text/plain",
@@ -21,9 +21,8 @@ var DB = (function ()
   JSON : "application/json"
  };
 
- //Configuration Object prototype
+ //Configuration Object class
  var Config = (function (){
-  
   function Config(title, startup, cfmDel, cfmNav, searchCase)
   {
    if (!(this instanceof Config))
@@ -31,7 +30,7 @@ var DB = (function ()
     return new Config(title, startup, cfmDel, cfmNav, searchCase);
    }
    this.title = PO.isString(title) ? STR.titleize(title) : "BareBoneswiki";
-   this.startup = uniqueLines(startup);
+   this.startup = startup ? uniqueLines(startup) : [];
    this.cfmDel = !!cfmDel;
    this.cfmNav = !!cfmNav;
    this.searchCase = !!searchCase;
@@ -53,8 +52,8 @@ var DB = (function ()
    function fromJSON(objOrString)
    {
     var obj = PO.isString(objOrString) ? JSON.parse(objOrString) :
-     PO.isObject(objOrString) ? objOrString : {};
-     
+     PO.isObject(objOrString) ? objOrString : void(0);
+
     return compact.call(this, obj);
    }
    
@@ -73,7 +72,7 @@ var DB = (function ()
   return Config;
  }());
 
- //WikiNode factory.
+ //WikiNode Object factory.
  var WikiNode = (function (){
   function defaultTags(tagStr)
   {
@@ -199,9 +198,9 @@ var DB = (function ()
   var strArray = PO.isString(strArr) ? STR.lines(strArr) :
    PO.isArray(strArr) ? strArr.filter(PO.isString) : [];
    
-  return strArray.map(STR.titleize)
-   .filter(STR.isBlankString)
-   .filter(itFilterUnique);
+  return strArray.filter(STR.isNotBlank)
+   .map(STR.titleize)
+   .filter(itUniqueArray);
  }
  
  function uniqueWords(strArr)
@@ -209,7 +208,7 @@ var DB = (function ()
   var strArray = PO.isString(strArr) ? STR.words(strArr) :
    PO.isArray(strArr) ? strArr.filter(PO.isString) : [];
    
-  return strArray.filter(itFilterUnique);
+  return strArray.filter(itUniqueArray);
  }
  
  //Iterators
@@ -218,13 +217,13 @@ var DB = (function ()
   return array.indexOf(value) === index;
  }
 
- function itSearchNode(wNode)
+ function itSearchNode(wNode, key, plainObj)
  {
   var wordList = this;
   return WikiNode.search(wNode, wordList, CONFIG.caseSense);
  }
-
- function itValidNode(wNode, key, obj)
+ 
+ function itValidNode(wNode, key, plainObj)
  {
   return WikiNode.validate(wNode) && wNode.title === key;
  }
@@ -304,7 +303,8 @@ var DB = (function ()
  
  function indexTagSingle(tagName)
  {
-  for (var i = 0, ii = indexTags().length; i < ii; i += 1)
+  TAGTITLE = indexTags();
+  for (var i = 0, ii = TAGTITLE.length; i < ii; i += 1)
   {
    if (TAGTITLE[i].key === tagName) {return TAGTITLE[i].vals;}
   }
@@ -354,8 +354,8 @@ var DB = (function ()
  
  function indexSearch(wordList)
  {
-  return NODES.values()
-   .filter(itSearchNode, uniqueWords(wordList))
+  return NODES.filter(itSearchNode, uniqueWords(wordList))
+   .keys()
    .sort();
  }
 
@@ -431,15 +431,13 @@ var DB = (function ()
   return WikiNode.create(title);
  }
 
-
- 
  function config(cfgObj)
  {
-  var newConfig = Config.fromJSON(cfgObj);
-  
-  CHANGED = !!(CHANGED || cfgObj);
-  CONFIG = PO.isObject(newConfig) ? newConfig : CONFIG;
-  
+  if (PO.isObject(cfgObj))
+  {
+   CHANGED = true;
+   CONFIG.fromJSON(cfgObj);
+  }
   return CONFIG;
  }
  
@@ -485,6 +483,10 @@ var DB = (function ()
   //Supported Mime types
   MIME : MIME_ENUM,
   CHARSET : CHARSET_ENUM,
+  
+  //Inner factories and classes.
+  Config : Config,
+  WikiNode : WikiNode,
  
   //CRUD methods
   config : config,

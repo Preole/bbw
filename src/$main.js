@@ -13,12 +13,8 @@
  
  function placeAfter($ele, $target)
  {
-  var modal = $ele[0];
-  var target = $target[0];
-  var rect = target.getBoundingClientRect();
-  
-  $target.parent().append($ele.focus());
-  modal.style.left = rect.left + "px";
+  $target.parent().append($ele);
+  $ele.focus().setOffset($target.getOffset());
   return $ele;
  }
  

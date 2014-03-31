@@ -1349,6 +1349,28 @@ the database object.
   this.val("");
   return this;
  };
+ 
+ $.fn.setOffset = function (offsetObj){
+  return this.each(function (){
+   this.style.left = offsetObj.left;
+   this.style.top = offsetObj.top
+  });
+ };
+ 
+ $.fn.getOffset = function (){
+  var ele = this.get(0);
+  if (!(ele instanceof HTMLElement)) {return;}
+  
+  var xPosition = 0;
+  var yPosition = 0;
+  while (ele)
+  {
+   xPosition += (ele.offsetLeft - ele.scrollLeft + ele.clientLeft);
+   yPosition += (ele.offsetTop - ele.scrollTop + ele.clientTop);
+   ele = ele.offsetParent;
+  }
+  return {left : xPosition, top: yPosition};
+ };
 
 }(jQuery));
 
@@ -2194,12 +2216,8 @@ var $IMPORTWIZ = (function (){
  
  function placeAfter($ele, $target)
  {
-  var modal = $ele[0];
-  var target = $target[0];
-  var rect = target.getBoundingClientRect();
-  
-  $target.parent().append($ele.focus());
-  modal.style.left = rect.left + "px";
+  $target.parent().append($ele);
+  $ele.focus().setOffset($target.getOffset());
   return $ele;
  }
  

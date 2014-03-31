@@ -1,7 +1,30 @@
 
 /**
  * A collection of convenience and common Object methods, such as type 
- * checking, property possession, keys and values.
+ * checking, property possession, keys and values. This module is created
+ * to let javascript objects be formally used as an associative array data
+ * structure, without worrying about accidental property accesses like
+ * the following:
+ *
+ * ```
+ * var myBlogTable = {};
+ * myBlogTable.XYZ = ...;
+ *
+ * [Sometime later...]
+ *
+ * if (myBlogTable.hasOwnProperty)
+ * {
+ *  //Do business logic here.
+ * }
+ * ```
+ *
+ * In this blog post title example, hasOwnProperty is a function off the 
+ * Object prototype chain. If a blog post happens to use the title 
+ * "hasOwnProperty", the application's going to mistakenly think that
+ * the post exists, when it actually doesn't.
+ *
+ * Use this module/class if the application plans to deal with arbitrary
+ * user input, especially use cases involving unique title identifiers.
  *
  * This module shall be expanded as needed by the BareBonesWiki project.
  *
@@ -417,8 +440,6 @@ var PO = (function (){
    }
    return newPO;
   }
-  
-  
   
   return {
    put : putRoute,
