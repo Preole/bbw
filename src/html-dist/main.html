@@ -2,11 +2,21 @@
 <head>
 <meta charset="UTF-8">
 <title>BareBonesWiki</title>
+
 <style type="text/css">
 <!-- @depends css.css -->
 </style>
 </head>
 <body>
+
+ <noscript>
+  <div class="css-modal-sys">
+   <div class="css-pad-sys css-font-big">
+    BareBonesWiki requires Javascript to run.
+   </div>
+  </div>
+ </noscript>
+
 
  <h1 class="css-center css-font-big" id="js-pg-title">
   BareBonesWiki
@@ -52,6 +62,27 @@
  <fieldset>
  <legend>Choose...</legend>
  <label><input type="file" id="js-i-import" multiple></label>
+ <select id="js-s-import-charset">
+  <option value="UTF-8">Unicode (UTF-8)</option>
+  <option value="UCS-2">UCS-2</option>
+  <option value="UTF-16">UTF-16</option>
+  <option value="US-ASCII">ASCII</option>
+  
+  <option value="Shift-JIS">Japanese</option>
+  <option value="Big5">Chinese (Traditional)</option>
+  <option value="GB2312">Chinese (Simplified)</option>
+  
+  <option value="ISO-8859-1">Western European</option>
+  <option value="ISO-8859-2">Centural European</option>
+  <option value="ISO-8859-5">Cyrillic</option>
+  <option value="ISO-8859-6">Arabic</option>
+  <option value="ISO-8859-7">Greek</option>
+  <option value="ISO-8859-8">Hebrew</option>
+  <option value="ISO-8859-9">Turkish</option>
+  <option value="ISO-8859-10">Nordic</option>
+  <option value="ISO-8859-13">Baltic</option>
+  <option value="ISO-8859-14">Celtic</option>
+ </select>
  </fieldset>
  
  <fieldset>
@@ -65,40 +96,49 @@
 </div>
 </form>
 
+<!--Hidden popup menu-->
+<div class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
+ <div class="css-font-med" id="js-popup-title"></div>
+ <div class="css-index css-min-height" id="js-popup-content"></div>
+ <div class="css-right">
+  <button type="button" class="js-b-close">Close</button>
+ </div>
+</div>
+
 
 <!--Hidden configuration wizard.-->
-<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
-<form class="css-pad-sys">
+<form class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
+<div class="css-pad-sys">
  <div class="css-font-big">Configuration Wizard</div>
  <fieldset>
  <legend>Title</legend>
- <input type="text" class="js-i-title">
+ <input type="text" id="js-i-cfg-title">
  </fieldset>
  <fieldset>
  <legend>Startup Titles (Line-break delimited)</legend>
- <textarea cols="30" rows="10" class="js-i-startup"></textarea>
+ <textarea cols="30" rows="10" id="js-i-cfg-startup"></textarea>
  </fieldset>
  <fieldset>
  <legend>Confirmations</legend>
  <label>
- <input type="checkbox" class="js-c-cfm-del"> On Delete
+ <input type="checkbox" id="js-c-cfg-cfm-del"> On Delete
  </label>
  <label>
- <input type="checkbox" class="js-c-cfm-nav"> On Navigating Away
+ <input type="checkbox" id="js-c-cfg-cfm-nav"> On Navigating Away
  </label>
  </fieldset>
  <fieldset>
  <legend>Search options</legend>
  <label>
- <input type="checkbox" class="js-c-search-case"> Case sensitive
+ <input type="checkbox" id="js-c-cfg-search-case"> Case sensitive
  </label>
  </fieldset>
  <div class="css-right">
   <button type="button" class="js-b-save">Ok</button>
   <button type="button" class="js-b-close">Close</button>
  </div>
-</form>
 </div>
+</form>
 
 
 <!--Hidden Export wizard-->
@@ -122,9 +162,11 @@ and for data exporting, """.json""".
 There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </p>
 <p>
-<a href="" tabindex="0" class="js-save-link css-font-med" target="_blank">Save this link target</a>
+<a href="#" tabindex="0" id="js-save-link" class="css-font-med" target="_blank">Save this link target</a>
 </p>
+<p>
 <button type="button" class="js-b-close">Close</button>
+</p>
 </div>
 </div>
 
@@ -182,7 +224,7 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 <dt class="css-pad"></dt>
 </script>
 <script type="text/html" id="js-t-wlink">
-<a href="#" tabindex="0" class="css-wlink js-wlink"></a>
+<a href="#" tabindex="0" class="js-css-wlink js-wlink"></a>
 </script>
 <script type="text/html" id="js-t-para">
 <p class="css-margin"></p>
@@ -192,39 +234,15 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </script>
 
 
-
-<!--Popup app-level modal box.-->
-<script type="text/html" id="js-t-popup">
-<div class="css-modal css-pad-sys js-popup" tabindex="0">
- <div class="css-font-med js-title"></div>
- <div class="js-p-content css-index css-min-height"></div>
- <div class="css-right">
-  <button type="button" class="js-b-close">Close</button>
- </div>
-</div>
-</script>
-
-
-
 <!--
 JSON Data storage.
 
 Unescape HTML entities "&amp; &lt; &gt;" prior to parsing, if extracting
 directly from here.
 -->
-<script type="application/json" id="js-db">{
- "NODES": {},
- "EDGES": {},
- "CONFIG": {
-  "title": "BareBonesWiki",
-  "startup": [
-   "BareBonesWiki"
-  ],
-  "cfmDel": false,
-  "cfmNav": true,
-  "searchCase": false
- }
-}</script>
+<script type="application/json" id="js-db">
+{}
+</script>
 
 
 <!--Runtime code-->

@@ -80,16 +80,6 @@
    "mime": "text/x-bbm",
    "created": 1396228440559,
    "edited": 1396229603336
-  },
-  "Enhancement Update 4": {
-   "title": "Enhancement Update 4",
-   "src": "Bug Fix, Missing Features\n-------------------------\n\n- Fixed the bug regarding erroneous popup window positions.\n- Fixed the bug where page titles and status fail to update\n  after importing from an external dataset.\n- Fixed an importing bug where it can only import JSON data;\n  Now it can accept other forms of textual data as well.\n- Added character set specification support when importing \n  from external files. The wiki can now import textual data \n  that are not encoded in UTF-8 (e.g: GB2302 Simplified Chinese, \n  Russian, SHIFT-JIS Japanese.)\n\n\n\nProject Structures\n------------------\n\n- Less string literal littering; Currently considering\n  whether to enforce centralized string constant coding policy.\n  Specifically, only a very specific few modules are allowed \n  to declare string constants.\n- Established formal object factories for Wiki entries, \n  configuration objects, and a formal class for edge sets.\n  Rudimentary constraint enforcing for these objects have \n  been established.\n\n\n\nNew Milestone\n-------------\n\n- Create a rudimentary error reporting interface for when the \n  javascript engine crash.\n- Keep the file under 200KB uncompressed; Well-tested external\n  components such as jQuery and lodash are not subject to this\n  restriction.",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1396394112264,
-   "edited": 1396394113264
   }
  },
  "EDGES": {

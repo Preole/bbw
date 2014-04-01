@@ -1,100 +1,63 @@
-/* requires DB.js */
-/* requires $t.js */
-/* requires $eConsts.js */
-/* requires $eContent.js */
-/* requires $eSearch.js */
-/* requires $eSave.js */
-/* requires $eConfigWiz.js */
-/* requires $eImportWiz.js */
+/* requires $CONTENT.js */
+/* requires $INDEXVIEW.js */
+/* requires $SAVER.js */
+/* requires $CONFIGWIZ.js */
+/* requires $IMPORTWIZ.js */
+/* requires $POPUPWIZ.js */
 
 
 (function ($body){
  var $DS = $("#js-db");
  
- function placeAfter($ele, $target)
+ function initStartup(titleStartup)
  {
-  $target.parent().append($ele);
-  $ele.focus().setOffset($target.getOffset());
-  return $ele;
+  $CONTENT.trigger(EVT.OPEN, titleStartup);
  }
  
- function indexPopup()
+ function initRecent(entryRecent, index)
  {
-  var $links = $t.linksPara(obj_.keys($INDEXVIEW.data()));
-  var $p = $t.popup("Choose an index type...", $links);
-  return $p.toggleClass("js-index", true);
- }
-
- function tagPopup(tagName)
- {
-  var $links = $t.linksPara(DB.getTitlesInTag(tagName));
-  var $p = $t.popup(tagName, $links);
-  return $p.toggleClass("js-content", true);
+  if (DB.getConfig().startup.length > 0 || index >= 5) {return true;}
+  $CONTENT.trigger(EVT.OPEN, entryRecent.title);
  }
  
- function init()
- {
-  $(".js-popup").remove();
-  DB.init($DS.text());
-  
-  var startups = DB.config().startup, i, ii, j, jj;
-  for (i = 0, ii = startups.length; i < ii && i < 20; i += 1)
-  {
-   $CONTENT.trigger(EVT.OPEN, startups[i]);
-  }
-  startups = null;
-  if (i > 0) {return;}
-
-  var editList = DB.getRecent();
-  for (i = 0, ii = editList.length; i < ii && i < 5; i += 1)
-  {
-   var titles = editList[i].vals;
-   for (j = 0, jj = titles.length; j < jj && i < 5; j += 1, i += 1)
-   {
-    $CONTENT.trigger(EVT.OPEN, [titles[j]]);
-   }
-  }
- }
+ DB.fromJSON($DS.text());
+ DB.getConfig().startup.some(initStartup);
+ DB.indexEditedFlat().some(initRecent);
  
- 
- 
+ //If a click event manages to bubble up to here, close the popup.
  $body.on(EV.CLICK, function (evt){
-  $(".js-popup").each(function (){
-   var $popup = $(this);
-   var clicksLeft = $popup.data().clicks -= 1;
-   if (!clicksLeft || clicksLeft <= 0) {$popup.remove();}
-  });
+  $POPUPWIZ.trigger(EVT.CLOSE);
  });
  
- $body.on(EV.CLICK, ".js-wlink", function (evt){
+ //Handles wiki link click events in general
+ $body.on(EV.CLICK, CSS.WLINK, function (evt){
   var $src = $(evt.target);
   var title = $src.data().title;
-  var $parent = $src.parents(".js-content, .js-tags, .js-index").first();
-  evt.preventDefault();
+  var $parent = $src.parents(CSS.CONTENT_DELEGATE).first();
   
-  if ($parent.hasClass("js-index"))
+  evt.preventDefault();
+  if ($parent.hasClass(CLS.TAGS))
   {
-   $INDEXVIEW.trigger(EVT.INDEX, [title]);
+   $POPUPWIZ.trigger(EVT.TAG, [title]).placeUnder($src);
+   evt.stopPropagation();
   }
-  else if ($parent.hasClass("js-tags"))
-  {
-   placeAfter(tagPopup(title), $src);
-  }
-  else
+  else if ($parent.hasClass(CLS.CONTENT))
   {
    $CONTENT.trigger(EVT.OPEN, [title]);
   }
  });
-
- $body.on(EV.CLICK, ".js-popup", function (evt){
-  if ($(evt.target).hasClass("js-b-close")) {$(this).remove();}
-  evt.stopPropagation();
- });
  
- $body.on(EV.CLICK, ".js-modal", function (evt){
+ //Handles close and save buttons on modal window.
+ $body.on(EV.CLICK, CSS.MODAL, function (evt){
   var $src = $(evt.target);
-  if ($src.hasClass("js-b-close")) {$(this).trigger(EVT.CLOSE);}
-  else if ($src.hasClass("js-b-save")) {$(this).trigger(EVT.SAVE);}
+  if ($src.hasClass(CLS.B_CLOSE))
+  {
+   $(this).trigger(EVT.CLOSE);
+  }
+  else if ($src.hasClass(CLS.B_SAVE))
+  {
+   $(this).trigger(EVT.SAVE);
+  }
  });
  
  $("#js-txt-search").on(EV.KEYDOWN, function (evt){
@@ -114,7 +77,8 @@
  });
  
  $("#js-b-index").on(EV.CLICK, function (evt){
-  placeAfter(indexPopup(), $(this));
+  $POPUPWIZ.trigger(EVT.INDEX).placeUnder($(evt.target));
+  evt.stopPropagation();
  });
  
  $("#js-b-cfg").on(EV.CLICK, function (evt){
@@ -122,12 +86,12 @@
  });
  
  $("#js-b-save").on(EV.CLICK, function (evt){
-  $DS.text(DB.toJSON());
+  $DS.text(JSON.stringify(DB, null, " "));
   $SAVER.trigger(EVT.SAVE, [document.title + ".html"]);
  });
  
  $("#js-b-export").on(EV.CLICK, function (evt){
-  var jsonStr = DB.toJSON();
+  var jsonStr = JSON.stringify(DB, null, " ");
   $DS.text(jsonStr);
   $SAVER.trigger(EVT.EXPORT, [jsonStr, document.title + ".json"]);
  });
@@ -136,18 +100,18 @@
   $IMPORTWIZ.trigger(EVT.LOAD);
  });
  
- init();
- 
  $(window).on("beforeunload", function (evt){
-  var cfmNav = DB.config().cfmNav;
-  var hasEdited = DB.hasEdited();
-  
-  if (cfmNav && hasEdited)
+  if (DB.getConfig().cfmNav && DB.hasChanged())
   {
    return "You will lose unsaved changes; Navigate away anyway?";
   }
-  
  });
  
-}($(document.body)));
+ /*
+ $(window).on("error", function (evt){
+  
+ });
+ */
+ 
+}($("html")));
 

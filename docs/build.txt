@@ -33,7 +33,6 @@ persistent changes to the wiki.
 
 """
 cd src/lib/
-ren jQuery.min.js jQuery.min.old.js
 cp jQuery1.x.min.js jQuery.min.js
 """
 
@@ -55,12 +54,12 @@ out:
      -[the official website], then put it into the source folder. Download 
      the 1.x branch if planning to use the wiki with older web browsers.
      (Not Internet Explorer, unfortunately)
-     
-  : Use one of the pre-built jQuery inside """./src/lib/""", or create a 
-    custom build of jQuery as explained in the section **jQuery Custom Build**.
-    
-    Use this option if you're planning to compress your wiki as much as 
-    possible.
+
+; lodash
+
+  : Retrieve the minified compatibility build of lodash from 
+    ?<http://lodash.com/>, by John-David Dalton, and drop it off at
+    """./src/lib/""".
     
 ; bbm (BakaBakaMark; The markup syntax used in the wiki)
 
@@ -71,11 +70,35 @@ out:
 
 
 
-jQuery Build Instruction
-========================
+lodash Custom Build
+===================
 
-This build instruction assumes that the following commands are available in 
-the command line shell:
+If memory consumption and saving a few bytes matter, we can build a custom 
+version of lodash using **node.js**.
+
+1. Install node.js
+2. Install npm (Which comes along with node.js)
+3. """
+   npm install lodash-cli -g
+   """
+
+4. """
+   lodash compat category=collections,objects exports=global include=difference,uniq,union,identity
+   """
+   
+   Switch out """compat""" with """modern""" if you'll always be using
+   modern web browsers.
+   
+5. Drag & drop the minified library into """./src/lib/""".
+
+
+
+jQuery Custom Build
+===================
+
+Like the lodash custom build, follow these instructions if you're looking 
+to save a few extra bytes. This build instruction assumes that the following 
+commands are available in the command line shell:
 
 - node (?<node.js>)
 - npm (Comes along with node.js)
@@ -84,6 +107,7 @@ the command line shell:
 
 :{node.js}: http://nodejs.org/
 :{git}: http://www.vogella.com/tutorials/Git/article.html#installation
+
 
 From the command line in the github directory, clone jQuery's repository
 and build its dependencies using the following commands:
@@ -94,27 +118,11 @@ cd jquery
 npm run build
 """
 
-Follow the instruction for building customized jQuery library in its 
-readme file.
 
 
-
-Choice A: 1.x
--------------
-
-Use the 1.x branch for usages with slightly older, but W3C standards-
-compliant web browsers, such as most gecko or webkit-based ones; e.g: 
-    
-- Firefox 3.6
-- Lunascape 5 with Gecko rendering engine
-- Avant web browser
-
-Note that this operation does not enable saving changes to the wiki in 
-Internet Explorer 8-9, as this is a fundamentally different issue.
-
-Check out the 1.x branch using git. At the time of writing, v1.10.0 is the 
-latest jQuery version for this branch. Afterwards, run the custom build 
-command via grunt.
+After building, run one of the following scripts depending on how modern 
+your web browsers will be. For older Gecko and Webkit-based, use the 1.x 
+branch:
 
 """
 git checkout 1.11.0
@@ -123,12 +131,7 @@ grunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callb
 
 
 
-Choice B: 2.x
--------------
-
-Checkout the 2.x branch if you'll always be using the latest versions of 
-web browsers (Currently 2.1.0). Again, the project uses a custom build to 
-exclude unnecessary components.
+And if you'll always use the latest browsers, use the 2.x branch.
 
 """
 git checkout 2.1.0

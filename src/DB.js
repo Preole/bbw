@@ -1,252 +1,463 @@
-/* requires ./lib/str_.js */
-/* requires ./lib/obj_.js */
-/* requires ./lib/jquery.min.js */
+/* requires ./lib/lodash.min.js */
+/* requires ./lib/STR.js */
+/* requires ./lib/LooseEdge.js */
+
+
 
 var DB = (function ()
 {
- var utc =
+ //List of recognized charsets.
+ var CHARSET_ENUM =
  {
-  ms : 1,
-  sec : 1000,
-  min : 1000 * 60,
-  hour : 1000 * 60 * 60,
-  day : 1000 * 60 * 60 * 24,
-  month : 1000 * 60 * 60 * 24 * 31,
-  year : 1000 * 60 * 60 * 24 * 31 * 12,
-  now : function() {return Date.now() || (new Date()).getTime();}
- },
+  UTF8 : "UTF-8"
+ };
  
- hasOwn = Object.prototype.hasOwnProperty,
- defCfg =
+ //List of recognized mime types.
+ var MIME_ENUM =
  {
-  "title": "BareBonesWiki",
-  "startup": [
-   "BareBonesWiki"
-  ],
-  "cfmDel": false,
-  "cfmNav": false,
-  "searchCase": false
- },
+  TEXT : "text/plain",
+  HTML : "text/html",
+  WIKI : "text/x-bbm",
+  JSON : "application/json"
+ };
 
- //Persistent models.
- NODES = null,
- EDGES = null,
- CONFIG = null,
-
- //Indices
- TAGTITLE = null,
- TITLES = null,
- EDITED = null,
- CREATED = null,
- ORPHAN = null,
- MIME = null,
- BACKLINKS = null,
- HAS_EDITED = false,
- d = new Date(),
- newName = (function (){
-  var i = 0;
-  
-  function iterate()
+ //Configuration Object factory
+ var Config = (function (){
+  function create(title, startup, cfmDel, cfmNav, searchCase)
   {
-   return "New Entry " + (i += 1);
+   var obj =
+   {
+    title : _.isString(title) ? STR.titleize(title) : "BareBoneswiki",
+    startup : startup ? uniqueLines(startup) : [],
+    cfmDel : !!cfmDel,
+    cfmNav : !!cfmNav,
+    searchCase : !!searchCase
+   };
+   return obj;
+  }
+
+  function createFromObject(cfgObj)
+  {
+   var obj = _.isObject(cfgObj) ? cfgObj : {};
+   return create(
+    obj.title,
+    obj.startup,
+    obj.cfmDel,
+    obj.cfmNav,
+    obj.searchCase
+   );
   }
   
-  return function ()
+  function createRoute()
   {
-   var defTitle = iterate();
-   while (NODES[defTitle])
+   var args = arguments;
+   if (_.isObject(args[0]) && args.length === 1)
    {
-    defTitle = iterate();
+    return createFromObject.call(this, args[0]);
    }
-   return defTitle;
+   return create.apply(this, args);
+  }
+  
+  return {create : createRoute};
+ }());
+
+ //WikiNode Object factory.
+ var WikiNode = (function (){
+  function defaultTags(tagStr)
+  {
+   var tags = uniqueLines(tagStr);
+   if (tags.length < 1)
+   {
+    tags.push("Uncategorized");
+   }
+   return tags;
+  }
+  
+  function defaultMime(mimeStr)
+  {
+   return _.contains(_.values(MIME_ENUM), mimeStr) ? mimeStr : MIME_ENUM.WIKI;
+  }
+
+  function create(title, src, mime, tags, created, edited)
+  {
+   var obj =
+   {
+    title : STR.titleize(title),
+    src : _.isString(src) ? src : "",
+    mime : defaultMime(mime),
+    tags : defaultTags(tags),
+    created : parseInt(created, 10) || Date.now(),
+    edited : parseInt(edited, 10) || Date.now() + 1000
+   };
+   
+   if (obj.title.length <= 0)
+   {
+    throw new RangeError("A WikiNode cannot have an empty title.");
+   }
+   
+   return obj;
+  }
+
+  function createFromObject(wNodeObj)
+  {
+   var obj = _.isObject(wNodeObj) ? wNodeObj : {};
+   return create(
+    obj.title,
+    obj.src,
+    obj.mime,
+    obj.tags,
+    obj.created,
+    obj.edited
+   );
+  }
+  
+  function createRoute()
+  {
+   var args = arguments;
+   if (_.isObject(args[0]) && args.length === 1)
+   {
+    return createFromObject.call(this, args[0]);
+   }
+   return create.apply(this, args);
+  }
+  
+  function validate(obj)
+  {
+   return _.isObject(obj)
+    _.isString(obj.title) && STR.trim(obj.title).length > 0 &&
+    _.isArray(obj.tags) && obj.tags.every(_.isString)
+    _.isString(obj.src) &&
+    _.isString(obj.mime) &&
+    _.isNumber(obj.created) &&
+    _.isNumber(obj.edited) &&
+    obj.edited >= obj.created;
+  }
+  
+  function doSearch(obj, word, caseSense)
+  {
+   return STR.hasSubstring(obj.title, word, caseSense) ||
+    STR.hasSubstringArray(obj.tags, word, caseSense) ||
+    STR.hasSubstring(obj.src, word, caseSense);
+  }
+
+  //Simple keyword conjunction search; Must contain all keywords.
+  function search(obj, wordList, caseSense)
+  {
+   if (!validate(obj)) {return false;}
+  
+   var repeats = [];
+   for (var i = 0, ii = wordList.length; i < ii; i += 1)
+   {
+    var word = wordList[i];
+    if (!_.isString(word) || repeats.indexOf(word) !== -1) {continue;}
+    repeats.push(word);
+    if (!doSearch(obj, word, caseSense)) {return false;}
+   }
+   return true;
+  }
+
+
+  return {
+   create : createRoute,
+   search : search,
+   validate : validate
   };
  }());
 
- function truncate(num, unit) {return (num - (num % unit));}
- function remainder(num, unit) {return (num % unit);}
 
- //String x4
- function WikiNode(title, src, tags, mime)
- {
-  var obj = {}, now = utc.now();
  
-  obj.title = str_.titleize(title);
-  obj.src = src;
-  obj.tags = str_.lines(tags, 1, 1, 1);
-  obj.mime = str_.titleize(mime.toLocaleLowerCase());
-  obj.created = now;
-  obj.edited = now;
+ //Index cache
+ var TAGTITLE = null,
+  TITLES = null,
+  EDITED = null,
+  CREATED = null,
+  ORPHANS = null,
+  BACKLINKS = null,
+  MIME = null;
  
-  if (obj.title.length <= 0) 
-  {
-   obj.title = newName();
-  }
-  if (obj.tags.length <= 0) 
-  {
-   obj.tags = ["Uncategorized"];
-  }
-  if (obj.mime.length <= 0) 
-  {
-   obj.mime = "text/x-bbm";
-  }
-  return obj;
- }
+ //Global states
+ var CHANGED = false,
+  PREF = "New Entry ",
+  DATE = new Date(),
+  UUID = 0;
+  
+  
+ //Persistent models.
+ var NODES = {}, //Node set; Plain object
+  EDGES = LooseEdge(), //Edge set; Special class
+  CONFIG = Config.create(); //Config; Plain object
 
- /*
- [
-  {
-   key : "Tag1",
-   vals : ["t1", "t2"]...
-  },
-  {
-   key : "Tag2",
-   vals : ["t1", "t2"]...
-  }
- ]
- */
- function buildTagTitle()
- {
-  var tagTitleMap = {};
-  for (var title in NODES)
-  {
-   for (var i = 0, ii = NODES[title].tags.length; i < ii; i += 1)
-   {
-    var tag = NODES[title].tags[i];
-    if (!hasOwn.call(tagTitleMap, tag)) {tagTitleMap[tag] = [];}
-    tagTitleMap[tag].push(title);
-   }
-  }
-
-  var keyList = obj_.keys(tagTitleMap).sort();
-  TAGTITLE = [];
-  for (var j = 0, jj = keyList.length; j < jj; j += 1)
-  {
-   TAGTITLE.push({
-    key : keyList[j],
-    vals : tagTitleMap[keyList[j]].sort()
-   });
-  }
- }
-
- function buildTitleList()
- {
-  TITLES = obj_.keys(NODES).sort();
- }
-
- function buildOrphanList()
- {
-  var nodes = {};
-  for (var title in NODES) {nodes[title] = 1;}
-  for (var src in EDGES)
-  {
-   var dests = EDGES[src];
-   for (var dest in dests) {delete nodes[dest];}
-  }
-  ORPHAN = obj_.keys(nodes).sort();
- }
-
- /*
- [
-  {
-   key : "SourceTitle",
-   vals : ["t1", "t2"]...
-  }
- ]
- */
- function buildBackLinks()
- {
-  var back = {};
-  for (var src in EDGES)
-  {
-   var dests = EDGES[src];
-   for (var dest in dests)
-   {
-    if (!hasOwn.call(back, dest)) {back[dest] = [];}
-    back[dest].push(src);
-   }
-  }
  
-  BACKLINKS = [];
-  var destList = obj_.keys(back).sort();
-  for (var i = 0, ii = destList.length; i < ii; i += 1)
+ 
+ //String array transformation.
+ function uniqueLines(strArr)
+ {
+  var strArray = _.isString(strArr) ? STR.lines(strArr) :
+   _.isArray(strArr) ? strArr.filter(_.isString) : [];
+   
+  return _.uniq(strArray.filter(STR.isNotBlank).map(STR.titleize));
+ }
+ 
+ function uniqueWords(strArr)
+ {
+  var strArray = _.isString(strArr) ? STR.words(strArr) :
+   _.isArray(strArr) ? strArr.filter(_.isString) : [];
+   
+  return _.uniq(strArray);
+ }
+ 
+ function itSearchNode(acc, wNode, key, plainObj)
+ {
+  var wordList = this;
+  console.log(CONFIG.searchCase);
+  if (WikiNode.search(wNode, wordList, CONFIG.searchCase))
   {
-   BACKLINKS.push({
-    key : destList[i],
-    vals : back[destList[i]].sort()
-   });
+   acc.push(wNode.title);
   }
+  return acc;
+ }
+ 
+ function itIsValidNode(wNode, key, plainObj)
+ {
+  return WikiNode.validate(wNode) && wNode.title === key;
+ }
+ 
+ 
+ 
+ //Iterators for sortable, nested indices.
+ function itGroupTitleByDate(acc, wNode, propStr)
+ {
+  DATE.setTime(wNode[propStr]);
+  
+  var last = acc[acc.length - 1],
+   time = DATE.toLocaleDateString();
+  
+  if (last && last.key === time)
+  {
+   last.vals.push(wNode.title);
+  }
+  else
+  {
+   acc.push({key : time, vals : [wNode.title]});
+  }
+  return acc;
+ }
+ 
+ function itGroupTitleByCreated(acc, wNode)
+ {
+  return itGroupTitleByDate.call(null, acc, wNode, "created");
+ }
+ 
+ function itGroupTitleByEdited(acc, wNode)
+ {
+  return itGroupTitleByDate.call(null, acc, wNode, "edited");
  }
 
- /*
- [
-  {
-   key : "text/plain",
-   vals : ["t1", "t2"]...
-  }
- ]
- */
- function buildMime()
+ //Iterators for nested indices assisted by LooseEdge.js
+ function itGroupTitleByMime(acc, wNode)
  {
-  var mimeMap = {};
-  for (var title in NODES)
+  return acc.addEdge(wNode.title, wNode.mime);
+ }
+ 
+ function itGroupTitleByTags(acc, wNode)
+ {
+  return acc.addEdge(wNode.title, wNode.tags);
+ }
+ 
+ //Comparators
+ function compareByEdited(t1, t2)
+ {
+  return t2.edited - t1.edited;
+ }
+ 
+ function compareByCreated(t1, t2)
+ {
+  return t2.created - t1.created;
+ }
+
+
+ //Indexing data structures for UI display.
+ function indexMime()
+ {
+  MIME = MIME || _.values(NODES)
+   .reduce(itGroupTitleByMime, LooseEdge())
+   .listByInbound();
+   
+  return MIME;
+ }
+ 
+ function indexTags()
+ {
+  TAGTITLE = TAGTITLE || _.values(NODES)
+   .reduce(itGroupTitleByTags, LooseEdge())
+   .listByInbound();
+   
+  return TAGTITLE;
+ }
+ 
+ function indexTagSingle(tagName)
+ {
+  TAGTITLE = indexTags();
+  for (var i = 0, ii = TAGTITLE.length; i < ii; i += 1)
   {
-   var mimeStr = NODES[title].mime || "text/plain";
-   if (!hasOwn.call(mimeMap, title)) {mimeMap[mimeStr] = [];}
-   mimeMap[mimeStr].push(title);
+   if (TAGTITLE[i].key === tagName) {return TAGTITLE[i].vals;}
+  }
+  return [];
+ }
+
+ function indexTitles()
+ {
+  TITLES = TITLES || _.keys(NODES).sort();
+  return TITLES;
+ }
+ 
+ function indexCreated()
+ {
+  CREATED = CREATED || _.values(NODES)
+   .sort(compareByCreated)
+   .reduce(itGroupTitleByCreated, []);
+   
+  return CREATED;
+ }
+ 
+ function indexEdited()
+ {
+  EDITED = EDITED || _.values(NODES)
+   .sort(compareByEdited)
+   .reduce(itGroupTitleByEdited, []);
+   
+  return EDITED;
+ }
+ 
+ function indexEditedFlat()
+ {
+  return _.values(NODES).sort(compareByEdited);
+ }
+ 
+ function indexBacklinks()
+ {
+  BACKLINKS = BACKLINKS || EDGES.listByInbound();
+  return BACKLINKS;
+ }
+ 
+ function indexOrphans()
+ {
+  ORPHANS = ORPHANS || _.difference(_.keys(NODES), EDGES.listIsNotSource());
+  return ORPHANS;
+ }
+ 
+ function indexSearch(wordList)
+ {
+  return _.transform(NODES, itSearchNode, [], uniqueWords(wordList)).sort();
+ }
+
+
+
+ //CRUD and name generation
+ function nextName()
+ {
+  return PREF + (UUID += 1);
+ }
+ 
+ function newName()
+ {
+  var defTitle = nextName();
+  while (hasNode(defTitle))
+  {
+   defTitle = nextName();
+  }
+  return defTitle;
+ }
+ 
+ function newNodeNoConflict(src, mime)
+ {
+  return WikiNode.create(newName(), src, mime);
+ }
+ 
+ function newNode(title, src, mime, tags)
+ {
+  return WikiNode.create(title, src, mime, tags);
+ }
+ 
+ function editNode(wNode, targetList, oldTitle)
+ {
+  if (!WikiNode.validate(wNode))
+  {
+   throw new TypeError("Schema error in wiki node objects.");
+  }
+  if (hasNode(oldTitle))
+  {
+   wNode.created = getNode(oldTitle).created;
   }
   
-  MIME = [];
-  var mimeList = obj_.keys(mimeMap).sort();
-  for (var i = 0, ii = mimeList.length; i < ii; i += 1)
-  {
-   MIME.push({
-    key : mimeList[i],
-    vals : mimeMap[mimeList[i]].sort()
-   });
-  }
+  removeNode(oldTitle);
+  removeNode(wNode.title);
+  addNode(wNode, targetList);
  }
-
- /*
- [
-  {
-   key : "October 21st, 2011",
-   vals : ["Title", "Title2"]...
-  }
- ]
-
- If edited = true, sort by last-edited date; creation date O/W.
- */
- function buildCreated(edited)
+ 
+ function addNode(wNode, targetList)
  {
-  var propStr = edited ? "edited" : "created",
-   wNodes = [];
-
-  for (var title in NODES) {wNodes.push(NODES[title]);}
-  wNodes.sort(
-   function(t1, t2) {return (t2[propStr] - t1[propStr]);}
-  );
-  
-  var outList = [];
-  var ms = 0;
-  for (var i = 0, ii = wNodes.length; i < ii; i += 1)
-  {
-   var ms_day = truncate(wNodes[i][propStr], utc.day);
-   var ms_day_r = remainder(wNodes[i][propStr], utc.day);
-   if (ms !== ms_day)
-   {
-    ms = ms_day;
-    d.setTime(ms_day + ms_day_r);
-    outList.push({
-     key : d.toLocaleDateString(),
-     vals : [wNodes[i].title]
-    });
-   }
-   else {outList[outList.length - 1].vals.push(wNodes[i].title);}
-  }
-  if (edited) {EDITED = outList;}
-  else {CREATED = outList;}
+  NODES[wNode.title] = wNode;
+  EDGES.addEdge(wNode.title, targetList);
+  nullifyCache();
  }
-
+ 
+ function removeNode(title)
+ {
+  if (hasNode(title))
+  {
+   delete NODES[title];
+   EDGES.rmEdge(title, EDGES.getEdgesOut(title));
+  }
+  nullifyCache();
+ }
+ 
+ function hasNode(title)
+ {
+  return (_.isString(title) || _.isNumber(title)) && _.has(NODES, title);
+ }
+ 
+ function getNode(title)
+ {
+  return hasNode(title) ? NODES[title] : WikiNode.create(title);
+ }
+ 
+ function setConfig(cfgObj)
+ {
+  CHANGED = true;
+  return _.merge(CONFIG, Config.create(cfgObj))
+ }
+ 
+ function getConfig()
+ {
+  return CONFIG;
+ }
+ 
+ function hasChanged()
+ {
+  return CHANGED;
+ }
+ 
+ function fromJSON(input)
+ {
+  var jsonObj = _.isString(input) ? JSON.parse(input) :
+   _.isObject(input) ? input : {};
+   
+  EDGES.addEdge(jsonObj.EDGES);
+  _.merge(CONFIG, Config.create(jsonObj.CONFIG));
+  _.merge(NODES, jsonObj.NODES);
+  _.filter(NODES, itIsValidNode);
+ }
+ 
+ function toJSON()
+ {
+  return {
+   NODES : NODES,
+   EDGES : EDGES,
+   CONFIG : CONFIG
+  };
+ }
+ 
  //On (C), R, (U), (D) operations, invalidate indices.
  function nullifyCache(isEdit)
  {
@@ -254,207 +465,49 @@ var DB = (function ()
   TITLES = null;
   EDITED = null;
   CREATED = null;
-  ORPHAN = null;
+  ORPHANS = null;
   BACKLINKS = null;
   MIME = null;
-  HAS_EDITED = HAS_EDITED || !isEdit;
+  CHANGED = CHANGED || !isEdit;
  }
 
- /*
- Establishes outgoing edges from one node onto a set of other nodes.
 
- Param:
-  srcTitle (String) //The source node by title.
-  destTitles ({String : 1}) //A set of destinations nodes by title.
- */
- function setEdge(srcTitle, destTitles)
- {
-  if (!hasOwn.call(NODES, srcTitle)) {return;}
-  
-  var edgeSet = destTitles || {};
-  delete EDGES[srcTitle];
-  delete edgeSet[srcTitle];
-  
-  for (var key in edgeSet)
-  {
-   delete edgeSet[key];
-   edgeSet[str_.titleize(key)] = 1;
-  }
-
-  if (!$.isEmptyObject(edgeSet))
-  {
-   EDGES[srcTitle] = edgeSet;
-  }
- }
-
- function setNode(wNode)
- {
-  NODES[wNode.title] = wNode;
- }
-
- function api_rm(title)
- {
-  delete EDGES[title];
-  delete NODES[title];
-  nullifyCache();
- }
- 
- function api_getNull(title)
- {
-  return NODES[title] ||
-  WikiNode(title, "\"" + title + "\" does not exist.", "", "");
- }
- 
- 
  return {
+  //Supported Mime types
+  MIME : MIME_ENUM,
+  CHARSET : CHARSET_ENUM,
+  
+  //Inner factories and classes.
+  Config : Config,
   WikiNode : WikiNode,
-  toJSON : function()
-  {
-   var jsonObj =
-   {
-    NODES : NODES,
-    EDGES : EDGES,
-    CONFIG : CONFIG
-   };
-   return JSON.stringify(jsonObj, null, " ");
-  },
-  config : function(cfgJSON)
-  {
-   $.extend(CONFIG, cfgJSON);
-   if (typeof CONFIG.title !== "string" || CONFIG.title.length <= 0)
-   {
-    CONFIG.title = "BareBonesWiki";
-   }
-   if (cfgJSON)
-   {
-    HAS_EDITED = true;
-   }
-   
-   return CONFIG;
-  },
-  newName : function()
-  {
-   return newName();
-  },
-  edit : function(wNode, edgeSet, oldTitle)
-  {
-   if (NODES[oldTitle]) {wNode.created = NODES[oldTitle].created;}
-   else {wNode.created = utc.now();}
-   
-   api_rm(oldTitle);
-   setNode(wNode);
-   setEdge(wNode.title, edgeSet);
-  },
-  rm : function(title)
-  {
-   api_rm(title);
-  },
-  get : function(title)
-  {
-   if (hasOwn.call(NODES, title)) {return NODES[title];}
-  },
-  getNull : function(title)
-  {
-   return api_getNull(title);
-  },
-  getOrphans : function()
-  {
-   if (!ORPHAN) {buildOrphanList();}
-   return ORPHAN;
-  },
-  getTagMap : function()
-  {
-   if (!TAGTITLE) {buildTagTitle();}
-   return TAGTITLE;
-  },
-  getTitlesInTag : function(tagName)
-  {
-   if (!TAGTITLE) {buildTagTitle();}
-   for (var i = 0, ii = TAGTITLE.length; i < ii; i += 1)
-   {
-    if (TAGTITLE[i].key === tagName) {return TAGTITLE[i].vals;}
-   }
-   return [];
-  },
-  getRecent : function()
-  {
-   if (!EDITED) {buildCreated(true);}
-   return EDITED;
-  },
-  getCreated : function()
-  {
-   if (!CREATED) {buildCreated(false);}
-   return CREATED;
-  },
-  getTitles : function()
-  {
-   if (!TITLES) {buildTitleList();}
-   return TITLES;
-  },
-  getBackLinks : function()
-  {
-   if (!BACKLINKS) {buildBackLinks();}
-   return BACKLINKS;
-  },
-  getMimeMap : function()
-  {
-   if (!MIME) {buildMime();}
-   return MIME;
-  },
-  getMimeList : function()
-  {
-   if (!MIME) {buildMime();}
-   var mimeSet = {"text/x-bbm" : 1, "text/plain" : 1, "text/html" : 1};
-   for (var i = 0, ii = MIME.length; i < ii; i += 1)
-   {
-    mimeSet[MIME[i].key] = 1;
-   }
-   return  obj_.keys(mimeSet).sort();
-  },
-  search : function(wordList)
-  {
-   var caseSense = CONFIG.searchCase, i = 0, ii = wordList.length, res = {};
-   
-   for (var title in NODES)
-   {
-    var node = NODES[title], repeat = {};
-    for (i = 0; i < ii; i += 1)
-    {
-     var word = wordList[i];
-     if (typeof word !== "string") {continue;}
-     if (hasOwn.call(repeat, repeat[word])) {continue;}
-     
-     repeat[word] = 1;
-
-     if (str_.hasSubstr(title, word, caseSense)) {continue;}
-     if (str_.hasSubstrArray(node.tags, word, caseSense)) {continue;}
-     if (str_.hasSubstr(node.src, word, caseSense)) {continue;}
-     break;
-    }
-    if (i >= ii) {res[title] = 1;}
-   }
-   return obj_.keys(res).sort();
-  },
-  hasEdited : function()
-  {
-   return HAS_EDITED;
-  },
-  init : function(jsonStr)
-  {
-   var dStore = jsonStr;
-   if (typeof dStore === "string") {dStore = JSON.parse(dStore);}
-   
-   NODES = $.extend(NODES, dStore.NODES);
-   EDGES = $.extend(EDGES, dStore.EDGES);
-   CONFIG = $.extend(CONFIG, defCfg, dStore.CONFIG);
-   
-   for (var title in NODES)
-   {
-    NODES[title].mime = NODES[title].mime || "text/x-bbm";
-   }
-   
-   nullifyCache(true);
-  }
+ 
+  //CRUD methods
+  getConfig : getConfig,
+  setConfig : setConfig,
+  newName : newName,
+  newNode : newNode,
+  newNodeNoConflict : newNodeNoConflict,
+  editNode : editNode,
+  removeNode : removeNode,
+  getNode : getNode,
+  hasNode : hasNode,
+  hasChanged : hasChanged,
+  
+  //Indexing methods
+  indexSearch : indexSearch,
+  indexOrphans : indexOrphans,
+  indexTags : indexTags,
+  indexTagSingle : indexTagSingle,
+  indexEdited : indexEdited,
+  indexEditedFlat : indexEditedFlat,
+  indexCreated : indexCreated,
+  indexTitles : indexTitles,
+  indexMime : indexMime,
+  indexBacklinks : indexBacklinks,
+  
+  //Serialization & De-serialization methods
+  fromJSON : fromJSON,
+  toJSON : toJSON
  };
 }());
 

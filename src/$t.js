@@ -1,11 +1,10 @@
 /* requires $plugins.js */
 
-var $t = (function ()
+var $T = (function ()
 {
  var d = new Date(),
  $tEdit = $($("#js-t-edit").html()),
  $tView = $($("#js-t-view").html()),
- $tPopup = $($("#js-t-popup").html()),
  $tDL = $($("#js-t-dl").html()),
  $tDT = $($("#js-t-dt").html()),
  $tDD = $($("#js-t-dd").html()),
@@ -15,16 +14,11 @@ var $t = (function ()
  
  function sigStr(msEdited, msCreated)
  {
-  if (typeof msEdited !== "number" || typeof msCreated !== "number")
-  {
-   return "Invalid date.";
-  }
-
   d.setTime(msEdited);
   var edited = d.toLocaleString();
   d.setTime(msCreated);
   var created = d.toLocaleString();
-  return ("Last edited: " + edited + " (Created on: " + created + ")");
+  return ("Edited: " + edited + " (Created: " + created + ")");
  }
 
  function t_edit(wNode)
@@ -54,15 +48,6 @@ var $t = (function ()
   return $view;
  }
 
- function t_popup(displayTitle, content)
- {
-  var $p = $tPopup.clone();
-  $p.find(".js-title").text(displayTitle);
-  $p.find(".js-p-content").append(content);
-  $p.data().clicks = 2;
-  return $p;
- }
-
  function t_dl(labelStr, $frag)
  {
   return $tDL.clone()
@@ -83,14 +68,14 @@ var $t = (function ()
    .attr("href", displayText);
  }
  
+ function t_doLinks(acc, str, index, array)
+ {
+  return acc.add(t_link(str));
+ }
+ 
  function t_links(strList)
  {
-  var $frag = $();
-  for (var i = 0, ii = strList.length; i < ii; i += 1)
-  {
-   $frag = $frag.add(t_link(strList[i]));
-  }
-  return $frag;
+  return strList.filter(_.isString).reduce(t_doLinks, $());
  }
  
  function t_linksDD(strList)
@@ -131,11 +116,9 @@ var $t = (function ()
  }
  
  
- 
  return {
   edit : t_edit,
   view : t_view,
-  popup : t_popup,
   dl : t_dl,
   button : t_button,
   link : t_link,
