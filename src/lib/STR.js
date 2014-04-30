@@ -38,7 +38,9 @@ var STR = (function()
   NL = "[\\v\\f\\r\\n\\u0085\\u2028\\u2029]",
   REGEX_NL_G = new RegExp(NL, "g"),
   REGEX_WS_WS_G = new RegExp(WS + WS + "+", "g"),
-  REGEX_BLANK = /^\s*$/;
+  REGEX_BLANK = /^\s*$/,
+  REGEX_QUOTE_G = /"[^"]+"|[^"]+/g;
+  REGEX_QUOTE_HT = /^"[^"]+"$/;
   
  /**
   * Tests if the given input is a string consisting of solely control
@@ -94,6 +96,12 @@ var STR = (function()
  {
   return str.replace(/(^\s+)|(\s+$)/g, "");
  }
+ 
+ //Strips leading and trailing double quotes.
+ function trimQuotes(str)
+ {
+  return str.replace(/(^"+)|("+$)/g, "");
+ }
 
  /**
   * Tokenizes the string by line, breaking it into an array of substrings.
@@ -116,18 +124,31 @@ var STR = (function()
   * Tokenizes the string by words, treating it as a single long line of 
   * characters, then split it up into an array;
   *
-  * @method lines
-  * @param str {string}
-  * The input string to transform;
+  * @method words
+  * @param str {string} The input string to transform.
   * @return {Array of string} 
-  * The original string delimited by white space characters, ignoring 
-  * blanks. Line breaks in the string are not considered white space
+  * The original string delimited by space or ASCII double quote characters,
+  * ignoring blanks. Line breaks in the string are considered white space
   * for the purpose of delimiting words.
   */
  function words(str)
  {
-  REGEX_NL_G.lastIndex = 0;
-  return str.replace(REGEX_NL_G, "").split(/\s+/g).filter(isNotBlank);
+  return _.flatten(str.match(REGEX_QUOTE_G)
+   .map(titleize)
+   .reduce(wordsUnquotedSplit, [])).map(trimQuotes);
+ }
+ 
+ function wordsUnquotedSplit(prev, currStr)
+ {
+  if (REGEX_QUOTE_HT.test(currStr))
+  {
+   prev.push(currStr);
+  }
+  else
+  {
+   prev.push(currStr.split(/\s+/g));
+  }
+  return prev;
  }
  
  /**

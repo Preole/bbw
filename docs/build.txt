@@ -83,7 +83,7 @@ version of lodash using **node.js**.
    """
 
 4. """
-   lodash compat category=collections,objects exports=global include=difference,uniq,union,identity
+   lodash compat category=collections,objects exports=global include=difference,uniq,union,identity,flatten
    """
    
    Switch out """compat""" with """modern""" if you'll always be using

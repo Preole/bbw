@@ -4,6 +4,7 @@
 /* requires $CONFIGWIZ.js */
 /* requires $IMPORTWIZ.js */
 /* requires $POPUPWIZ.js */
+/* requires $ERRORWIZ.js */
 
 
 (function ($body){
@@ -107,11 +108,9 @@
   }
  });
  
- /*
- $(window).on("error", function (evt){
-  
- });
- */
+ window.onerror = function (msg, url, ln)
+ {
+  $ERRORWIZ.trigger(EVT.LOAD, "Line " + ln + ": " + msg);
+ };
  
 }($("html")));
-

@@ -70,21 +70,13 @@ var $IMPORTWIZ = (function ($wiz){
   return fName + " is too large. (" + maxSize + " >= max " + real + " bytes)";
  }
  
- /*
- function resetFileEle()
- {
-  $fileEle = $fileEleClone.clone().replaceAll($fileEle);
-  $fileEle.on(EV.CHANGE, importDelegate);
- }
- */
- 
  $wiz.on(EVT.LOAD, function (evt){
-  $log.unlog("");
+  $log.unlog();
   $wiz.toggleInvis(false).focus();
  });
  
  $wiz.on(EVT.CLOSE, function (evt){
-  $log.unlog("");
+  $log.unlog();
   $wiz.toggleInvis(true);
  });
 
