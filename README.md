@@ -36,7 +36,7 @@ software fitting that mental model for information organization.
 Therefore, it makes sense to read a notebook like navigating a wiki. From 
 there on, it's all about designing a robust personal notebook.
 
-Current version: **v0.0.3**
+Current version: **v0.0.4**
 
 
 
