@@ -61,16 +61,6 @@
    "created": 1395632199923,
    "edited": 1396228477152
   },
-  "EntryPoint": {
-   "title": "EntryPoint",
-   "src": "Currently, the back-end of BareBonesWiki is a mess! I will write a proper manual\nand incorporate a humanely usable API, I promise.\n\nSee:\n\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n- #<CSS Class & ID Prefixes>",
-   "tags": [
-    "Uncategorized"
-   ],
-   "mime": "text/x-bbm",
-   "created": 1394841548715,
-   "edited": 1396228500125
-  },
   "Enhancement Update 3": {
    "title": "Enhancement Update 3",
    "src": "March 30th, 2014\n================\n\nReadied a bug fix where modal windows are spawning in unexpected\nplaces. That is, when a tag link gets clicked, the modal box \nthat contains all title links related to that tag fails to appear \nunderneath the link.\n\nReadied a bug fix for importing data sets; When the new configuration \nobject is imported, the page title and status fail to be updated, \nunless the wiki is saved and re-opened at a later time.",
@@ -110,16 +100,38 @@
    ],
    "created": 1396394112264,
    "edited": 1398823434603
+  },
+  "EntryPoint": {
+   "title": "EntryPoint",
+   "src": "Currently, the back-end of BareBonesWiki is a mess! I will write a proper manual\nand incorporate a humanely usable API, I promise.\n\nSee:\n\n- #<Enhancement Update 5>\n- #<Enhancement Update 4>\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n- #<CSS Class & ID Prefixes>",
+   "mime": "text/x-bbm",
+   "tags": [
+    "Uncategorized"
+   ],
+   "created": 1394841548715,
+   "edited": 1401327220248
+  },
+  "Enhancement Update 5": {
+   "title": "Enhancement Update 5",
+   "src": "== Update May 28th, 2014 ==\n\n- Installed a rudimentary error console at the application level.\n  This feature is part of the project milestone.\n\n- Fixed a keyword search bug when there are no characters in the \n  text field. Now, the search box will close off the indexing side \n  bar if the input is either empty, or only contains spaces.\n\n- If no wiki entry titles are specified, the application should \n  now display the most recently edited entries from top to bottom, \n  rather than in reverse order.\n\n- Clicking on internal links or buttons for the first time in the \n  application should no longer cause the window to scroll to the \n  bottom.",
+   "mime": "text/x-bbm",
+   "tags": [
+    "Uncategorized"
+   ],
+   "created": 1401327581059,
+   "edited": 1401327685879
   }
  },
  "EDGES": {
   "EntryPoint": {
-   "Enhancement Update 3": 1,
-   "Enhancement Update 2": 1,
-   "Enhancement Update": 1,
-   "Possible Back-end Enhancement": 1,
-   "Possible Front-end Enhancement": 1,
-   "CSS Class & ID Prefixes": 1
+   "Enhancement Update 5": null,
+   "Enhancement Update 4": null,
+   "Enhancement Update 3": null,
+   "Enhancement Update 2": null,
+   "Enhancement Update": null,
+   "Possible Back-end Enhancement": null,
+   "Possible Front-end Enhancement": null,
+   "CSS Class & ID Prefixes": null
   }
  },
  "CONFIG": {

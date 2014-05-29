@@ -17,13 +17,19 @@
  
  function initRecent(entryRecent, index)
  {
-  if (DB.getConfig().startup.length > 0 || index >= 5) {return true;}
+  if (index >= 5) {return true;}
   $CONTENT.trigger(EVT.OPEN, entryRecent.title);
  }
  
  DB.fromJSON($DS.text());
- DB.getConfig().startup.some(initStartup);
- DB.indexEditedFlat().some(initRecent);
+ if (DB.getConfig().startup.length > 0)
+ {
+  DB.getConfig().startup.forEach(initStartup);
+ }
+ else
+ {
+  DB.indexEditedFlat().reverse().forEach(initRecent);
+ }
  
  //If a click event manages to bubble up to here, close the popup.
  $body.on(EV.CLICK, function (evt){

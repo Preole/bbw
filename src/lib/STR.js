@@ -133,7 +133,7 @@ var STR = (function()
   */
  function words(str)
  {
-  return _.flatten(str.match(REGEX_QUOTE_G)
+  return _.flatten((str.match(REGEX_QUOTE_G) || [])
    .map(titleize)
    .reduce(wordsUnquotedSplit, [])).map(trimQuotes);
  }
