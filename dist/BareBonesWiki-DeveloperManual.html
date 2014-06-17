@@ -498,7 +498,7 @@ background: #000;
 </form>
 
 <!--Hidden popup menu-->
-<div style="left: 499px; top: 94px;" class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
+<div class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
  <div class="css-font-med" id="js-popup-title"></div>
  <div class="css-index css-min-height" id="js-popup-content"></div>
  <div class="css-right">
@@ -507,7 +507,7 @@ background: #000;
 </div>
 
 <!--Hidden configuration wizard.-->
-<form class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
+<form class="css-modal-sys js-modal js-css-invis" tabindex="0" id="js-cfg-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">Configuration Wizard</div>
  <fieldset>
@@ -2317,7 +2317,7 @@ var CSS =
   
   function placeUnder($target)
   {
-   return this.setOffset($target.getOffset());
+   return this.setOffset($target.getOffset()).focus();
   }
   
   function links()
@@ -3502,7 +3502,6 @@ var $ERRORWIZ = (function ($wiz){
  
  function initRecent(entryRecent, index)
  {
-  if (index >= 5) {return true;}
   $CONTENT.trigger(EVT.OPEN, entryRecent.title);
  }
  
@@ -3513,9 +3512,9 @@ var $ERRORWIZ = (function ($wiz){
  }
  else
  {
-  DB.indexEditedFlat().reverse().forEach(initRecent);
+  DB.indexEditedFlat().slice(0, 5).forEach(initRecent);
  }
- 
+
  //If a click event manages to bubble up to here, close the popup.
  $body.on(EV.CLICK, function (evt){
   $POPUPWIZ.trigger(EVT.CLOSE);
