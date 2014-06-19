@@ -112,17 +112,6 @@
    "created": 1394835797217,
    "edited": 1394836700924
   },
-  "Tutorial: Mime Type": {
-   "title": "Tutorial: Mime Type",
-   "src": "The editing interface has a field **Mime type**, which denotes \nthe content type of the wiki entry. Currently, #<BareBonesWiki> \nwill recognize one of the three mime types, case-insensitive:\n\n; text/x-bbm\n\n  : The wiki text markup used by this wiki.\n\n; text/html\n\n  : Straight embedded HTML if the wiki text is not powerful\n    enough, such as trying to include a video file.\n\n; Anything else, such as an empty field.\n\n  : Plain text.\n\n",
-   "tags": [
-    "Built-in",
-    "Instruction"
-   ],
-   "mime": "text/x-bbm",
-   "created": 1394838122024,
-   "edited": 1394838363477
-  },
   "BareBonesWiki": {
    "title": "BareBonesWiki",
    "src": "BareBonesWiki\n=============\n\nBareBonesWiki is a succinct personal wiki in one standalone HTML file. This \nwiki, like any other similar wiki, features non-linear information organization \nschemes designed to fit one's thought process, owing to the invention of the \n?<www>-[WikiWikiWeb], Looking up information is a few keystrokes away, and \njumping between information pieces is only one click away.\n\n:{www}: http://www.artima.com/intv/wiki.html\n\nThe motivation stems from organizing personal experiences and in a paperback \nnotebook. The verdict is that reading is hard, and writing is infinitely \nharder, because data are seldom best organized in linear fashions similar to \na private diary. Even the most linear kinds of printed work, such as a novel, \nneed to have clearly defined sections and table of contents to assist the \nreader, so the readers know what they need to know. The wiki is the closest \nsoftware fitting that mental model for information organization.\n\nTherefore, it makes sense to read a notebook like navigating a wiki. From \nthere on, it's all about designing a robust personal notebook.\n\n\n\nHighlights\n----------\n\n; Word-processor level functionality\n: Tables, lists, block quotations, links; BareBonesWiki has all the \n  essentials of a word processor in readable plain text. For the more \n  technologically inclined, straight embedded HTML is also available.\n  \n; Low learning curve.\n\n  : Carefully designed human-readable base markup language.\n    \n  : Using CSS as visual presentation backend, the application looks\n    as good as the CSS author wants it to be.\n\n; Hop-hop navigation\n\n  : Seamlessly jump from one piece of information onto another.\n\n; High Portability\n\n  : Works anywhere at anytime, so long as there's a somewhat modern \n    web browser. No proprietary software needed, no Internet connection \n    necessary, and impossible to miss as a single standalone HTML file, \n    all without forgetting about languages other than English.\n  \n    Moreover, it's extremely small, clocking in @ ~120KB in its empty\n    state uncompressed.\n\n; Free\n\n  : Open source project on 2-Clause BSD license.\n\n\n\nUsage\n-----\n\n1. Download the file. If you feel a tutorial is necessary, download \n   the tutorial JSON file as well.\n2. Open it with a web browser.\n3. Enable Javascript, if not enabled already.\n4. Enjoy.\n\n\n\nBrowser compatibility\n---------------------\n   \nBareBonesWiki works on all reasonably modern desktop web browsers. The \nfollowing web browsers have been tested for reliability and for varying\nlevels of read-write support.\n\n; Internet Explorer < 8\n: Incompatible;\n\n; Internet Explorer 8-9\n: Read-only experience. Permanent saving is not supported due to \n  character encoding issues, as well as future consideration for\n  mobile web browsers. No guarantee in stability.\n\n; Internet Explorer 10+\n; Mozilla Firefox 20+\n; Google Chrome 14+\n; Opera 15+\n: Read-write plus automatic downloading. These web browsers are \n  recommended to use with BareBonesWiki. If you would like the \n  browsers to save to a more favorable location, refer to \n  #<Automatic Saving>\n\n; Mozilla Firefox < 20\n; Google Chrome < 14\n; Opera <= 12\n; Apple Safari >= 3\n; Any other browsers.\n: Read-write, with manual downloading for saving changes made in \n  the wiki. These web browsers need to follow the instruction in\n  the dialog box after pressing the save button.\n\n\n\nSee Also\n--------\n\n; Editing References\n: - #<Syntax>\n  - #<BakaBakaMark>\n; Troubleshooting, Browser configurations\n: - #<Web Browser Support>\n  - #<Internet Explorer ActiveX Security Alert>\n  - #<Mac OS X Tab Accessibility>\n  - #<Opera Tab Accessibility>\n  - #<Automatic Saving>\n; Tutorials\n: - #<Tutorial: Basic>\n  - #<Tutorial: Image>\n\n\n\nLicense\n-------\n\nBSD-2-Clause @ ?<http://opensource.org/licenses/BSD-2-Clause>",
@@ -146,14 +135,14 @@
   },
   "Tutorial: Basic": {
    "title": "Tutorial: Basic",
-   "src": "Welcome to the introductory tutorial for #<BareBonesWiki>. It will \nteach you everything you need to know about the application, and \na few guidelines for authoring a #<Wiki>-[wiki].\n\n\n\nBrowser Support\n---------------\n\nYou should first check whether your web browser supports saving \nback to the file system. You may either... \n\n- Consult #<Web Browser Support>\n- Create a new wiki entry, save it, then save the wiki engine \n  with the save button at the upper right hand corner. Follow \n  the instructions in the popup dialog box, or save the generated \n  download file in your computer.\n- Open the saved wiki with your browser, and locate the wiki \n  entry you've just created. A trip to the Titles (Alphabetical)\n  index should help you locate the entry.\n\n\n\nBasic Workflow\n--------------\n\n1. Create a new wiki entry with the \"new\" button.\n2. Edit the entry. If you need syntax help with editing, refer \n   to the #<Syntax> page.\n\n   Tag this entry as necessary.\n\n3. Click on the \"finish\" button.\n4. Repeat previous steps as needed.\n5. Press the \"save\" button when you feel you've done\n   enough editing.\n\nOther buttons, such as \"Delete\" should be self explanatory.\n\n\n\nHiding The Index Panel\n----------------------\n\nIf you'd like more room to read and write your current \nwiki entries, empty the search text field and perform a \nsearch query to hide the panel.\n\n\n\n\nExporting\n---------\n\nIf you ever need to upgrade the wiki or start fresh, \npress the \"Export\" button to extract the data store \nonto your file system, then use the import wizard in \nyour new wiki to import the data set as in #[Importing]\n\n\n\n. Importing\n\nImporting\n---------\n\nPress the \"Import\" button. You can import your data in three \ndifferent ways:\n\n; Dataset\n\n  : Valid JSON files you've extracted from another \n    BareBonesWiki HTML file. Invalid JSON files will \n    raise an error, and nothing will happen. Importing \n    data in this manner also imports the configuration\n    settings from another wiki.\n\n; Wiki Entry\n\n  : A plain text file written in #<BakaBakaMark>.\n\n; Plain Text\n\n  : Plain text with no interpretation at all. If you're \n    importing potentially dangerous #<Javascript> files,\n    or you simply don't want any parsing happening, use\n    this option.\n\nAll input files should be in UTF-8 character encoding \nin plain text. Non-textual data such as images and videos \nare currently not supported.\n\n\n\nIndexing\n--------\n\nThere are many different kinds of indices available to BareBonesWiki, \nlocated at the upper left hand corner of the interface. You may also \nperform a simple full text search in the entire wiki through the \ntext search box. These facilities are used to assist you in finding \nthe entry you're looking for.\n\n; Titles\n\n  : Lists all wiki entries in lexicographical (alphabetical) order.\n\n; Created\n\n  : Lists wiki entries by the date they're created, in units of whole \n    days.\n\n; Recent\n\n  : As **Created**, but sorts by last edit date instead.\n\n; Tags\n\n  : Sorts wiki entries by the tag they're associated with in \n    lexicographical order.\n\n; Orphans\n\n  : Lists entries that have no other entries referring to them, \n    excluding self-loops.\n\n; BackLink\n\n  : List all incoming links for each wiki entry.\n\n; Mime\n\n  : Lists wiki entries by their content (MIME) type, such as plain \n    text, wiki text, or HTML.\n\nSee also\n--------\n\n- #<Wiki>\n- #<Tutorial: Maintenance>\n- #<Tutorial: Mime Type>",
+   "src": "Welcome to the introductory tutorial for #<BareBonesWiki>. It will \nteach you everything you need to know about the application, and \na few guidelines for authoring a #<Wiki>-[wiki].\n\n\n\nBrowser Support\n---------------\n\nYou should first check whether your web browser supports saving \nback to the file system. You may either... \n\n- Consult #<Web Browser Support>\n- Create a new wiki entry, save it, then save the wiki engine \n  with the save button at the upper right hand corner. Follow \n  the instructions in the popup dialog box, or save the generated \n  download file in your computer.\n- Open the saved wiki with your browser, and locate the wiki \n  entry you've just created. A trip to the Titles (Alphabetical)\n  index should help you locate the entry.\n\n\n\nBasic Workflow\n--------------\n\n1. Create a new wiki entry with the \"new\" button.\n2. Edit the entry. If you need syntax help with editing, refer \n   to the #<Syntax> page.\n\n   Tag this entry as necessary.\n\n3. Click on the \"finish\" button.\n4. Repeat previous steps as needed.\n5. Press the \"save\" button when you feel you've done\n   enough editing.\n6. Confirm your progress by opening the HTML file you've \n   just saved with the browser.\n\nOther buttons, such as \"Delete\" should be self explanatory.\n\n\n\nHiding The Index Panel\n----------------------\n\nIf you'd like more room to read and write your current \nwiki entries, empty the search text field and perform a \nsearch query to hide the panel.\n\n\n\n\nExporting\n---------\n\nIf you ever need to upgrade the wiki or start fresh, \npress the \"Export\" button to extract the data store \nonto your file system, then use the import wizard in \nyour new wiki to import the data set as in #[Importing]\n\n\n\nImporting\n---------\n\nPress the \"Import\" button. You can import your data in three \ndifferent ways:\n\n; Dataset\n\n  : Valid JSON files you've extracted from another \n    BareBonesWiki HTML file. Invalid JSON files will \n    raise an error, and nothing will happen. Importing \n    data in this manner also imports the configuration\n    settings from another wiki.\n\n; Wiki Entry\n\n  : A plain text file written in #<BakaBakaMark>.\n\n; Plain Text\n\n  : Plain text with no interpretation at all. If you're \n    importing potentially dangerous #<Javascript> files,\n    or you simply don't want any parsing happening, use\n    this option.\n\n; HTML Snippet\n\n  : Straight HTML code. These code can directly affect \n    the wiki itself, and if malicious, have undesirable \n    effects on the browser. Use this option for HTML code \n    you really trust.\n\nNon-textual data such as images and videos are currently not \nsupported.\n\n\n\nIndexing\n--------\n\nThere are many different kinds of indices available to BareBonesWiki, \nlocated at the upper left hand corner of the interface. You may also \nperform a simple full text search in the entire wiki through the \ntext search box. These facilities are used to assist you in finding \nthe entry you're looking for.\n\n; Titles\n\n  : Lists all wiki entries in lexicographical (alphabetical) order.\n\n; Created\n\n  : Lists wiki entries by the date they're created, in units of whole \n    days.\n\n; Recent\n\n  : As **Created**, but sorts by last edit date instead.\n\n; Tags\n\n  : Sorts wiki entries by the tag they're associated with in \n    lexicographical order.\n\n; Orphans\n\n  : Lists entries that have no other entries referring to them, \n    excluding self-loops.\n\n; BackLink\n\n  : List all incoming links for each wiki entry.\n\n; Mime\n\n  : Lists wiki entries by their content (MIME) type, such as plain \n    text, wiki text, or HTML.\n\nSee also\n--------\n\n- #<Wiki>\n- #<Tutorial: Maintenance>",
+   "mime": "text/x-bbm",
    "tags": [
     "Built-in",
     "Instruction"
    ],
-   "mime": "text/x-bbm",
    "created": 1391062741000,
-   "edited": 1394841261360
+   "edited": 1403204283907
   }
  },
  "EDGES": {
@@ -169,9 +158,7 @@
   "Opera Tab Accessibility": {
    "BareBonesWiki": 1
   },
-  "Tutorial: Mime Type": {
-   "BareBonesWiki": 1
-  },
+  "Tutorial: Mime Type": {},
   "BareBonesWiki": {
    "Automatic Saving": 1,
    "Syntax": 1,
@@ -189,14 +176,13 @@
    "about:blank": 1
   },
   "Tutorial: Basic": {
-   "BareBonesWiki": 1,
-   "Wiki": 1,
-   "Web Browser Support": 1,
-   "Syntax": 1,
-   "BakaBakaMark": 1,
-   "Javascript": 1,
-   "Tutorial: Maintenance": 1,
-   "Tutorial: Mime Type": 1
+   "BareBonesWiki": null,
+   "Wiki": null,
+   "Web Browser Support": null,
+   "Syntax": null,
+   "BakaBakaMark": null,
+   "Javascript": null,
+   "Tutorial: Maintenance": null
   }
  },
  "CONFIG": {
@@ -206,14 +192,6 @@
   ],
   "cfmDel": false,
   "cfmNav": true,
-  "searchCase": false,
-  "TITLE": "BareBonesWiki",
-  "SUBTITLE": "Personal Wiki on Web Browsers",
-  "STARTUP": [
-   "BareBonesWiki"
-  ],
-  "CONFIRM_DEL": true,
-  "CONFIRM_NAV": true,
-  "SEARCH_CASE": false
+  "searchCase": false
  }
 }

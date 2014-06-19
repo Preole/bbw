@@ -27,7 +27,7 @@ var DB = (function ()
   {
    var obj =
    {
-    title : _.isString(title) ? STR.titleize(title) : "BareBoneswiki",
+    title : _.isString(title) ? STR.titleize(title) : "BareBonesWiki",
     startup : startup ? uniqueLines(startup) : [],
     cfmDel : !!cfmDel,
     cfmNav : !!cfmNav,

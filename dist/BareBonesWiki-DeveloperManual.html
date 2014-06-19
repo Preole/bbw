@@ -456,9 +456,10 @@ background: #000;
  <div class="css-font-big">Import Wizard</div>
  <fieldset>
  <legend>Import as...</legend>
- <label><input name="js-import-type" value="application/json" checked="" type="radio">As Dataset</label>
- <label><input name="js-import-type" value="text/x-bbm" type="radio">As Wiki Entry</label>
- <label><input name="js-import-type" value="text/plain" type="radio">As Plain Text</label>
+  <label><input name="js-import-type" value="application/json" checked="" type="radio">As Dataset</label>
+  <label><input name="js-import-type" value="text/x-bbm" type="radio">As Wiki Entry</label>
+  <label><input name="js-import-type" value="text/plain" type="radio">As Plain Text</label>
+  <label><input name="js-import-type" value="text/html" type="radio">As HTML Snippets</label>
  </fieldset>
  <fieldset>
  <legend>Choose...</legend>
@@ -498,7 +499,7 @@ background: #000;
 </form>
 
 <!--Hidden popup menu-->
-<div class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
+<div style="left: 499px; top: 94px;" class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
  <div class="css-font-med" id="js-popup-title"></div>
  <div class="css-index css-min-height" id="js-popup-content"></div>
  <div class="css-right">
@@ -507,7 +508,7 @@ background: #000;
 </div>
 
 <!--Hidden configuration wizard.-->
-<form class="css-modal-sys js-modal js-css-invis" tabindex="0" id="js-cfg-wiz">
+<form class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">Configuration Wizard</div>
  <fieldset>
@@ -617,7 +618,11 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </fieldset>
 <fieldset>
  <legend>Mime type</legend>
- <input class="js-i-mime" type="text">
+ <select class="js-i-mime">
+  <option value="text/x-bbm">BakaBakaMark Wiki Text</option>
+  <option value="text/html">Raw HTML</option>
+  <option value="text/plain">Plain Text</option>
+ </select>
 </fieldset>
 <fieldset>
  <legend>WikiText source code</legend>
@@ -750,26 +755,6 @@ directly from here.
    "created": 1396396335680,
    "edited": 1396396336680
   },
-  "Enhancement Update 4": {
-   "title": "Enhancement Update 4",
-   "src": "Bug Fix, Missing Features\n-------------------------\n\n- **{++Update April 29th, 2014++}**\n\n  - Added support for exact-phrase search using double quotes.\n    Example: \"\"\"\\\"This Exact Sentence\\\"\"\"\".\n  - Added rudimentary error reporting if the underlying wiki \n    engine encounters an error.\n\n- Fixed the bug regarding erroneous popup window positions.\n- Fixed the bug where page titles and status fail to update\n  after importing from an external dataset.\n- Fixed an importing bug where it can only import JSON data;\n  Now it can accept other forms of textual data as well.\n- Added character set specification support when importing \n  from external files. The wiki can now import textual data \n  that are not encoded in UTF-8 (e.g: GB2302 Simplified Chinese, \n  Russian, SHIFT-JIS Japanese.)\n\n\n\nProject Structures\n------------------\n\n- Less string literal littering; Currently considering\n  whether to enforce centralized string constant coding policy.\n  Specifically, only a very specific few modules are allowed \n  to declare string constants.\n- Established formal object factories for Wiki entries, \n  configuration objects, and a formal class for edge sets.\n  Rudimentary constraint enforcing for these objects have \n  been established.\n\n\n\nNew Milestone\n-------------\n\n- Create a rudimentary error reporting interface for when the \n  javascript engine crash. (Accomplished)\n- Keep the file under 200KB uncompressed; Well-tested external\n  components such as jQuery and lodash are not subject to this\n  restriction.\n",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1396394112264,
-   "edited": 1398823434603
-  },
-  "EntryPoint": {
-   "title": "EntryPoint",
-   "src": "Currently, the back-end of BareBonesWiki is a mess! I will write a proper manual\nand incorporate a humanely usable API, I promise.\n\nSee:\n\n- #<Enhancement Update 5>\n- #<Enhancement Update 4>\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n- #<CSS Class & ID Prefixes>",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1394841548715,
-   "edited": 1401327220248
-  },
   "Enhancement Update 5": {
    "title": "Enhancement Update 5",
    "src": "== Update May 28th, 2014 ==\n\n- Installed a rudimentary error console at the application level.\n  This feature is part of the project milestone.\n\n- Fixed a keyword search bug when there are no characters in the \n  text field. Now, the search box will close off the indexing side \n  bar if the input is either empty, or only contains spaces.\n\n- If no wiki entry titles are specified, the application should \n  now display the most recently edited entries from top to bottom, \n  rather than in reverse order.\n\n- Clicking on internal links or buttons for the first time in the \n  application should no longer cause the window to scroll to the \n  bottom.",
@@ -779,10 +764,41 @@ directly from here.
    ],
    "created": 1401327581059,
    "edited": 1401327685879
+  },
+  "Enhancement Update 4": {
+   "title": "Enhancement Update 4",
+   "src": "Bug Fix, Missing Features\n-------------------------\n\n- **{++Update April 29th, 2014++}**\n\n  - Added support for exact-phrase search using double quotes.\n    Example: \"\"\"\\\"This Exact Sentence\\\"\"\"\".\n  - Added rudimentary error reporting if the underlying wiki \n    engine encounters an error.\n\n- Fixed the bug regarding erroneous popup window positions.\n- Fixed the bug where page titles and status fail to update\n  after importing from an external dataset.\n- Fixed an importing bug where it can only import JSON data;\n  Now it can accept other forms of textual data as well.\n- Added character set specification support when importing \n  from external files. The wiki can now import textual data \n  that are not encoded in UTF-8 (e.g: GB2302 Simplified Chinese, \n  Russian, SHIFT-JIS Japanese.)\n\n\n\nProject Structures\n------------------\n\n- Less string literal littering; Currently considering\n  whether to enforce centralized string constant coding policy.\n  Specifically, only a very specific few modules are allowed \n  to declare string constants.\n- Established formal object factories for Wiki entries, \n  configuration objects, and a formal class for edge sets.\n  Rudimentary constraint enforcing for these objects have \n  been established.\n\n\n\nNew Milestone\n-------------\n\n- Create a rudimentary error reporting interface for when the \n  javascript engine crash. (Accomplished)\n- Keep the HTML file under 200KB uncompressed.\n",
+   "mime": "text/x-bbm",
+   "tags": [
+    "Uncategorized"
+   ],
+   "created": 1396394112264,
+   "edited": 1403203701206
+  },
+  "EntryPoint": {
+   "title": "EntryPoint",
+   "src": "Currently, the back-end of BareBonesWiki is a mess! I will write a proper manual\nand incorporate a humanely usable API, I promise.\n\nSee:\n\n- #<Enhancement Update 6>\n- #<Enhancement Update 5>\n- #<Enhancement Update 4>\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n- #<CSS Class & ID Prefixes>",
+   "mime": "text/x-bbm",
+   "tags": [
+    "Uncategorized"
+   ],
+   "created": 1394841548715,
+   "edited": 1403203718378
+  },
+  "Enhancement Update 6": {
+   "title": "Enhancement Update 6",
+   "src": "Repository-Specific\n-------------------\n\n- Removed the development branch from the repository; The branch turns \n  out unnecessary due to the simplicity of the project.\n\n- Removed \"Do not use\" warning. Basic functionality and underlying engine \n  rewrites are complete.\n  \n- Modified \"\"\".gitattributes\"\"\" to enforce Unix-style line breaks throughout \n  the repository.\n\nProject\n-------\n\n- Added a selection menu for wiki entry mime type. No more manually typing \n  and guessing available types of wiki entries. There are three official types \n  of wiki entries.\n\n  - Straight HTML \"\"\"text/html\"\"\"\n  - BakaBakaMark Wiki text \"\"\"text/x-bbm\"\"\"\n  - Plain text \"\"\"text/plain\"\"\"\n  \n- Added the option to directly import HTML code into the wiki. No more \n  converting them into HTML mime type after importing them as plain text.",
+   "mime": "text/x-bbm",
+   "tags": [
+    "Uncategorized"
+   ],
+   "created": 1403203760729,
+   "edited": 1403203761729
   }
  },
  "EDGES": {
   "EntryPoint": {
+   "Enhancement Update 6": null,
    "Enhancement Update 5": null,
    "Enhancement Update 4": null,
    "Enhancement Update 3": null,
@@ -1724,7 +1740,7 @@ var DB = (function ()
   {
    var obj =
    {
-    title : _.isString(title) ? STR.titleize(title) : "BareBoneswiki",
+    title : _.isString(title) ? STR.titleize(title) : "BareBonesWiki",
     startup : startup ? uniqueLines(startup) : [],
     cfmDel : !!cfmDel,
     cfmNav : !!cfmNav,
@@ -2551,14 +2567,14 @@ var CSS =
 var $T = (function ()
 {
  var d = new Date(),
- $tEdit = $($("#js-t-edit").html()),
- $tView = $($("#js-t-view").html()),
- $tDL = $($("#js-t-dl").html()),
- $tDT = $($("#js-t-dt").html()),
- $tDD = $($("#js-t-dd").html()),
- $tPara = $($("#js-t-para").html()),
- $tButton = $($("#js-t-button").html()),
- $tLinkW = $($("#js-t-wlink").html());
+  $tEdit = $($("#js-t-edit").html()),
+  $tView = $($("#js-t-view").html()),
+  $tDL = $($("#js-t-dl").html()),
+  $tDT = $($("#js-t-dt").html()),
+  $tDD = $($("#js-t-dd").html()),
+  $tPara = $($("#js-t-para").html()),
+  $tButton = $($("#js-t-button").html()),
+  $tLinkW = $($("#js-t-wlink").html());
  
  function sigStr(msEdited, msCreated)
  {
@@ -2576,7 +2592,7 @@ var $T = (function ()
   $edit.find(".js-i-title").val(wNode.title);
   $edit.find(".js-i-src").val(wNode.src);
   $edit.find(".js-i-tags").val(wNode.tags.join("\n"));
-  $edit.find(".js-i-mime").val(wNode.mime);
+  $edit.find(".js-i-mime").val(wNode.mime || DB.MIME.TEXT);
   $edit.data("title", wNode.title);
   return $edit;
  }
@@ -2804,9 +2820,10 @@ var $CONTENT = (function ($baseEle){
   var wNode = DB.newNode(
    $edit.find(".js-i-title").val(),
    $edit.find(".js-i-src").val(),
-   $edit.find(".js-i-mime").val(),
+   $edit.find(".js-i-mime").val() || DB.MIME.TEXT,
    $edit.find(".js-i-tags").val()
   );
+  
   var $frag = $.parseBBM(wNode.src, wNode.mime);
   
   DB.editNode(wNode, $frag.getEdges(), title);
@@ -3508,11 +3525,11 @@ var $ERRORWIZ = (function ($wiz){
  DB.fromJSON($DS.text());
  if (DB.getConfig().startup.length > 0)
  {
-  DB.getConfig().startup.forEach(initStartup);
+  DB.getConfig().startup.reverse().forEach(initStartup);
  }
  else
  {
-  DB.indexEditedFlat().slice(0, 5).forEach(initRecent);
+  DB.indexEditedFlat().slice(0, 5).reverse().forEach(initRecent);
  }
 
  //If a click event manages to bubble up to here, close the popup.

@@ -3,14 +3,14 @@
 var $T = (function ()
 {
  var d = new Date(),
- $tEdit = $($("#js-t-edit").html()),
- $tView = $($("#js-t-view").html()),
- $tDL = $($("#js-t-dl").html()),
- $tDT = $($("#js-t-dt").html()),
- $tDD = $($("#js-t-dd").html()),
- $tPara = $($("#js-t-para").html()),
- $tButton = $($("#js-t-button").html()),
- $tLinkW = $($("#js-t-wlink").html());
+  $tEdit = $($("#js-t-edit").html()),
+  $tView = $($("#js-t-view").html()),
+  $tDL = $($("#js-t-dl").html()),
+  $tDT = $($("#js-t-dt").html()),
+  $tDD = $($("#js-t-dd").html()),
+  $tPara = $($("#js-t-para").html()),
+  $tButton = $($("#js-t-button").html()),
+  $tLinkW = $($("#js-t-wlink").html());
  
  function sigStr(msEdited, msCreated)
  {
@@ -28,7 +28,7 @@ var $T = (function ()
   $edit.find(".js-i-title").val(wNode.title);
   $edit.find(".js-i-src").val(wNode.src);
   $edit.find(".js-i-tags").val(wNode.tags.join("\n"));
-  $edit.find(".js-i-mime").val(wNode.mime);
+  $edit.find(".js-i-mime").val(wNode.mime || DB.MIME.TEXT);
   $edit.data("title", wNode.title);
   return $edit;
  }

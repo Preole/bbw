@@ -915,7 +915,7 @@ var DB = (function ()
   {
    var obj =
    {
-    title : _.isString(title) ? STR.titleize(title) : "BareBoneswiki",
+    title : _.isString(title) ? STR.titleize(title) : "BareBonesWiki",
     startup : startup ? uniqueLines(startup) : [],
     cfmDel : !!cfmDel,
     cfmNav : !!cfmNav,
@@ -1742,14 +1742,14 @@ var CSS =
 var $T = (function ()
 {
  var d = new Date(),
- $tEdit = $($("#js-t-edit").html()),
- $tView = $($("#js-t-view").html()),
- $tDL = $($("#js-t-dl").html()),
- $tDT = $($("#js-t-dt").html()),
- $tDD = $($("#js-t-dd").html()),
- $tPara = $($("#js-t-para").html()),
- $tButton = $($("#js-t-button").html()),
- $tLinkW = $($("#js-t-wlink").html());
+  $tEdit = $($("#js-t-edit").html()),
+  $tView = $($("#js-t-view").html()),
+  $tDL = $($("#js-t-dl").html()),
+  $tDT = $($("#js-t-dt").html()),
+  $tDD = $($("#js-t-dd").html()),
+  $tPara = $($("#js-t-para").html()),
+  $tButton = $($("#js-t-button").html()),
+  $tLinkW = $($("#js-t-wlink").html());
  
  function sigStr(msEdited, msCreated)
  {
@@ -1767,7 +1767,7 @@ var $T = (function ()
   $edit.find(".js-i-title").val(wNode.title);
   $edit.find(".js-i-src").val(wNode.src);
   $edit.find(".js-i-tags").val(wNode.tags.join("\n"));
-  $edit.find(".js-i-mime").val(wNode.mime);
+  $edit.find(".js-i-mime").val(wNode.mime || DB.MIME.TEXT);
   $edit.data("title", wNode.title);
   return $edit;
  }
@@ -1995,9 +1995,10 @@ var $CONTENT = (function ($baseEle){
   var wNode = DB.newNode(
    $edit.find(".js-i-title").val(),
    $edit.find(".js-i-src").val(),
-   $edit.find(".js-i-mime").val(),
+   $edit.find(".js-i-mime").val() || DB.MIME.TEXT,
    $edit.find(".js-i-tags").val()
   );
+  
   var $frag = $.parseBBM(wNode.src, wNode.mime);
   
   DB.editNode(wNode, $frag.getEdges(), title);
@@ -2699,11 +2700,11 @@ var $ERRORWIZ = (function ($wiz){
  DB.fromJSON($DS.text());
  if (DB.getConfig().startup.length > 0)
  {
-  DB.getConfig().startup.forEach(initStartup);
+  DB.getConfig().startup.reverse().forEach(initStartup);
  }
  else
  {
-  DB.indexEditedFlat().slice(0, 5).forEach(initRecent);
+  DB.indexEditedFlat().slice(0, 5).reverse().forEach(initRecent);
  }
 
  //If a click event manages to bubble up to here, close the popup.

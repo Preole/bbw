@@ -55,9 +55,10 @@
  <div class="css-font-big">Import Wizard</div>
  <fieldset>
  <legend>Import as...</legend>
- <label><input type="radio" name="js-import-type" value="application/json" checked>As Dataset</label>
- <label><input type="radio" name="js-import-type" value="text/x-bbm">As Wiki Entry</label>
- <label><input type="radio" name="js-import-type" value="text/plain">As Plain Text</label>
+  <label><input type="radio" name="js-import-type" value="application/json" checked>As Dataset</label>
+  <label><input type="radio" name="js-import-type" value="text/x-bbm">As Wiki Entry</label>
+  <label><input type="radio" name="js-import-type" value="text/plain">As Plain Text</label>
+  <label><input type="radio" name="js-import-type" value="text/html">As HTML Snippets</label>
  </fieldset>
  <fieldset>
  <legend>Choose...</legend>
@@ -216,7 +217,11 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </fieldset>
 <fieldset>
  <legend>Mime type</legend>
- <input class="js-i-mime" type="text">
+ <select class="js-i-mime">
+  <option value="text/x-bbm">BakaBakaMark Wiki Text</option>
+  <option value="text/html">Raw HTML</option>
+  <option value="text/plain">Plain Text</option>
+ </select>
 </fieldset>
 <fieldset>
  <legend>WikiText source code</legend>

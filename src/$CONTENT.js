@@ -123,9 +123,10 @@ var $CONTENT = (function ($baseEle){
   var wNode = DB.newNode(
    $edit.find(".js-i-title").val(),
    $edit.find(".js-i-src").val(),
-   $edit.find(".js-i-mime").val(),
+   $edit.find(".js-i-mime").val() || DB.MIME.TEXT,
    $edit.find(".js-i-tags").val()
   );
+  
   var $frag = $.parseBBM(wNode.src, wNode.mime);
   
   DB.editNode(wNode, $frag.getEdges(), title);
