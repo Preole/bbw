@@ -108,7 +108,7 @@ License
 -------
 
 BSD-2-Clause @ ?<http://opensource.org/licenses/BSD-2-Clause>
-```
+
 
 
 
@@ -140,3 +140,4 @@ Update Log
   
 - Added the option to directly import HTML code into the wiki. No more 
   converting them into HTML mime type after importing them as plain text.
+```
