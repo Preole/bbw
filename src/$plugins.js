@@ -102,7 +102,7 @@ var CSS =
   
   function placeUnder($target)
   {
-   return this.setOffset($target.getOffset()).focus();
+   return this.setOffset($target.getOffset());
   }
   
   function links()

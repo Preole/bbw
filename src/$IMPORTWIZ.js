@@ -29,6 +29,7 @@ var $IMPORTWIZ = (function ($wiz){
     var fReader = new FileReader();
     fReader.onload = onLoad;
     fReader.onerror = onError;
+    fReader.fileName = file.name;
     fReader.readAsText(file, charset);
    }
    else {$log.log(sizeErrMsg(file.name, MSIZE, fSize));}
@@ -37,8 +38,10 @@ var $IMPORTWIZ = (function ($wiz){
  
  function onLoad(evt)
  {
-  var text = evt.target.result;
-  var type = $importAs.filterChecked().val() || DB.MIME.TEXT;
+  var text = evt.target.result,
+   fName = evt.target.fileName || DB.newName(),
+   type = $importAs.filterChecked().val() || DB.MIME.TEXT;
+   
   if (type === DB.MIME.JSON)
   {
    try
@@ -53,9 +56,9 @@ var $IMPORTWIZ = (function ($wiz){
    }
    return;
   }
+  $log.log("Imported " + fName);
   
-  $log.log("Data entry import success.");
-  var wNode = DB.newNodeNoConflict(text, type);
+  var wNode = DB.newNodeNoConflict(fName, text, type);
   DB.editNode(wNode, $.parseBBM(text, type).getEdges());
   $CONTENT.trigger(EVT.OPEN, [wNode.title]);
  }

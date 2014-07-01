@@ -1066,6 +1066,7 @@ var DB = (function ()
  //Global states
  var CHANGED = false,
   PREF = "New Entry ",
+  PREF_TMP = "TMP ",
   DATE = new Date(),
   UUID = 0;
   
@@ -1097,7 +1098,6 @@ var DB = (function ()
  function itSearchNode(acc, wNode, key, plainObj)
  {
   var wordList = this;
-  console.log(CONFIG.searchCase);
   if (WikiNode.search(wNode, wordList, CONFIG.searchCase))
   {
    acc.push(wNode.title);
@@ -1257,9 +1257,24 @@ var DB = (function ()
   return defTitle;
  }
  
- function newNodeNoConflict(src, mime)
+ function nextTmpName(title)
  {
-  return WikiNode.create(newName(), src, mime);
+  return title + " (" + PREF_TMP + (UUID += 1) + ")";
+ }
+ 
+ function newTmpName(title)
+ {
+  var defTitle = title;
+  while (hasNode(defTitle))
+  {
+   defTitle = nextTmpName(title);
+  }
+  return defTitle;
+ }
+ 
+ function newNodeNoConflict(title, src, mime)
+ {
+  return WikiNode.create(newTmpName(title), src, mime);
  }
  
  function newNode(title, src, mime, tags)
@@ -1508,7 +1523,7 @@ var CSS =
   
   function placeUnder($target)
   {
-   return this.setOffset($target.getOffset()).focus();
+   return this.setOffset($target.getOffset());
   }
   
   function links()
@@ -2064,6 +2079,10 @@ var $CONTENT = (function ($baseEle){
 
 var $INDEXVIEW = (function ($dest, $text){
  
+ var $ivTitle = $dest.find("#js-area-index-title");
+ var $ivContent = $dest.find("#js-area-index-content");
+ var $ivCloseBtn = $dest.find(".js-b-close").on(EV.CLICK, close);
+ 
  $dest.data({
   Title : function ()
   {
@@ -2094,47 +2113,34 @@ var $INDEXVIEW = (function ($dest, $text){
    return $T.linksDL(DB.indexMime());
   }
  });
- 
- function post(evt, $frag)
- {
-  $dest.empty();
-  if ($frag instanceof jQuery) 
-  {
-   $frag.linkify();
-   $dest.append($frag);
-  }
- }
- 
+
  function search(evt)
  {
-  $dest.trigger(EVT.POST);
-  
   var wordList = STR.words($text.val());
   if (wordList.length <= 0) {return;}
   
-  var titles = DB.indexSearch(wordList),
-   message = "Found " + titles.length + " match(es).";
+  var titles = DB.indexSearch(wordList);
   
-  $dest.trigger(EVT.POST, [$T.dl(message, $T.linksPara(titles))]);
+  $dest.toggleInvis(false);
+  $ivTitle.empty().text("Found " + titles.length + " match(es).");
+  $ivContent.empty().append($T.linksPara(titles));
  }
  
  function index(evt, indexType)
  {
-  var $resFrag = $dest.data()[indexType]();
-  var $resView = $T.dl("Indexing " + indexType, $resFrag);
-  $dest.trigger(EVT.POST, [$resView]);
+  $dest.toggleInvis(false);
+  $ivTitle.empty().text("Indexing " + indexType);
+  $ivContent.empty().append($dest.data()[indexType]());
  }
  
- function empty(evt)
+ function close(evt)
  {
-  $dest.empty();
+  $ivTitle.empty();
+  $ivContent.empty();
+  $dest.toggleInvis(true);
  }
  
- return $dest.on(EVT.POST, post)
-  .on(EVT.SEARCH, search)
-  .on(EVT.INDEX, index)
-  .on(EVT.CLOSE, empty);
- 
+ return $dest.on(EVT.SEARCH, search).on(EVT.INDEX, index);
 }($("#js-area-index"), $("#js-txt-search")));
 
 
@@ -2421,7 +2427,7 @@ var $SAVER = (function ($detachList){
  $obj.on(EVT.EXPORT, saveJson);
  
  return $obj;
-}($("#js-area-index, #js-area-content")));
+}($("#js-area-content")));
 
 
 
@@ -2511,6 +2517,7 @@ var $IMPORTWIZ = (function ($wiz){
     var fReader = new FileReader();
     fReader.onload = onLoad;
     fReader.onerror = onError;
+    fReader.fileName = file.name;
     fReader.readAsText(file, charset);
    }
    else {$log.log(sizeErrMsg(file.name, MSIZE, fSize));}
@@ -2519,8 +2526,10 @@ var $IMPORTWIZ = (function ($wiz){
  
  function onLoad(evt)
  {
-  var text = evt.target.result;
-  var type = $importAs.filterChecked().val() || DB.MIME.TEXT;
+  var text = evt.target.result,
+   fName = evt.target.fileName || DB.newName(),
+   type = $importAs.filterChecked().val() || DB.MIME.TEXT;
+   
   if (type === DB.MIME.JSON)
   {
    try
@@ -2535,9 +2544,9 @@ var $IMPORTWIZ = (function ($wiz){
    }
    return;
   }
+  $log.log("Imported " + fName);
   
-  $log.log("Data entry import success.");
-  var wNode = DB.newNodeNoConflict(text, type);
+  var wNode = DB.newNodeNoConflict(fName, text, type);
   DB.editNode(wNode, $.parseBBM(text, type).getEdges());
   $CONTENT.trigger(EVT.OPEN, [wNode.title]);
  }
@@ -2615,7 +2624,7 @@ var $POPUPWIZ = (function ($wiz){
  $wiz.on(EVT.LOAD, function (evt){
   $title.empty();
   $content.empty();
-  $wiz.toggleInvis(false).focus();
+  $wiz.toggleInvis(false);
   evt.stopPropagation();
  });
  
@@ -2721,7 +2730,7 @@ var $ERRORWIZ = (function ($wiz){
   evt.preventDefault();
   if ($parent.hasClass(CLS.TAGS))
   {
-   $POPUPWIZ.trigger(EVT.TAG, [title]).placeUnder($src);
+   $POPUPWIZ.trigger(EVT.TAG, [title]).placeUnder($src).focus();
    evt.stopPropagation();
   }
   else if ($parent.hasClass(CLS.CONTENT))
@@ -2745,7 +2754,7 @@ var $ERRORWIZ = (function ($wiz){
  
  $("#js-txt-search").on(EV.KEYDOWN, function (evt){
   if (evt.which === 13) {$INDEXVIEW.trigger(EVT.SEARCH);}
- });
+ }).focus();
  
  $("#js-b-search").on(EV.CLICK, function (evt){
   $INDEXVIEW.trigger(EVT.SEARCH);
@@ -2760,7 +2769,7 @@ var $ERRORWIZ = (function ($wiz){
  });
  
  $("#js-b-index").on(EV.CLICK, function (evt){
-  $POPUPWIZ.trigger(EVT.INDEX).placeUnder($(evt.target));
+  $POPUPWIZ.trigger(EVT.INDEX).placeUnder($(evt.target)).focus();
   evt.stopPropagation();
  });
  

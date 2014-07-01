@@ -131,21 +131,18 @@ border-spacing: 0.5em 0;
 width: 100%;
 }
 
-.css-table > div {
+.css-table > div,
+.css-table > span {
 display: table-cell;
 vertical-align: middle;
 }
 
-.css-table > div.css-top {
+.css-table > .css-top {
 vertical-align: top;
 }
 
 .css-table > div:first-child {
 width: 30%;
-}
-
-.css-toggle:empty {
-display: none !important;
 }
 
 .css-font-med,
@@ -192,7 +189,7 @@ min-height: 20em;
 }
 
 .js-css-invis {
-display: none;
+display: none !important;
 }
 
 

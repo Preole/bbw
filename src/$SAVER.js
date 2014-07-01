@@ -47,5 +47,5 @@ var $SAVER = (function ($detachList){
  $obj.on(EVT.EXPORT, saveJson);
  
  return $obj;
-}($("#js-area-index, #js-area-content")));
+}($("#js-area-content")));
 

@@ -178,6 +178,7 @@ var DB = (function ()
  //Global states
  var CHANGED = false,
   PREF = "New Entry ",
+  PREF_TMP = "TMP ",
   DATE = new Date(),
   UUID = 0;
   
@@ -209,7 +210,6 @@ var DB = (function ()
  function itSearchNode(acc, wNode, key, plainObj)
  {
   var wordList = this;
-  console.log(CONFIG.searchCase);
   if (WikiNode.search(wNode, wordList, CONFIG.searchCase))
   {
    acc.push(wNode.title);
@@ -369,9 +369,24 @@ var DB = (function ()
   return defTitle;
  }
  
- function newNodeNoConflict(src, mime)
+ function nextTmpName(title)
  {
-  return WikiNode.create(newName(), src, mime);
+  return title + " (" + PREF_TMP + (UUID += 1) + ")";
+ }
+ 
+ function newTmpName(title)
+ {
+  var defTitle = title;
+  while (hasNode(defTitle))
+  {
+   defTitle = nextTmpName(title);
+  }
+  return defTitle;
+ }
+ 
+ function newNodeNoConflict(title, src, mime)
+ {
+  return WikiNode.create(newTmpName(title), src, mime);
  }
  
  function newNode(title, src, mime, tags)

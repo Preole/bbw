@@ -137,21 +137,18 @@ border-spacing: 0.5em 0;
 width: 100%;
 }
 
-.css-table > div {
+.css-table > div,
+.css-table > span {
 display: table-cell;
 vertical-align: middle;
 }
 
-.css-table > div.css-top {
+.css-table > .css-top {
 vertical-align: top;
 }
 
 .css-table > div:first-child {
 width: 30%;
-}
-
-.css-toggle:empty {
-display: none !important;
 }
 
 .css-font-med,
@@ -198,7 +195,7 @@ min-height: 20em;
 }
 
 .js-css-invis {
-display: none;
+display: none !important;
 }
 
 
@@ -439,7 +436,15 @@ background: #000;
  </div>
  
  <div class="css-table">
-  <div id="js-area-index" class="css-index css-top css-toggle js-content"></div>
+  <div id="js-area-index" class="css-index css-top js-css-invis js-content">
+   <dl>
+    <dt class="css-table css-pad">
+     <span id="js-area-index-title"></span>
+     <span class="css-right"><button type="button" class="js-b-close">Close</button></span>
+    </dt>
+    <dd id="js-area-index-content"></dd>
+   </dl>
+  </div>
   <div id="js-area-content" class="css-top"></div>
  </div>
  
@@ -499,7 +504,7 @@ background: #000;
 </form>
 
 <!--Hidden popup menu-->
-<div style="left: 494px; top: 93px;" class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
+<div class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
  <div class="css-font-med" id="js-popup-title"></div>
  <div class="css-index css-min-height" id="js-popup-content"></div>
  <div class="css-right">
@@ -508,7 +513,7 @@ background: #000;
 </div>
 
 <!--Hidden configuration wizard.-->
-<form class="css-modal-sys js-modal js-css-invis" tabindex="0" id="js-cfg-wiz">
+<form class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">Configuration Wizard</div>
  <fieldset>
@@ -617,20 +622,20 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
  <input class="js-i-title" type="text">
 </fieldset>
 <fieldset>
- <legend>Mime type</legend>
- <select class="js-i-mime">
-  <option value="text/x-bbm">BakaBakaMark Wiki Text</option>
-  <option value="text/html">Raw HTML</option>
-  <option value="text/plain">Plain Text</option>
- </select>
+ <legend>Tags (Separated by line breaks)</legend>
+ <textarea class="js-i-tags" rows="5" cols="80"></textarea>
 </fieldset>
 <fieldset>
  <legend>WikiText source code</legend>
  <textarea class="js-i-src css-tall" rows="20" cols="80"></textarea>
 </fieldset>
 <fieldset>
- <legend>Tags (Separated by line breaks)</legend>
- <textarea class="js-i-tags" rows="5" cols="80"></textarea>
+ <legend>Mime type</legend>
+ <select class="js-i-mime">
+  <option value="text/x-bbm">BakaBakaMark Wiki Text</option>
+  <option value="text/html">Raw HTML</option>
+  <option value="text/plain">Plain Text</option>
+ </select>
 </fieldset>
 </form>
 </script>
@@ -799,14 +804,14 @@ directly from here.
   },
   "Tutorial: Basic": {
    "title": "Tutorial: Basic",
-   "src": "Welcome to the introductory tutorial for #<BareBonesWiki>. It will \nteach you everything you need to know about the application, and \na few guidelines for authoring a #<Wiki>-[wiki].\n\n\n\nBrowser Support\n---------------\n\nYou should first check whether your web browser supports saving \nback to the file system. You may either... \n\n- Consult #<Web Browser Support>\n- Create a new wiki entry, save it, then save the wiki engine \n  with the save button at the upper right hand corner. Follow \n  the instructions in the popup dialog box, or save the generated \n  download file in your computer.\n- Open the saved wiki with your browser, and locate the wiki \n  entry you've just created. A trip to the Titles (Alphabetical)\n  index should help you locate the entry.\n\n\n\nBasic Workflow\n--------------\n\n1. Create a new wiki entry with the \"new\" button.\n2. Edit the entry. If you need syntax help with editing, refer \n   to the #<Syntax> page.\n\n   Tag this entry as necessary.\n\n3. Click on the \"finish\" button.\n4. Repeat previous steps as needed.\n5. Press the \"save\" button when you feel you've done\n   enough editing.\n6. Confirm your progress by opening the HTML file you've \n   just saved with the browser.\n\nOther buttons, such as \"Delete\" should be self explanatory.\n\n\n\nHiding The Index Panel\n----------------------\n\nIf you'd like more room to read and write your current \nwiki entries, empty the search text field and perform a \nsearch query to hide the panel.\n\n\n\n\nExporting\n---------\n\nIf you ever need to upgrade the wiki or start fresh, \npress the \"Export\" button to extract the data store \nonto your file system, then use the import wizard in \nyour new wiki to import the data set as in #[Importing]\n\n\n\nImporting\n---------\n\nPress the \"Import\" button. You can import your data in three \ndifferent ways:\n\n; Dataset\n\n  : Valid JSON files you've extracted from another \n    BareBonesWiki HTML file. Invalid JSON files will \n    raise an error, and nothing will happen. Importing \n    data in this manner also imports the configuration\n    settings from another wiki.\n\n; Wiki Entry\n\n  : A plain text file written in #<BakaBakaMark>.\n\n; Plain Text\n\n  : Plain text with no interpretation at all. If you're \n    importing potentially dangerous #<Javascript> files,\n    or you simply don't want any parsing happening, use\n    this option.\n\n; HTML Snippet\n\n  : Straight HTML code. These code can directly affect \n    the wiki itself, and if malicious, have undesirable \n    effects on the browser. Use this option for HTML code \n    you really trust.\n\nNon-textual data such as images and videos are currently not \nsupported.\n\n\n\nIndexing\n--------\n\nThere are many different kinds of indices available to BareBonesWiki, \nlocated at the upper left hand corner of the interface. You may also \nperform a simple full text search in the entire wiki through the \ntext search box. These facilities are used to assist you in finding \nthe entry you're looking for.\n\n; Titles\n\n  : Lists all wiki entries in lexicographical (alphabetical) order.\n\n; Created\n\n  : Lists wiki entries by the date they're created, in units of whole \n    days.\n\n; Recent\n\n  : As **Created**, but sorts by last edit date instead.\n\n; Tags\n\n  : Sorts wiki entries by the tag they're associated with in \n    lexicographical order.\n\n; Orphans\n\n  : Lists entries that have no other entries referring to them, \n    excluding self-loops.\n\n; BackLink\n\n  : List all incoming links for each wiki entry.\n\n; Mime\n\n  : Lists wiki entries by their content (MIME) type, such as plain \n    text, wiki text, or HTML.\n\nSee also\n--------\n\n- #<Wiki>\n- #<Tutorial: Maintenance>",
+   "src": "Welcome to the introductory tutorial for #<BareBonesWiki>. It will \nteach you everything you need to know about the application, and \na few guidelines for authoring a #<Wiki>-[wiki].\n\n\n\nBrowser Support\n---------------\n\nYou should first check whether your web browser supports saving \nback to the file system. You may either... \n\n- Consult #<Web Browser Support>\n- Create a new wiki entry, save it, then save the wiki engine \n  with the save button at the upper right hand corner. Follow \n  the instructions in the popup dialog box, or save the generated \n  download file in your computer.\n- Open the saved wiki with your browser, and locate the wiki \n  entry you've just created. A trip to the Titles (Alphabetical)\n  index should help you locate the entry.\n\n\n\nBasic Workflow\n--------------\n\n1. Create a new wiki entry with the \"new\" button.\n2. Edit the entry. If you need syntax help with editing, refer \n   to the #<Syntax> page.\n\n   Tag this entry as necessary.\n\n3. Click on the \"finish\" button.\n4. Repeat previous steps as needed.\n5. Press the \"save\" button when you feel you've done\n   enough editing.\n6. Confirm your progress by opening the HTML file you've \n   just saved with the browser.\n\nOther buttons, such as \"Delete\" should be self explanatory.\n\n\n\nExporting\n---------\n\nIf you ever need to upgrade the wiki or start fresh, \npress the \"Export\" button to extract the data store \nonto your file system, then use the import wizard in \nyour new wiki to import the data set as in #[Importing]\n\n\n\nImporting\n---------\n\nPress the \"Import\" button. You can import your data in three \ndifferent ways:\n\n; Dataset\n\n  : Valid JSON files you've extracted from another \n    BareBonesWiki HTML file. Invalid JSON files will \n    raise an error, and nothing will happen. Importing \n    data in this manner also imports the configuration\n    settings from another wiki.\n\n; Wiki Entry\n\n  : A plain text file written in #<BakaBakaMark>.\n\n; Plain Text\n\n  : Plain text with no interpretation at all. If you're \n    importing potentially dangerous #<Javascript> files,\n    or you simply don't want any parsing happening, use\n    this option.\n\n; HTML Snippet\n\n  : Straight HTML code. These code can directly affect \n    the wiki itself, and if malicious, have undesirable \n    effects on the browser. Use this option for HTML code \n    you really trust.\n\nNon-textual data such as images and videos are currently not \nsupported.\n\n\n\nIndexing\n--------\n\nThere are many different kinds of indices available to BareBonesWiki, \nlocated at the upper left hand corner of the interface. You may also \nperform a simple full text search in the entire wiki through the \ntext search box. These facilities are used to assist you in finding \nthe entry you're looking for.\n\n; Titles\n\n  : Lists all wiki entries in lexicographical (alphabetical) order.\n\n; Created\n\n  : Lists wiki entries by the date they're created, in units of whole \n    days.\n\n; Recent\n\n  : As **Created**, but sorts by last edit date instead.\n\n; Tags\n\n  : Sorts wiki entries by the tag they're associated with in \n    lexicographical order.\n\n; Orphans\n\n  : Lists entries that have no other entries referring to them, \n    excluding self-loops.\n\n; BackLink\n\n  : List all incoming links for each wiki entry.\n\n; Mime\n\n  : Lists wiki entries by their content (MIME) type, such as plain \n    text, wiki text, or HTML.\n\nSee also\n--------\n\n- #<Wiki>\n- #<Tutorial: Maintenance>",
    "mime": "text/x-bbm",
    "tags": [
     "Built-in",
     "Instruction"
    ],
    "created": 1391062741000,
-   "edited": 1403204283907
+   "edited": 1404197319065
   }
  },
  "EDGES": {
@@ -822,7 +827,6 @@ directly from here.
   "Opera Tab Accessibility": {
    "BareBonesWiki": 1
   },
-  "Tutorial: Mime Type": {},
   "BareBonesWiki": {
    "Automatic Saving": 1,
    "Syntax": 1,
@@ -1931,6 +1935,7 @@ var DB = (function ()
  //Global states
  var CHANGED = false,
   PREF = "New Entry ",
+  PREF_TMP = "TMP ",
   DATE = new Date(),
   UUID = 0;
   
@@ -1962,7 +1967,6 @@ var DB = (function ()
  function itSearchNode(acc, wNode, key, plainObj)
  {
   var wordList = this;
-  console.log(CONFIG.searchCase);
   if (WikiNode.search(wNode, wordList, CONFIG.searchCase))
   {
    acc.push(wNode.title);
@@ -2122,9 +2126,24 @@ var DB = (function ()
   return defTitle;
  }
  
- function newNodeNoConflict(src, mime)
+ function nextTmpName(title)
  {
-  return WikiNode.create(newName(), src, mime);
+  return title + " (" + PREF_TMP + (UUID += 1) + ")";
+ }
+ 
+ function newTmpName(title)
+ {
+  var defTitle = title;
+  while (hasNode(defTitle))
+  {
+   defTitle = nextTmpName(title);
+  }
+  return defTitle;
+ }
+ 
+ function newNodeNoConflict(title, src, mime)
+ {
+  return WikiNode.create(newTmpName(title), src, mime);
  }
  
  function newNode(title, src, mime, tags)
@@ -2373,7 +2392,7 @@ var CSS =
   
   function placeUnder($target)
   {
-   return this.setOffset($target.getOffset()).focus();
+   return this.setOffset($target.getOffset());
   }
   
   function links()
@@ -2929,6 +2948,10 @@ var $CONTENT = (function ($baseEle){
 
 var $INDEXVIEW = (function ($dest, $text){
  
+ var $ivTitle = $dest.find("#js-area-index-title");
+ var $ivContent = $dest.find("#js-area-index-content");
+ var $ivCloseBtn = $dest.find(".js-b-close").on(EV.CLICK, close);
+ 
  $dest.data({
   Title : function ()
   {
@@ -2959,47 +2982,34 @@ var $INDEXVIEW = (function ($dest, $text){
    return $T.linksDL(DB.indexMime());
   }
  });
- 
- function post(evt, $frag)
- {
-  $dest.empty();
-  if ($frag instanceof jQuery) 
-  {
-   $frag.linkify();
-   $dest.append($frag);
-  }
- }
- 
+
  function search(evt)
  {
-  $dest.trigger(EVT.POST);
-  
   var wordList = STR.words($text.val());
   if (wordList.length <= 0) {return;}
   
-  var titles = DB.indexSearch(wordList),
-   message = "Found " + titles.length + " match(es).";
+  var titles = DB.indexSearch(wordList);
   
-  $dest.trigger(EVT.POST, [$T.dl(message, $T.linksPara(titles))]);
+  $dest.toggleInvis(false);
+  $ivTitle.empty().text("Found " + titles.length + " match(es).");
+  $ivContent.empty().append($T.linksPara(titles));
  }
  
  function index(evt, indexType)
  {
-  var $resFrag = $dest.data()[indexType]();
-  var $resView = $T.dl("Indexing " + indexType, $resFrag);
-  $dest.trigger(EVT.POST, [$resView]);
+  $dest.toggleInvis(false);
+  $ivTitle.empty().text("Indexing " + indexType);
+  $ivContent.empty().append($dest.data()[indexType]());
  }
  
- function empty(evt)
+ function close(evt)
  {
-  $dest.empty();
+  $ivTitle.empty();
+  $ivContent.empty();
+  $dest.toggleInvis(true);
  }
  
- return $dest.on(EVT.POST, post)
-  .on(EVT.SEARCH, search)
-  .on(EVT.INDEX, index)
-  .on(EVT.CLOSE, empty);
- 
+ return $dest.on(EVT.SEARCH, search).on(EVT.INDEX, index);
 }($("#js-area-index"), $("#js-txt-search")));
 
 
@@ -3286,7 +3296,7 @@ var $SAVER = (function ($detachList){
  $obj.on(EVT.EXPORT, saveJson);
  
  return $obj;
-}($("#js-area-index, #js-area-content")));
+}($("#js-area-content")));
 
 
 
@@ -3376,6 +3386,7 @@ var $IMPORTWIZ = (function ($wiz){
     var fReader = new FileReader();
     fReader.onload = onLoad;
     fReader.onerror = onError;
+    fReader.fileName = file.name;
     fReader.readAsText(file, charset);
    }
    else {$log.log(sizeErrMsg(file.name, MSIZE, fSize));}
@@ -3384,8 +3395,10 @@ var $IMPORTWIZ = (function ($wiz){
  
  function onLoad(evt)
  {
-  var text = evt.target.result;
-  var type = $importAs.filterChecked().val() || DB.MIME.TEXT;
+  var text = evt.target.result,
+   fName = evt.target.fileName || DB.newName(),
+   type = $importAs.filterChecked().val() || DB.MIME.TEXT;
+   
   if (type === DB.MIME.JSON)
   {
    try
@@ -3400,9 +3413,9 @@ var $IMPORTWIZ = (function ($wiz){
    }
    return;
   }
+  $log.log("Imported " + fName);
   
-  $log.log("Data entry import success.");
-  var wNode = DB.newNodeNoConflict(text, type);
+  var wNode = DB.newNodeNoConflict(fName, text, type);
   DB.editNode(wNode, $.parseBBM(text, type).getEdges());
   $CONTENT.trigger(EVT.OPEN, [wNode.title]);
  }
@@ -3480,7 +3493,7 @@ var $POPUPWIZ = (function ($wiz){
  $wiz.on(EVT.LOAD, function (evt){
   $title.empty();
   $content.empty();
-  $wiz.toggleInvis(false).focus();
+  $wiz.toggleInvis(false);
   evt.stopPropagation();
  });
  
@@ -3586,7 +3599,7 @@ var $ERRORWIZ = (function ($wiz){
   evt.preventDefault();
   if ($parent.hasClass(CLS.TAGS))
   {
-   $POPUPWIZ.trigger(EVT.TAG, [title]).placeUnder($src);
+   $POPUPWIZ.trigger(EVT.TAG, [title]).placeUnder($src).focus();
    evt.stopPropagation();
   }
   else if ($parent.hasClass(CLS.CONTENT))
@@ -3610,7 +3623,7 @@ var $ERRORWIZ = (function ($wiz){
  
  $("#js-txt-search").on(EV.KEYDOWN, function (evt){
   if (evt.which === 13) {$INDEXVIEW.trigger(EVT.SEARCH);}
- });
+ }).focus();
  
  $("#js-b-search").on(EV.CLICK, function (evt){
   $INDEXVIEW.trigger(EVT.SEARCH);
@@ -3625,7 +3638,7 @@ var $ERRORWIZ = (function ($wiz){
  });
  
  $("#js-b-index").on(EV.CLICK, function (evt){
-  $POPUPWIZ.trigger(EVT.INDEX).placeUnder($(evt.target));
+  $POPUPWIZ.trigger(EVT.INDEX).placeUnder($(evt.target)).focus();
   evt.stopPropagation();
  });
  

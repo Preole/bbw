@@ -44,7 +44,7 @@
   evt.preventDefault();
   if ($parent.hasClass(CLS.TAGS))
   {
-   $POPUPWIZ.trigger(EVT.TAG, [title]).placeUnder($src);
+   $POPUPWIZ.trigger(EVT.TAG, [title]).placeUnder($src).focus();
    evt.stopPropagation();
   }
   else if ($parent.hasClass(CLS.CONTENT))
@@ -68,7 +68,7 @@
  
  $("#js-txt-search").on(EV.KEYDOWN, function (evt){
   if (evt.which === 13) {$INDEXVIEW.trigger(EVT.SEARCH);}
- });
+ }).focus();
  
  $("#js-b-search").on(EV.CLICK, function (evt){
   $INDEXVIEW.trigger(EVT.SEARCH);
@@ -83,7 +83,7 @@
  });
  
  $("#js-b-index").on(EV.CLICK, function (evt){
-  $POPUPWIZ.trigger(EVT.INDEX).placeUnder($(evt.target));
+  $POPUPWIZ.trigger(EVT.INDEX).placeUnder($(evt.target)).focus();
   evt.stopPropagation();
  });
  

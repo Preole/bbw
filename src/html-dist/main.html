@@ -38,7 +38,15 @@
  </div>
  
  <div class="css-table">
-  <div id="js-area-index" class="css-index css-top css-toggle js-content"></div>
+  <div id="js-area-index" class="css-index css-top js-css-invis js-content">
+   <dl>
+    <dt class="css-table css-pad">
+     <span id="js-area-index-title"></span>
+     <span class="css-right"><button type="button" class="js-b-close">Close</button></span>
+    </dt>
+    <dd id="js-area-index-content"></dd>
+   </dl>
+  </div>
   <div id="js-area-content" class="css-top"></div>
  </div>
  
@@ -216,20 +224,20 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
  <input class="js-i-title" type="text">
 </fieldset>
 <fieldset>
- <legend>Mime type</legend>
- <select class="js-i-mime">
-  <option value="text/x-bbm">BakaBakaMark Wiki Text</option>
-  <option value="text/html">Raw HTML</option>
-  <option value="text/plain">Plain Text</option>
- </select>
+ <legend>Tags (Separated by line breaks)</legend>
+ <textarea class="js-i-tags" rows="5" cols="80"></textarea>
 </fieldset>
 <fieldset>
  <legend>WikiText source code</legend>
  <textarea class="js-i-src css-tall" rows="20" cols="80"></textarea>
 </fieldset>
 <fieldset>
- <legend>Tags (Separated by line breaks)</legend>
- <textarea class="js-i-tags" rows="5" cols="80"></textarea>
+ <legend>Mime type</legend>
+ <select class="js-i-mime">
+  <option value="text/x-bbm">BakaBakaMark Wiki Text</option>
+  <option value="text/html">Raw HTML</option>
+  <option value="text/plain">Plain Text</option>
+ </select>
 </fieldset>
 </form>
 </script>

@@ -41,7 +41,7 @@ var $POPUPWIZ = (function ($wiz){
  $wiz.on(EVT.LOAD, function (evt){
   $title.empty();
   $content.empty();
-  $wiz.toggleInvis(false).focus();
+  $wiz.toggleInvis(false);
   evt.stopPropagation();
  });
  

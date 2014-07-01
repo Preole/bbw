@@ -4,6 +4,10 @@
 
 var $INDEXVIEW = (function ($dest, $text){
  
+ var $ivTitle = $dest.find("#js-area-index-title");
+ var $ivContent = $dest.find("#js-area-index-content");
+ var $ivCloseBtn = $dest.find(".js-b-close").on(EV.CLICK, close);
+ 
  $dest.data({
   Title : function ()
   {
@@ -34,46 +38,33 @@ var $INDEXVIEW = (function ($dest, $text){
    return $T.linksDL(DB.indexMime());
   }
  });
- 
- function post(evt, $frag)
- {
-  $dest.empty();
-  if ($frag instanceof jQuery) 
-  {
-   $frag.linkify();
-   $dest.append($frag);
-  }
- }
- 
+
  function search(evt)
  {
-  $dest.trigger(EVT.POST);
-  
   var wordList = STR.words($text.val());
   if (wordList.length <= 0) {return;}
   
-  var titles = DB.indexSearch(wordList),
-   message = "Found " + titles.length + " match(es).";
+  var titles = DB.indexSearch(wordList);
   
-  $dest.trigger(EVT.POST, [$T.dl(message, $T.linksPara(titles))]);
+  $dest.toggleInvis(false);
+  $ivTitle.empty().text("Found " + titles.length + " match(es).");
+  $ivContent.empty().append($T.linksPara(titles));
  }
  
  function index(evt, indexType)
  {
-  var $resFrag = $dest.data()[indexType]();
-  var $resView = $T.dl("Indexing " + indexType, $resFrag);
-  $dest.trigger(EVT.POST, [$resView]);
+  $dest.toggleInvis(false);
+  $ivTitle.empty().text("Indexing " + indexType);
+  $ivContent.empty().append($dest.data()[indexType]());
  }
  
- function empty(evt)
+ function close(evt)
  {
-  $dest.empty();
+  $ivTitle.empty();
+  $ivContent.empty();
+  $dest.toggleInvis(true);
  }
  
- return $dest.on(EVT.POST, post)
-  .on(EVT.SEARCH, search)
-  .on(EVT.INDEX, index)
-  .on(EVT.CLOSE, empty);
- 
+ return $dest.on(EVT.SEARCH, search).on(EVT.INDEX, index);
 }($("#js-area-index"), $("#js-txt-search")));
 
