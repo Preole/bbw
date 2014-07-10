@@ -1,5 +1,5 @@
 /* requires $plugins.js */
-/* requires $T.js */
+/* requires $TMPL.js */
 
 
 var $CONTENT = (function ($baseEle){
@@ -78,11 +78,11 @@ var $CONTENT = (function ($baseEle){
   }
   if (isEdit)
   {
-   $oMap.add(title, $T.edit(DB.getNode(title)));
+   $oMap.add(title, $TMPL.edit(DB.getNode(title)));
   }
   else
   {
-   $oMap.add(title, $T.view(DB.getNode(title)));
+   $oMap.add(title, $TMPL.view(DB.getNode(title)));
   }
  }
  
@@ -130,12 +130,12 @@ var $CONTENT = (function ($baseEle){
   var $frag = $.parseBBM(wNode.src, wNode.mime);
   
   DB.editNode(wNode, $frag.getEdges(), title);
-  $oMap.replace(wNode.title, $T.view(wNode, $frag), title);
+  $oMap.replace(wNode.title, $TMPL.view(wNode, $frag), title);
  }
  
  function cancel(evt, title)
  {
-  $oMap.add(title, $T.view(DB.getNode(title)));
+  $oMap.add(title, $TMPL.view(DB.getNode(title)));
  }
  
  function remove(evt, title)

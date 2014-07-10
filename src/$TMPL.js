@@ -1,6 +1,6 @@
 /* requires $plugins.js */
-
-var $T = (function ()
+//Templates used in the project.
+var $TMPL = (function ()
 {
  var d = new Date(),
   $tEdit = $($("#js-t-edit").html()),
@@ -24,10 +24,11 @@ var $T = (function ()
  function t_edit(wNode)
  {
   var $edit = $tEdit.clone();
+  
   $edit.find(".js-i-old-title").text("Editing \"" + wNode.title + "\"");
   $edit.find(".js-i-title").val(wNode.title);
   $edit.find(".js-i-src").val(wNode.src);
-  $edit.find(".js-i-tags").val(wNode.tags.join("\n"));
+  $edit.find(".js-i-tags").val(wNode.tags.join(" || "));
   $edit.find(".js-i-mime").val(wNode.mime || DB.MIME.TEXT);
   $edit.data("title", wNode.title);
   return $edit;

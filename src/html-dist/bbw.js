@@ -72,25 +72,9 @@ zb(Ba(0,b),a.length);return a};e.VERSION="2.4.1";Y._=e}.call(this));
  * native String literals and classes. Contains a selection of static methods
  * that are needed by the BareBonesWiki project.
  *
- * White space character regular expression, including the ASCII white 
- * space `\u0020`
- *
- * ```
- * [
- *  \u2000-\u200d\t\u202f\u205f\u3000\u1680
- *  \u180e\u00a0\u00b7\u237d\u2420\u2422\u2423
- * ]
- * ```
- *
- * Line break regular expression (Also known as control characters)
- *
- * ```
- * [\v\f\r\n\u0085\u2028\u2029]
- * ```
- *
  * Sample invocation:
  *
- * STR.lines("Some\nStr\n").filter(STR.isBlank).map(STR.titleize);
+ * STR.words("Some\nStr\n").filter(STR.isBlank).map(STR.titleize);
  *
  * @module STR
  * @main STR
@@ -105,8 +89,9 @@ var STR = (function()
   REGEX_NL_G = new RegExp(NL, "g"),
   REGEX_WS_WS_G = new RegExp(WS + WS + "+", "g"),
   REGEX_BLANK = /^\s*$/,
-  REGEX_QUOTE_G = /"[^"]+"|[^"]+/g;
-  REGEX_QUOTE_HT = /^"[^"]+"$/;
+  REGEX_QUOTE_G = /"[^"]+"|[^"]+/g,
+  REGEX_QUOTE_HT = /^"[^"]+"$/,
+  REGEX_PIPES_G = /[^|\r\n\v\f\u0085\u0028\u0029]+(\|\|)?/g;
   
  /**
   * Tests if the given input is a string consisting of solely control
@@ -168,27 +153,31 @@ var STR = (function()
  {
   return str.replace(/(^"+)|("+$)/g, "");
  }
-
- /**
-  * Tokenizes the string by line, breaking it into an array of substrings.
-  *
-  * @method lines
-  * @param str {string} The input string to transform.
-  * @return {Array of string} 
-  * The original string delimited by line break characters, where each
-  * slot in the array denotes the content on a particular line. The array
-  * is consecutive (not holey) and all characters except line breaks 
-  * are preserved.
-  */
- function lines(str)
+ 
+ //Strips leading and trailing pipes (At least two)
+ function trimPipes(str)
  {
-  REGEX_NL_G.lastIndex = 0;
-  return str.split(REGEX_NL_G);
+  return str.replace(/(^\|\|+)|(\|\|+$)/g, "");
  }
 
  /**
-  * Tokenizes the string by words, treating it as a single long line of 
-  * characters, then split it up into an array;
+  * Tokenizes the string by double pipes, splitting it into an array.
+  *
+  * @method wordsByPipes
+  * @param str {string} The input string to transform.
+  * @return {Array of string} 
+  * The original string, with each word or phrase delimited by two or more
+  * consecutive ASCII pipe characters: "||"
+  */
+ function wordsByPipes(str)
+ {
+  return (str.match(REGEX_PIPES_G) || [])
+   .map(trimPipes)
+   .map(titleize);
+ }
+
+ /**
+  * Tokenizes the string by words, splitting it into an array;
   *
   * @method words
   * @param str {string} The input string to transform.
@@ -262,9 +251,9 @@ var STR = (function()
   hasSubstring : hasSubstring,
   hasSubstringArray : hasSubstringArray,
   trim : trim,
-  lines : lines,
   titleize : titleize,
   words : words,
+  wordsByPipes : wordsByPipes,
   isBlank : isBlank,
   isNotBlank : isNotBlank
  };
@@ -916,7 +905,7 @@ var DB = (function ()
    var obj =
    {
     title : _.isString(title) ? STR.titleize(title) : "BareBonesWiki",
-    startup : startup ? uniqueLines(startup) : [],
+    startup : startup ? uniqueWords(startup, STR.wordsByPipes) : [],
     cfmDel : !!cfmDel,
     cfmNav : !!cfmNav,
     searchCase : !!searchCase
@@ -953,7 +942,7 @@ var DB = (function ()
  var WikiNode = (function (){
   function defaultTags(tagStr)
   {
-   var tags = uniqueLines(tagStr);
+   var tags = uniqueWords(tagStr, STR.wordsByPipes);
    if (tags.length < 1)
    {
     tags.push("Uncategorized");
@@ -1075,24 +1064,15 @@ var DB = (function ()
  var NODES = {}, //Node set; Plain object
   EDGES = LooseEdge(), //Edge set; Special class
   CONFIG = Config.create(); //Config; Plain object
-
+  
  
- 
- //String array transformation.
- function uniqueLines(strArr)
+ function uniqueWords(strArr, delimCallback)
  {
-  var strArray = _.isString(strArr) ? STR.lines(strArr) :
+  var delimFunc = _.isFunction(delimCallback) ? delimCallback : STR.words;
+  var strArray = _.isString(strArr) ? delimFunc(strArr) :
    _.isArray(strArr) ? strArr.filter(_.isString) : [];
    
-  return _.uniq(strArray.filter(STR.isNotBlank).map(STR.titleize));
- }
- 
- function uniqueWords(strArr)
- {
-  var strArray = _.isString(strArr) ? STR.words(strArr) :
-   _.isArray(strArr) ? strArr.filter(_.isString) : [];
-   
-  return _.uniq(strArray);
+  return _.uniq(strArray.filter(STR.isNotBlank));
  }
  
  function itSearchNode(acc, wNode, key, plainObj)
@@ -1753,8 +1733,8 @@ var CSS =
 
 
 /* requires $plugins.js */
-
-var $T = (function ()
+//Templates used in the project.
+var $TMPL = (function ()
 {
  var d = new Date(),
   $tEdit = $($("#js-t-edit").html()),
@@ -1778,10 +1758,11 @@ var $T = (function ()
  function t_edit(wNode)
  {
   var $edit = $tEdit.clone();
+  
   $edit.find(".js-i-old-title").text("Editing \"" + wNode.title + "\"");
   $edit.find(".js-i-title").val(wNode.title);
   $edit.find(".js-i-src").val(wNode.src);
-  $edit.find(".js-i-tags").val(wNode.tags.join("\n"));
+  $edit.find(".js-i-tags").val(wNode.tags.join(" || "));
   $edit.find(".js-i-mime").val(wNode.mime || DB.MIME.TEXT);
   $edit.data("title", wNode.title);
   return $edit;
@@ -1886,7 +1867,7 @@ var $T = (function ()
 
 
 /* requires $plugins.js */
-/* requires $T.js */
+/* requires $TMPL.js */
 
 
 var $CONTENT = (function ($baseEle){
@@ -1965,11 +1946,11 @@ var $CONTENT = (function ($baseEle){
   }
   if (isEdit)
   {
-   $oMap.add(title, $T.edit(DB.getNode(title)));
+   $oMap.add(title, $TMPL.edit(DB.getNode(title)));
   }
   else
   {
-   $oMap.add(title, $T.view(DB.getNode(title)));
+   $oMap.add(title, $TMPL.view(DB.getNode(title)));
   }
  }
  
@@ -2017,12 +1998,12 @@ var $CONTENT = (function ($baseEle){
   var $frag = $.parseBBM(wNode.src, wNode.mime);
   
   DB.editNode(wNode, $frag.getEdges(), title);
-  $oMap.replace(wNode.title, $T.view(wNode, $frag), title);
+  $oMap.replace(wNode.title, $TMPL.view(wNode, $frag), title);
  }
  
  function cancel(evt, title)
  {
-  $oMap.add(title, $T.view(DB.getNode(title)));
+  $oMap.add(title, $TMPL.view(DB.getNode(title)));
  }
  
  function remove(evt, title)
@@ -2074,7 +2055,7 @@ var $CONTENT = (function ($baseEle){
 
 
 /* requires $plugins.js */
-/* requires $T.js */
+/* requires $TMPL.js */
 
 
 var $INDEXVIEW = (function ($dest, $text){
@@ -2086,31 +2067,31 @@ var $INDEXVIEW = (function ($dest, $text){
  $dest.data({
   Title : function ()
   {
-   return $T.linksPara(DB.indexTitles());
+   return $TMPL.linksPara(DB.indexTitles());
   },
   Tags : function ()
   {
-   return $T.linksDL(DB.indexTags());
+   return $TMPL.linksDL(DB.indexTags());
   },
   Created : function ()
   {
-   return $T.linksDL(DB.indexCreated());
+   return $TMPL.linksDL(DB.indexCreated());
   },
   Recent : function ()
   {
-   return $T.linksDL(DB.indexEdited());
+   return $TMPL.linksDL(DB.indexEdited());
   },
   Orphan : function ()
   {
-   return $T.linksPara(DB.indexOrphans());
+   return $TMPL.linksPara(DB.indexOrphans());
   },
   Backlink : function ()
   {
-   return $T.linksDL(DB.indexBacklinks(), true);
+   return $TMPL.linksDL(DB.indexBacklinks(), true);
   },
   Mime : function ()
   {
-   return $T.linksDL(DB.indexMime());
+   return $TMPL.linksDL(DB.indexMime());
   }
  });
 
@@ -2123,7 +2104,7 @@ var $INDEXVIEW = (function ($dest, $text){
   
   $dest.toggleInvis(false);
   $ivTitle.empty().text("Found " + titles.length + " match(es).");
-  $ivContent.empty().append($T.linksPara(titles));
+  $ivContent.empty().append($TMPL.linksPara(titles));
  }
  
  function index(evt, indexType)
@@ -2464,7 +2445,7 @@ var $CONFIGWIZ = (function ($cfg){
   var cfg = DB.getConfig();
   
   $docTitle.val(cfg.title);
-  $startup.val(cfg.startup.join("\n"));
+  $startup.val(cfg.startup.join(" || "));
   $cfmDel.checked(cfg.cfmDel);
   $cfmNav.checked(cfg.cfmNav);
   $searchCase.checked(cfg.searchCase);
@@ -2636,7 +2617,7 @@ var $POPUPWIZ = (function ($wiz){
  
  $wiz.on(EVT.INDEX, function (evt){
   var indices = _.keys($INDEXVIEW.data());
-  var $links = $T.linksPara(indices);
+  var $links = $TMPL.linksPara(indices);
  
   $wiz.trigger(EVT.LOAD);
   $title.text("Choose an index type...");
@@ -2648,7 +2629,7 @@ var $POPUPWIZ = (function ($wiz){
  $wiz.on(EVT.TAG, function (evt, tagName){
   $wiz.trigger(EVT.LOAD);
   $title.text(tagName);
-  $content.append($T.linksPara(DB.indexTagSingle(tagName)));
+  $content.append($TMPL.linksPara(DB.indexTagSingle(tagName)));
   
   MODE = MODE_ENUM.TAGS;
  });

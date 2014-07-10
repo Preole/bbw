@@ -29,7 +29,7 @@ var $CONFIGWIZ = (function ($cfg){
   var cfg = DB.getConfig();
   
   $docTitle.val(cfg.title);
-  $startup.val(cfg.startup.join("\n"));
+  $startup.val(cfg.startup.join(" || "));
   $cfmDel.checked(cfg.cfmDel);
   $cfmNav.checked(cfg.cfmNav);
   $searchCase.checked(cfg.searchCase);

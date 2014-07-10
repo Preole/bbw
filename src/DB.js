@@ -28,7 +28,7 @@ var DB = (function ()
    var obj =
    {
     title : _.isString(title) ? STR.titleize(title) : "BareBonesWiki",
-    startup : startup ? uniqueLines(startup) : [],
+    startup : startup ? uniqueWords(startup, STR.wordsByPipes) : [],
     cfmDel : !!cfmDel,
     cfmNav : !!cfmNav,
     searchCase : !!searchCase
@@ -65,7 +65,7 @@ var DB = (function ()
  var WikiNode = (function (){
   function defaultTags(tagStr)
   {
-   var tags = uniqueLines(tagStr);
+   var tags = uniqueWords(tagStr, STR.wordsByPipes);
    if (tags.length < 1)
    {
     tags.push("Uncategorized");
@@ -187,24 +187,15 @@ var DB = (function ()
  var NODES = {}, //Node set; Plain object
   EDGES = LooseEdge(), //Edge set; Special class
   CONFIG = Config.create(); //Config; Plain object
-
+  
  
- 
- //String array transformation.
- function uniqueLines(strArr)
+ function uniqueWords(strArr, delimCallback)
  {
-  var strArray = _.isString(strArr) ? STR.lines(strArr) :
+  var delimFunc = _.isFunction(delimCallback) ? delimCallback : STR.words;
+  var strArray = _.isString(strArr) ? delimFunc(strArr) :
    _.isArray(strArr) ? strArr.filter(_.isString) : [];
    
-  return _.uniq(strArray.filter(STR.isNotBlank).map(STR.titleize));
- }
- 
- function uniqueWords(strArr)
- {
-  var strArray = _.isString(strArr) ? STR.words(strArr) :
-   _.isArray(strArr) ? strArr.filter(_.isString) : [];
-   
-  return _.uniq(strArray);
+  return _.uniq(strArray.filter(STR.isNotBlank));
  }
  
  function itSearchNode(acc, wNode, key, plainObj)

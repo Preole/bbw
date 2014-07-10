@@ -6,25 +6,9 @@
  * native String literals and classes. Contains a selection of static methods
  * that are needed by the BareBonesWiki project.
  *
- * White space character regular expression, including the ASCII white 
- * space `\u0020`
- *
- * ```
- * [
- *  \u2000-\u200d\t\u202f\u205f\u3000\u1680
- *  \u180e\u00a0\u00b7\u237d\u2420\u2422\u2423
- * ]
- * ```
- *
- * Line break regular expression (Also known as control characters)
- *
- * ```
- * [\v\f\r\n\u0085\u2028\u2029]
- * ```
- *
  * Sample invocation:
  *
- * STR.lines("Some\nStr\n").filter(STR.isBlank).map(STR.titleize);
+ * STR.words("Some\nStr\n").filter(STR.isBlank).map(STR.titleize);
  *
  * @module STR
  * @main STR
@@ -39,8 +23,9 @@ var STR = (function()
   REGEX_NL_G = new RegExp(NL, "g"),
   REGEX_WS_WS_G = new RegExp(WS + WS + "+", "g"),
   REGEX_BLANK = /^\s*$/,
-  REGEX_QUOTE_G = /"[^"]+"|[^"]+/g;
-  REGEX_QUOTE_HT = /^"[^"]+"$/;
+  REGEX_QUOTE_G = /"[^"]+"|[^"]+/g,
+  REGEX_QUOTE_HT = /^"[^"]+"$/,
+  REGEX_PIPES_G = /[^|\r\n\v\f\u0085\u0028\u0029]+(\|\|)?/g;
   
  /**
   * Tests if the given input is a string consisting of solely control
@@ -102,27 +87,31 @@ var STR = (function()
  {
   return str.replace(/(^"+)|("+$)/g, "");
  }
-
- /**
-  * Tokenizes the string by line, breaking it into an array of substrings.
-  *
-  * @method lines
-  * @param str {string} The input string to transform.
-  * @return {Array of string} 
-  * The original string delimited by line break characters, where each
-  * slot in the array denotes the content on a particular line. The array
-  * is consecutive (not holey) and all characters except line breaks 
-  * are preserved.
-  */
- function lines(str)
+ 
+ //Strips leading and trailing pipes (At least two)
+ function trimPipes(str)
  {
-  REGEX_NL_G.lastIndex = 0;
-  return str.split(REGEX_NL_G);
+  return str.replace(/(^\|\|+)|(\|\|+$)/g, "");
  }
 
  /**
-  * Tokenizes the string by words, treating it as a single long line of 
-  * characters, then split it up into an array;
+  * Tokenizes the string by double pipes, splitting it into an array.
+  *
+  * @method wordsByPipes
+  * @param str {string} The input string to transform.
+  * @return {Array of string} 
+  * The original string, with each word or phrase delimited by two or more
+  * consecutive ASCII pipe characters: "||"
+  */
+ function wordsByPipes(str)
+ {
+  return (str.match(REGEX_PIPES_G) || [])
+   .map(trimPipes)
+   .map(titleize);
+ }
+
+ /**
+  * Tokenizes the string by words, splitting it into an array;
   *
   * @method words
   * @param str {string} The input string to transform.
@@ -196,9 +185,9 @@ var STR = (function()
   hasSubstring : hasSubstring,
   hasSubstringArray : hasSubstringArray,
   trim : trim,
-  lines : lines,
   titleize : titleize,
   words : words,
+  wordsByPipes : wordsByPipes,
   isBlank : isBlank,
   isNotBlank : isNotBlank
  };

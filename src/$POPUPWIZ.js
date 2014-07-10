@@ -53,7 +53,7 @@ var $POPUPWIZ = (function ($wiz){
  
  $wiz.on(EVT.INDEX, function (evt){
   var indices = _.keys($INDEXVIEW.data());
-  var $links = $T.linksPara(indices);
+  var $links = $TMPL.linksPara(indices);
  
   $wiz.trigger(EVT.LOAD);
   $title.text("Choose an index type...");
@@ -65,7 +65,7 @@ var $POPUPWIZ = (function ($wiz){
  $wiz.on(EVT.TAG, function (evt, tagName){
   $wiz.trigger(EVT.LOAD);
   $title.text(tagName);
-  $content.append($T.linksPara(DB.indexTagSingle(tagName)));
+  $content.append($TMPL.linksPara(DB.indexTagSingle(tagName)));
   
   MODE = MODE_ENUM.TAGS;
  });

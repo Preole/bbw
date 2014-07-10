@@ -1,5 +1,5 @@
 /* requires $plugins.js */
-/* requires $T.js */
+/* requires $TMPL.js */
 
 
 var $INDEXVIEW = (function ($dest, $text){
@@ -11,31 +11,31 @@ var $INDEXVIEW = (function ($dest, $text){
  $dest.data({
   Title : function ()
   {
-   return $T.linksPara(DB.indexTitles());
+   return $TMPL.linksPara(DB.indexTitles());
   },
   Tags : function ()
   {
-   return $T.linksDL(DB.indexTags());
+   return $TMPL.linksDL(DB.indexTags());
   },
   Created : function ()
   {
-   return $T.linksDL(DB.indexCreated());
+   return $TMPL.linksDL(DB.indexCreated());
   },
   Recent : function ()
   {
-   return $T.linksDL(DB.indexEdited());
+   return $TMPL.linksDL(DB.indexEdited());
   },
   Orphan : function ()
   {
-   return $T.linksPara(DB.indexOrphans());
+   return $TMPL.linksPara(DB.indexOrphans());
   },
   Backlink : function ()
   {
-   return $T.linksDL(DB.indexBacklinks(), true);
+   return $TMPL.linksDL(DB.indexBacklinks(), true);
   },
   Mime : function ()
   {
-   return $T.linksDL(DB.indexMime());
+   return $TMPL.linksDL(DB.indexMime());
   }
  });
 
@@ -48,7 +48,7 @@ var $INDEXVIEW = (function ($dest, $text){
   
   $dest.toggleInvis(false);
   $ivTitle.empty().text("Found " + titles.length + " match(es).");
-  $ivContent.empty().append($T.linksPara(titles));
+  $ivContent.empty().append($TMPL.linksPara(titles));
  }
  
  function index(evt, indexType)
