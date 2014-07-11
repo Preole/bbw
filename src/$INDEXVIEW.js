@@ -6,7 +6,7 @@ var $INDEXVIEW = (function ($dest, $text){
  
  var $ivTitle = $dest.find("#js-area-index-title");
  var $ivContent = $dest.find("#js-area-index-content");
- var $ivCloseBtn = $dest.find(".js-b-close").on(EV.CLICK, close);
+ var $ivCloseBtn = $dest.find(CSS.B_CLOSE).on(EV.CLICK, close);
  
  $dest.data({
   Title : function ()

@@ -29,10 +29,16 @@
  {
   DB.indexEditedFlat().slice(0, 5).reverse().forEach(initRecent);
  }
-
+ 
+ 
  //If a click event manages to bubble up to here, close the popup.
  $body.on(EV.CLICK, function (evt){
   $POPUPWIZ.trigger(EVT.CLOSE);
+ });
+ 
+ //Self-deleting buttons should remove themselves when clicked.
+ $body.on(EV.CLICK, CSS.B_SELF_DEL, function (evt){
+  $(this).remove();
  });
  
  //Handles wiki link click events in general

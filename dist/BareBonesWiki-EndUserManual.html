@@ -194,6 +194,10 @@ margin: 1em 0;
 min-height: 20em;
 }
 
+.css-short-field {
+width: 16em !important;
+}
+
 .js-css-invis {
 display: none !important;
 }
@@ -521,7 +525,7 @@ background: #000;
  <input id="js-i-cfg-title" type="text">
  </fieldset>
  <fieldset>
- <legend>Startup Titles (Line-break delimited)</legend>
+ <legend>Startup Titles (Delimited by Line-breaks or "<code style="background: inherit;">||</code>")</legend>
  <textarea cols="30" rows="10" id="js-i-cfg-startup"></textarea>
  </fieldset>
  <fieldset>
@@ -622,8 +626,15 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
  <input class="js-i-title" type="text">
 </fieldset>
 <fieldset>
- <legend>Tags (Separated by line breaks)</legend>
- <textarea class="js-i-tags" rows="5" cols="80"></textarea>
+ <legend>Tags</legend>
+ <div class="js-ctrl">
+  <select class="js-s-tags-lookup">
+   <option value="">-- Clear --</option>
+  </select>
+  <input class="js-i-tags-add css-short-field" type="text">
+  <button class="js-b-tags-add" type="button">+</button>
+ </div>
+ <div class="js-tags css-index"></div>
 </fieldset>
 <fieldset>
  <legend>WikiText source code</legend>
@@ -641,6 +652,12 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </script>
 
 <!--Replaceable HTML fragments-->
+<script type="text/html" id="js-t-button-del">
+<button type="button" class="js-css-wlink js-b-self-del">
+ <span class="js-b-self-del-text"></span>
+ <span>✘</span>
+</button>
+</script>
 <script type="text/html" id="js-t-dl">
 <dl></dl>
 </script>
@@ -941,25 +958,9 @@ zb(Ba(0,b),a.length);return a};e.VERSION="2.4.1";Y._=e}.call(this));
  * native String literals and classes. Contains a selection of static methods
  * that are needed by the BareBonesWiki project.
  *
- * White space character regular expression, including the ASCII white 
- * space `\u0020`
- *
- * ```
- * [
- *  \u2000-\u200d\t\u202f\u205f\u3000\u1680
- *  \u180e\u00a0\u00b7\u237d\u2420\u2422\u2423
- * ]
- * ```
- *
- * Line break regular expression (Also known as control characters)
- *
- * ```
- * [\v\f\r\n\u0085\u2028\u2029]
- * ```
- *
  * Sample invocation:
  *
- * STR.lines("Some\nStr\n").filter(STR.isBlank).map(STR.titleize);
+ * STR.words("Some\nStr\n").filter(STR.isBlank).map(STR.titleize);
  *
  * @module STR
  * @main STR
@@ -974,8 +975,9 @@ var STR = (function()
   REGEX_NL_G = new RegExp(NL, "g"),
   REGEX_WS_WS_G = new RegExp(WS + WS + "+", "g"),
   REGEX_BLANK = /^\s*$/,
-  REGEX_QUOTE_G = /"[^"]+"|[^"]+/g;
-  REGEX_QUOTE_HT = /^"[^"]+"$/;
+  REGEX_QUOTE_G = /"[^"]+"|[^"]+/g,
+  REGEX_QUOTE_HT = /^"[^"]+"$/,
+  REGEX_PIPES_G = /[^|\r\n\v\f\u0085\u0028\u0029]+(\|\|)?/g;
   
  /**
   * Tests if the given input is a string consisting of solely control
@@ -1037,27 +1039,31 @@ var STR = (function()
  {
   return str.replace(/(^"+)|("+$)/g, "");
  }
-
- /**
-  * Tokenizes the string by line, breaking it into an array of substrings.
-  *
-  * @method lines
-  * @param str {string} The input string to transform.
-  * @return {Array of string} 
-  * The original string delimited by line break characters, where each
-  * slot in the array denotes the content on a particular line. The array
-  * is consecutive (not holey) and all characters except line breaks 
-  * are preserved.
-  */
- function lines(str)
+ 
+ //Strips leading and trailing pipes (At least two)
+ function trimPipes(str)
  {
-  REGEX_NL_G.lastIndex = 0;
-  return str.split(REGEX_NL_G);
+  return str.replace(/(^\|\|+)|(\|\|+$)/g, "");
  }
 
  /**
-  * Tokenizes the string by words, treating it as a single long line of 
-  * characters, then split it up into an array;
+  * Tokenizes the string by double pipes, splitting it into an array.
+  *
+  * @method wordsByPipes
+  * @param str {string} The input string to transform.
+  * @return {Array of string} 
+  * The original string, with each word or phrase delimited by two or more
+  * consecutive ASCII pipe characters: "||"
+  */
+ function wordsByPipes(str)
+ {
+  return (str.match(REGEX_PIPES_G) || [])
+   .map(trimPipes)
+   .map(titleize);
+ }
+
+ /**
+  * Tokenizes the string by words, splitting it into an array;
   *
   * @method words
   * @param str {string} The input string to transform.
@@ -1131,9 +1137,9 @@ var STR = (function()
   hasSubstring : hasSubstring,
   hasSubstringArray : hasSubstringArray,
   trim : trim,
-  lines : lines,
   titleize : titleize,
   words : words,
+  wordsByPipes : wordsByPipes,
   isBlank : isBlank,
   isNotBlank : isNotBlank
  };
@@ -1785,7 +1791,7 @@ var DB = (function ()
    var obj =
    {
     title : _.isString(title) ? STR.titleize(title) : "BareBonesWiki",
-    startup : startup ? uniqueLines(startup) : [],
+    startup : startup ? uniqueWords(startup, STR.wordsByPipes) : [],
     cfmDel : !!cfmDel,
     cfmNav : !!cfmNav,
     searchCase : !!searchCase
@@ -1822,7 +1828,7 @@ var DB = (function ()
  var WikiNode = (function (){
   function defaultTags(tagStr)
   {
-   var tags = uniqueLines(tagStr);
+   var tags = uniqueWords(tagStr, STR.wordsByPipes).sort();
    if (tags.length < 1)
    {
     tags.push("Uncategorized");
@@ -1944,24 +1950,15 @@ var DB = (function ()
  var NODES = {}, //Node set; Plain object
   EDGES = LooseEdge(), //Edge set; Special class
   CONFIG = Config.create(); //Config; Plain object
-
+  
  
- 
- //String array transformation.
- function uniqueLines(strArr)
+ function uniqueWords(strArr, delimCallback)
  {
-  var strArray = _.isString(strArr) ? STR.lines(strArr) :
+  var delimFunc = _.isFunction(delimCallback) ? delimCallback : STR.words;
+  var strArray = _.isString(strArr) ? delimFunc(strArr) :
    _.isArray(strArr) ? strArr.filter(_.isString) : [];
    
-  return _.uniq(strArray.filter(STR.isNotBlank).map(STR.titleize));
- }
- 
- function uniqueWords(strArr)
- {
-  var strArray = _.isString(strArr) ? STR.words(strArr) :
-   _.isArray(strArr) ? strArr.filter(_.isString) : [];
-   
-  return _.uniq(strArray);
+  return _.uniq(strArray.filter(STR.isNotBlank));
  }
  
  function itSearchNode(acc, wNode, key, plainObj)
@@ -2191,7 +2188,9 @@ var DB = (function ()
  
  function getNode(title)
  {
-  return hasNode(title) ? NODES[title] : WikiNode.create(title);
+  var wNode =  hasNode(title) ? NODES[title] : WikiNode.create(title);
+  wNode.tags.sort();
+  return wNode;
  }
  
  function setConfig(cfgObj)
@@ -2308,6 +2307,8 @@ var EVT =
  DELETE : "delete",
  CANCEL : "cancel",
  COMMIT : "finish",
+ ADDTAG : "addtag",
+ SETTAG : "settag",
  
  //Indexing & searching + search result view area.
  TAG : "tag",
@@ -2355,6 +2356,8 @@ var CSS =
  CONTENT : ".js-content",
  CONTENT_DELEGATE : ".js-tags, .js-content",
  B_CLOSE : ".js-b-close",
+ B_SELF_DEL : ".js-b-self-del",
+ B_SELF_DEL_TEXT : ".js-b-self-del-text",
  B_SAVE : ".js-b-save"
 };
 
@@ -2366,6 +2369,16 @@ var CSS =
 /*jQuery convenience & alias plugins, plus CSS manipulation*/
 (function ($){
  var protoExtend = (function (){
+ 
+  function textArray()
+  {
+   var texts = this.toArray();
+   texts.forEach(function (val, index){
+    texts[index] = $(val).text();
+   });
+   return texts;
+  }
+  
   function filterChecked()
   {
    return this.filter(":checked");
@@ -2459,6 +2472,7 @@ var CSS =
 
 
   return {
+   textArray : textArray,
    filterChecked : filterChecked,
    checked : checked,
    log : log,
@@ -2622,8 +2636,8 @@ var CSS =
 
 
 /* requires $plugins.js */
-
-var $T = (function ()
+//Templates used in the project.
+var $TMPL = (function ()
 {
  var d = new Date(),
   $tEdit = $($("#js-t-edit").html()),
@@ -2633,6 +2647,7 @@ var $T = (function ()
   $tDD = $($("#js-t-dd").html()),
   $tPara = $($("#js-t-para").html()),
   $tButton = $($("#js-t-button").html()),
+  $tButtonDel = $($("#js-t-button-del").html()),
   $tLinkW = $($("#js-t-wlink").html());
  
  function sigStr(msEdited, msCreated)
@@ -2643,15 +2658,29 @@ var $T = (function ()
   var created = d.toLocaleString();
   return ("Edited: " + edited + " (Created: " + created + ")");
  }
+ 
+ function t_options(valueList, displayTextList)
+ {
+  var textList = displayTextList ? displayTextList : valueList;
+  var $options = $("");
+  
+  valueList.forEach(function (val, index){
+   $options = $options.add(new Option(textList[index], valueList[index]));
+  });
+  return $options;
+ }
 
  function t_edit(wNode)
  {
   var $edit = $tEdit.clone();
+  var tagIndex = _.pluck(DB.indexTags(), "key").sort();
+  
   $edit.find(".js-i-old-title").text("Editing \"" + wNode.title + "\"");
   $edit.find(".js-i-title").val(wNode.title);
   $edit.find(".js-i-src").val(wNode.src);
-  $edit.find(".js-i-tags").val(wNode.tags.join("\n"));
   $edit.find(".js-i-mime").val(wNode.mime || DB.MIME.TEXT);
+  $edit.find(".js-s-tags-lookup").append(t_options(tagIndex));
+  $edit.find(".js-tags").append(t_buttonsDel(wNode.tags));
   $edit.data("title", wNode.title);
   return $edit;
  }
@@ -2678,6 +2707,23 @@ var $T = (function ()
   .append($tDD.clone().append($frag));
  }
  
+ function t_doButtonsDel(acc, str)
+ {
+  return acc.add(t_buttonDel(str));
+ }
+ 
+ function t_buttonsDel(strList)
+ {
+  return strList.filter(_.isString).reduce(t_doButtonsDel, $(""));
+ }
+ 
+ function t_buttonDel(displayText)
+ {
+  var $buttonDel = $tButtonDel.clone();
+  $buttonDel.find(CSS.B_SELF_DEL_TEXT).text(displayText);
+  return $buttonDel;
+ }
+ 
  function t_button(displayText)
  {
   return $tButton.clone().text(displayText);
@@ -2691,14 +2737,14 @@ var $T = (function ()
    .attr("href", displayText);
  }
  
- function t_doLinks(acc, str, index, array)
+ function t_doLinks(acc, str)
  {
   return acc.add(t_link(str));
  }
  
  function t_links(strList)
  {
-  return strList.filter(_.isString).reduce(t_doLinks, $());
+  return strList.filter(_.isString).reduce(t_doLinks, $(""));
  }
  
  function t_linksDD(strList)
@@ -2743,6 +2789,9 @@ var $T = (function ()
   edit : t_edit,
   view : t_view,
   dl : t_dl,
+  options : t_options,
+  buttonsDel : t_buttonsDel,
+  buttonDel : t_buttonDel,
   button : t_button,
   link : t_link,
   links : t_links,
@@ -2755,7 +2804,7 @@ var $T = (function ()
 
 
 /* requires $plugins.js */
-/* requires $T.js */
+/* requires $TMPL.js */
 
 
 var $CONTENT = (function ($baseEle){
@@ -2834,11 +2883,11 @@ var $CONTENT = (function ($baseEle){
   }
   if (isEdit)
   {
-   $oMap.add(title, $T.edit(DB.getNode(title)));
+   $oMap.add(title, $TMPL.edit(DB.getNode(title)));
   }
   else
   {
-   $oMap.add(title, $T.view(DB.getNode(title)));
+   $oMap.add(title, $TMPL.view(DB.getNode(title)));
   }
  }
  
@@ -2872,26 +2921,27 @@ var $CONTENT = (function ($baseEle){
   return true;
  }
  
- function commit(evt, title, $edit)
+ function commit(evt, title)
  {
-  if (!verifyCommit(title, $edit)) {return;}
+  var $edit = $oMap.get(title);
+  if (!$edit || !verifyCommit(title, $edit)) {return;}
   
   var wNode = DB.newNode(
    $edit.find(".js-i-title").val(),
    $edit.find(".js-i-src").val(),
    $edit.find(".js-i-mime").val() || DB.MIME.TEXT,
-   $edit.find(".js-i-tags").val()
+   $edit.find(".js-tags").find(CSS.B_SELF_DEL_TEXT).textArray()
   );
   
   var $frag = $.parseBBM(wNode.src, wNode.mime);
   
   DB.editNode(wNode, $frag.getEdges(), title);
-  $oMap.replace(wNode.title, $T.view(wNode, $frag), title);
+  $oMap.replace(wNode.title, $TMPL.view(wNode, $frag), title);
  }
  
  function cancel(evt, title)
  {
-  $oMap.add(title, $T.view(DB.getNode(title)));
+  $oMap.add(title, $TMPL.view(DB.getNode(title)));
  }
  
  function remove(evt, title)
@@ -2904,6 +2954,33 @@ var $CONTENT = (function ($baseEle){
   $oMap.remove(title);
  }
  
+ function addTag(evt, title, tag)
+ {
+  var $edit = $oMap.get(title);
+  if (!$edit) {return;}
+  
+  var $tagTextField = $edit.find(".js-i-tags-add");
+  var tagText = STR.titleize(tag || $tagTextField.val());
+  if (tagText.length <= 0) {return;}
+  
+  $edit.find(".js-tags").append($TMPL.buttonDel(tagText));
+  $tagTextField.val("");
+ }
+ 
+ function setTag(evt, title)
+ {
+  var $edit = $oMap.get(title);
+  if (!$edit) {return;}
+  
+  var tagText = $edit.find(".js-s-tags-lookup").val() || "";
+  addTag.call(this, evt, title, tagText);
+ }
+ 
+ function dispatchEnter(evt)
+ {
+  if (evt.which === 13) {dispatch.call(this, evt);}
+ }
+ 
  function dispatch(evt)
  {
   var $e = $(this),
@@ -2911,14 +2988,7 @@ var $CONTENT = (function ($baseEle){
    title = $form.data().title,
    op = evt.data;
   
-  if (op === EVT.COMMIT)
-  {
-   $baseEle.trigger(op, [title, $form]);
-  }
-  else
-  {
-   $baseEle.trigger(op, [title]);
-  }
+  $baseEle.trigger(op, [title]);
  }
  
 
@@ -2929,6 +2999,11 @@ var $CONTENT = (function ($baseEle){
  .on(EVT.DELETE, remove)
  .on(EVT.COMMIT, commit)
  .on(EVT.CANCEL, cancel)
+ .on(EVT.ADDTAG, addTag)
+ .on(EVT.SETTAG, setTag)
+ .on(EV.CLICK, ".js-ctrl > .js-b-tags-add", EVT.ADDTAG, dispatch)
+ .on(EV.CHANGE, ".js-ctrl > .js-s-tags-lookup", EVT.SETTAG, dispatch)
+ .on(EV.KEYDOWN, ".js-ctrl > .js-i-tags-add", EVT.ADDTAG, dispatchEnter)
  .on(EV.CLICK, ".js-ctrl > .js-b-close", EVT.CLOSE, dispatch)
  .on(EV.CLICK, ".js-ctrl > .js-b-close-o", EVT.CLOSEO, dispatch)
  .on(EV.CLICK, ".js-ctrl > .js-b-edit", EVT.EDIT, dispatch)
@@ -2943,43 +3018,43 @@ var $CONTENT = (function ($baseEle){
 
 
 /* requires $plugins.js */
-/* requires $T.js */
+/* requires $TMPL.js */
 
 
 var $INDEXVIEW = (function ($dest, $text){
  
  var $ivTitle = $dest.find("#js-area-index-title");
  var $ivContent = $dest.find("#js-area-index-content");
- var $ivCloseBtn = $dest.find(".js-b-close").on(EV.CLICK, close);
+ var $ivCloseBtn = $dest.find(CSS.B_CLOSE).on(EV.CLICK, close);
  
  $dest.data({
   Title : function ()
   {
-   return $T.linksPara(DB.indexTitles());
+   return $TMPL.linksPara(DB.indexTitles());
   },
   Tags : function ()
   {
-   return $T.linksDL(DB.indexTags());
+   return $TMPL.linksDL(DB.indexTags());
   },
   Created : function ()
   {
-   return $T.linksDL(DB.indexCreated());
+   return $TMPL.linksDL(DB.indexCreated());
   },
   Recent : function ()
   {
-   return $T.linksDL(DB.indexEdited());
+   return $TMPL.linksDL(DB.indexEdited());
   },
   Orphan : function ()
   {
-   return $T.linksPara(DB.indexOrphans());
+   return $TMPL.linksPara(DB.indexOrphans());
   },
   Backlink : function ()
   {
-   return $T.linksDL(DB.indexBacklinks(), true);
+   return $TMPL.linksDL(DB.indexBacklinks(), true);
   },
   Mime : function ()
   {
-   return $T.linksDL(DB.indexMime());
+   return $TMPL.linksDL(DB.indexMime());
   }
  });
 
@@ -2992,7 +3067,7 @@ var $INDEXVIEW = (function ($dest, $text){
   
   $dest.toggleInvis(false);
   $ivTitle.empty().text("Found " + titles.length + " match(es).");
-  $ivContent.empty().append($T.linksPara(titles));
+  $ivContent.empty().append($TMPL.linksPara(titles));
  }
  
  function index(evt, indexType)
@@ -3333,7 +3408,7 @@ var $CONFIGWIZ = (function ($cfg){
   var cfg = DB.getConfig();
   
   $docTitle.val(cfg.title);
-  $startup.val(cfg.startup.join("\n"));
+  $startup.val(cfg.startup.join(" || "));
   $cfmDel.checked(cfg.cfmDel);
   $cfmNav.checked(cfg.cfmNav);
   $searchCase.checked(cfg.searchCase);
@@ -3458,7 +3533,6 @@ var $POPUPWIZ = (function ($wiz){
  var $title = $wiz.find("#js-popup-title");
  var $content = $wiz.find("#js-popup-content");
  
- 
  var MODE_ENUM =
  {
   TAGS : 0,
@@ -3466,16 +3540,9 @@ var $POPUPWIZ = (function ($wiz){
  };
  var MODE = MODE_ENUM.TAGS;
 
- /*
- The popup wizard is responsible for events generated under its subtree.
- For events happening outside its jurisdiction, the popup window gets closed.
- */
- $wiz.on(EV.CLICK, function(evt){
+ $wiz.find(CSS.B_CLOSE).on(EV.CLICK, function(evt){
   evt.stopPropagation();
-  if ($(evt.target).hasClass(CLS.B_CLOSE))
-  {
-   $wiz.trigger(EVT.CLOSE);
-  }
+  $wiz.trigger(EVT.CLOSE);
  });
  
  $wiz.on(EV.CLICK, CSS.WLINK, function (evt){
@@ -3505,7 +3572,7 @@ var $POPUPWIZ = (function ($wiz){
  
  $wiz.on(EVT.INDEX, function (evt){
   var indices = _.keys($INDEXVIEW.data());
-  var $links = $T.linksPara(indices);
+  var $links = $TMPL.linksPara(indices);
  
   $wiz.trigger(EVT.LOAD);
   $title.text("Choose an index type...");
@@ -3517,7 +3584,7 @@ var $POPUPWIZ = (function ($wiz){
  $wiz.on(EVT.TAG, function (evt, tagName){
   $wiz.trigger(EVT.LOAD);
   $title.text(tagName);
-  $content.append($T.linksPara(DB.indexTagSingle(tagName)));
+  $content.append($TMPL.linksPara(DB.indexTagSingle(tagName)));
   
   MODE = MODE_ENUM.TAGS;
  });
@@ -3584,10 +3651,16 @@ var $ERRORWIZ = (function ($wiz){
  {
   DB.indexEditedFlat().slice(0, 5).reverse().forEach(initRecent);
  }
-
+ 
+ 
  //If a click event manages to bubble up to here, close the popup.
  $body.on(EV.CLICK, function (evt){
   $POPUPWIZ.trigger(EVT.CLOSE);
+ });
+ 
+ //Self-deleting buttons should remove themselves when clicked.
+ $body.on(EV.CLICK, CSS.B_SELF_DEL, function (evt){
+  $(this).remove();
  });
  
  //Handles wiki link click events in general

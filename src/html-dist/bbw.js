@@ -942,7 +942,7 @@ var DB = (function ()
  var WikiNode = (function (){
   function defaultTags(tagStr)
   {
-   var tags = uniqueWords(tagStr, STR.wordsByPipes);
+   var tags = uniqueWords(tagStr, STR.wordsByPipes).sort();
    if (tags.length < 1)
    {
     tags.push("Uncategorized");
@@ -1302,7 +1302,9 @@ var DB = (function ()
  
  function getNode(title)
  {
-  return hasNode(title) ? NODES[title] : WikiNode.create(title);
+  var wNode =  hasNode(title) ? NODES[title] : WikiNode.create(title);
+  wNode.tags.sort();
+  return wNode;
  }
  
  function setConfig(cfgObj)
@@ -1419,6 +1421,8 @@ var EVT =
  DELETE : "delete",
  CANCEL : "cancel",
  COMMIT : "finish",
+ ADDTAG : "addtag",
+ SETTAG : "settag",
  
  //Indexing & searching + search result view area.
  TAG : "tag",
@@ -1466,6 +1470,8 @@ var CSS =
  CONTENT : ".js-content",
  CONTENT_DELEGATE : ".js-tags, .js-content",
  B_CLOSE : ".js-b-close",
+ B_SELF_DEL : ".js-b-self-del",
+ B_SELF_DEL_TEXT : ".js-b-self-del-text",
  B_SAVE : ".js-b-save"
 };
 
@@ -1477,6 +1483,16 @@ var CSS =
 /*jQuery convenience & alias plugins, plus CSS manipulation*/
 (function ($){
  var protoExtend = (function (){
+ 
+  function textArray()
+  {
+   var texts = this.toArray();
+   texts.forEach(function (val, index){
+    texts[index] = $(val).text();
+   });
+   return texts;
+  }
+  
   function filterChecked()
   {
    return this.filter(":checked");
@@ -1570,6 +1586,7 @@ var CSS =
 
 
   return {
+   textArray : textArray,
    filterChecked : filterChecked,
    checked : checked,
    log : log,
@@ -1744,6 +1761,7 @@ var $TMPL = (function ()
   $tDD = $($("#js-t-dd").html()),
   $tPara = $($("#js-t-para").html()),
   $tButton = $($("#js-t-button").html()),
+  $tButtonDel = $($("#js-t-button-del").html()),
   $tLinkW = $($("#js-t-wlink").html());
  
  function sigStr(msEdited, msCreated)
@@ -1754,16 +1772,29 @@ var $TMPL = (function ()
   var created = d.toLocaleString();
   return ("Edited: " + edited + " (Created: " + created + ")");
  }
+ 
+ function t_options(valueList, displayTextList)
+ {
+  var textList = displayTextList ? displayTextList : valueList;
+  var $options = $("");
+  
+  valueList.forEach(function (val, index){
+   $options = $options.add(new Option(textList[index], valueList[index]));
+  });
+  return $options;
+ }
 
  function t_edit(wNode)
  {
   var $edit = $tEdit.clone();
+  var tagIndex = _.pluck(DB.indexTags(), "key").sort();
   
   $edit.find(".js-i-old-title").text("Editing \"" + wNode.title + "\"");
   $edit.find(".js-i-title").val(wNode.title);
   $edit.find(".js-i-src").val(wNode.src);
-  $edit.find(".js-i-tags").val(wNode.tags.join(" || "));
   $edit.find(".js-i-mime").val(wNode.mime || DB.MIME.TEXT);
+  $edit.find(".js-s-tags-lookup").append(t_options(tagIndex));
+  $edit.find(".js-tags").append(t_buttonsDel(wNode.tags));
   $edit.data("title", wNode.title);
   return $edit;
  }
@@ -1790,6 +1821,23 @@ var $TMPL = (function ()
   .append($tDD.clone().append($frag));
  }
  
+ function t_doButtonsDel(acc, str)
+ {
+  return acc.add(t_buttonDel(str));
+ }
+ 
+ function t_buttonsDel(strList)
+ {
+  return strList.filter(_.isString).reduce(t_doButtonsDel, $(""));
+ }
+ 
+ function t_buttonDel(displayText)
+ {
+  var $buttonDel = $tButtonDel.clone();
+  $buttonDel.find(CSS.B_SELF_DEL_TEXT).text(displayText);
+  return $buttonDel;
+ }
+ 
  function t_button(displayText)
  {
   return $tButton.clone().text(displayText);
@@ -1803,14 +1851,14 @@ var $TMPL = (function ()
    .attr("href", displayText);
  }
  
- function t_doLinks(acc, str, index, array)
+ function t_doLinks(acc, str)
  {
   return acc.add(t_link(str));
  }
  
  function t_links(strList)
  {
-  return strList.filter(_.isString).reduce(t_doLinks, $());
+  return strList.filter(_.isString).reduce(t_doLinks, $(""));
  }
  
  function t_linksDD(strList)
@@ -1855,6 +1903,9 @@ var $TMPL = (function ()
   edit : t_edit,
   view : t_view,
   dl : t_dl,
+  options : t_options,
+  buttonsDel : t_buttonsDel,
+  buttonDel : t_buttonDel,
   button : t_button,
   link : t_link,
   links : t_links,
@@ -1984,15 +2035,16 @@ var $CONTENT = (function ($baseEle){
   return true;
  }
  
- function commit(evt, title, $edit)
+ function commit(evt, title)
  {
-  if (!verifyCommit(title, $edit)) {return;}
+  var $edit = $oMap.get(title);
+  if (!$edit || !verifyCommit(title, $edit)) {return;}
   
   var wNode = DB.newNode(
    $edit.find(".js-i-title").val(),
    $edit.find(".js-i-src").val(),
    $edit.find(".js-i-mime").val() || DB.MIME.TEXT,
-   $edit.find(".js-i-tags").val()
+   $edit.find(".js-tags").find(CSS.B_SELF_DEL_TEXT).textArray()
   );
   
   var $frag = $.parseBBM(wNode.src, wNode.mime);
@@ -2016,6 +2068,33 @@ var $CONTENT = (function ($baseEle){
   $oMap.remove(title);
  }
  
+ function addTag(evt, title, tag)
+ {
+  var $edit = $oMap.get(title);
+  if (!$edit) {return;}
+  
+  var $tagTextField = $edit.find(".js-i-tags-add");
+  var tagText = STR.titleize(tag || $tagTextField.val());
+  if (tagText.length <= 0) {return;}
+  
+  $edit.find(".js-tags").append($TMPL.buttonDel(tagText));
+  $tagTextField.val("");
+ }
+ 
+ function setTag(evt, title)
+ {
+  var $edit = $oMap.get(title);
+  if (!$edit) {return;}
+  
+  var tagText = $edit.find(".js-s-tags-lookup").val() || "";
+  addTag.call(this, evt, title, tagText);
+ }
+ 
+ function dispatchEnter(evt)
+ {
+  if (evt.which === 13) {dispatch.call(this, evt);}
+ }
+ 
  function dispatch(evt)
  {
   var $e = $(this),
@@ -2023,14 +2102,7 @@ var $CONTENT = (function ($baseEle){
    title = $form.data().title,
    op = evt.data;
   
-  if (op === EVT.COMMIT)
-  {
-   $baseEle.trigger(op, [title, $form]);
-  }
-  else
-  {
-   $baseEle.trigger(op, [title]);
-  }
+  $baseEle.trigger(op, [title]);
  }
  
 
@@ -2041,6 +2113,11 @@ var $CONTENT = (function ($baseEle){
  .on(EVT.DELETE, remove)
  .on(EVT.COMMIT, commit)
  .on(EVT.CANCEL, cancel)
+ .on(EVT.ADDTAG, addTag)
+ .on(EVT.SETTAG, setTag)
+ .on(EV.CLICK, ".js-ctrl > .js-b-tags-add", EVT.ADDTAG, dispatch)
+ .on(EV.CHANGE, ".js-ctrl > .js-s-tags-lookup", EVT.SETTAG, dispatch)
+ .on(EV.KEYDOWN, ".js-ctrl > .js-i-tags-add", EVT.ADDTAG, dispatchEnter)
  .on(EV.CLICK, ".js-ctrl > .js-b-close", EVT.CLOSE, dispatch)
  .on(EV.CLICK, ".js-ctrl > .js-b-close-o", EVT.CLOSEO, dispatch)
  .on(EV.CLICK, ".js-ctrl > .js-b-edit", EVT.EDIT, dispatch)
@@ -2062,7 +2139,7 @@ var $INDEXVIEW = (function ($dest, $text){
  
  var $ivTitle = $dest.find("#js-area-index-title");
  var $ivContent = $dest.find("#js-area-index-content");
- var $ivCloseBtn = $dest.find(".js-b-close").on(EV.CLICK, close);
+ var $ivCloseBtn = $dest.find(CSS.B_CLOSE).on(EV.CLICK, close);
  
  $dest.data({
   Title : function ()
@@ -2570,7 +2647,6 @@ var $POPUPWIZ = (function ($wiz){
  var $title = $wiz.find("#js-popup-title");
  var $content = $wiz.find("#js-popup-content");
  
- 
  var MODE_ENUM =
  {
   TAGS : 0,
@@ -2578,16 +2654,9 @@ var $POPUPWIZ = (function ($wiz){
  };
  var MODE = MODE_ENUM.TAGS;
 
- /*
- The popup wizard is responsible for events generated under its subtree.
- For events happening outside its jurisdiction, the popup window gets closed.
- */
- $wiz.on(EV.CLICK, function(evt){
+ $wiz.find(CSS.B_CLOSE).on(EV.CLICK, function(evt){
   evt.stopPropagation();
-  if ($(evt.target).hasClass(CLS.B_CLOSE))
-  {
-   $wiz.trigger(EVT.CLOSE);
-  }
+  $wiz.trigger(EVT.CLOSE);
  });
  
  $wiz.on(EV.CLICK, CSS.WLINK, function (evt){
@@ -2696,10 +2765,16 @@ var $ERRORWIZ = (function ($wiz){
  {
   DB.indexEditedFlat().slice(0, 5).reverse().forEach(initRecent);
  }
-
+ 
+ 
  //If a click event manages to bubble up to here, close the popup.
  $body.on(EV.CLICK, function (evt){
   $POPUPWIZ.trigger(EVT.CLOSE);
+ });
+ 
+ //Self-deleting buttons should remove themselves when clicked.
+ $body.on(EV.CLICK, CSS.B_SELF_DEL, function (evt){
+  $(this).remove();
  });
  
  //Handles wiki link click events in general

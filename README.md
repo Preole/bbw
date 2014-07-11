@@ -21,7 +21,14 @@ software fitting that mental model for information organization.
 Therefore, it makes sense to read a notebook like navigating a wiki. From 
 there on, it's all about designing a robust personal notebook.
 
-Current version: **v0.1.1**
+Current version: **v0.1.2**
+
+
+Updates
+-------
+
+Refer to """UpdateLog.txt"""
+
 
 
 
@@ -112,32 +119,3 @@ BSD-2-Clause @ ?<http://opensource.org/licenses/BSD-2-Clause>
 
 
 
-Update Log
-----------
-
-=== 0.1.0 ===
-
-==== Repository-Specific ====
-
-- Removed the development branch from the repository; The branch turns 
-  out unnecessary due to the simplicity of the project.
-
-- Removed "Do not use" warning. Basic functionality and underlying engine 
-  rewrites are complete.
-  
-- Modified """.gitattributes""" to enforce Unix-style line breaks throughout 
-  the repository.
-
-==== Project ====
-
-- Added a selection menu for wiki entry mime type. No more manually typing 
-  and guessing available types of wiki entries. There are three official types 
-  of wiki entries.
-
-  - Straight HTML """text/html"""
-  - BakaBakaMark Wiki text """text/x-bbm"""
-  - Plain text """text/plain"""
-  
-- Added the option to directly import HTML code into the wiki. No more 
-  converting them into HTML mime type after importing them as plain text.
-```

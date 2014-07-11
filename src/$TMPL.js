@@ -10,6 +10,7 @@ var $TMPL = (function ()
   $tDD = $($("#js-t-dd").html()),
   $tPara = $($("#js-t-para").html()),
   $tButton = $($("#js-t-button").html()),
+  $tButtonDel = $($("#js-t-button-del").html()),
   $tLinkW = $($("#js-t-wlink").html());
  
  function sigStr(msEdited, msCreated)
@@ -20,16 +21,29 @@ var $TMPL = (function ()
   var created = d.toLocaleString();
   return ("Edited: " + edited + " (Created: " + created + ")");
  }
+ 
+ function t_options(valueList, displayTextList)
+ {
+  var textList = displayTextList ? displayTextList : valueList;
+  var $options = $("");
+  
+  valueList.forEach(function (val, index){
+   $options = $options.add(new Option(textList[index], valueList[index]));
+  });
+  return $options;
+ }
 
  function t_edit(wNode)
  {
   var $edit = $tEdit.clone();
+  var tagIndex = _.pluck(DB.indexTags(), "key").sort();
   
   $edit.find(".js-i-old-title").text("Editing \"" + wNode.title + "\"");
   $edit.find(".js-i-title").val(wNode.title);
   $edit.find(".js-i-src").val(wNode.src);
-  $edit.find(".js-i-tags").val(wNode.tags.join(" || "));
   $edit.find(".js-i-mime").val(wNode.mime || DB.MIME.TEXT);
+  $edit.find(".js-s-tags-lookup").append(t_options(tagIndex));
+  $edit.find(".js-tags").append(t_buttonsDel(wNode.tags));
   $edit.data("title", wNode.title);
   return $edit;
  }
@@ -56,6 +70,23 @@ var $TMPL = (function ()
   .append($tDD.clone().append($frag));
  }
  
+ function t_doButtonsDel(acc, str)
+ {
+  return acc.add(t_buttonDel(str));
+ }
+ 
+ function t_buttonsDel(strList)
+ {
+  return strList.filter(_.isString).reduce(t_doButtonsDel, $(""));
+ }
+ 
+ function t_buttonDel(displayText)
+ {
+  var $buttonDel = $tButtonDel.clone();
+  $buttonDel.find(CSS.B_SELF_DEL_TEXT).text(displayText);
+  return $buttonDel;
+ }
+ 
  function t_button(displayText)
  {
   return $tButton.clone().text(displayText);
@@ -69,14 +100,14 @@ var $TMPL = (function ()
    .attr("href", displayText);
  }
  
- function t_doLinks(acc, str, index, array)
+ function t_doLinks(acc, str)
  {
   return acc.add(t_link(str));
  }
  
  function t_links(strList)
  {
-  return strList.filter(_.isString).reduce(t_doLinks, $());
+  return strList.filter(_.isString).reduce(t_doLinks, $(""));
  }
  
  function t_linksDD(strList)
@@ -121,6 +152,9 @@ var $TMPL = (function ()
   edit : t_edit,
   view : t_view,
   dl : t_dl,
+  options : t_options,
+  buttonsDel : t_buttonsDel,
+  buttonDel : t_buttonDel,
   button : t_button,
   link : t_link,
   links : t_links,

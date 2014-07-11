@@ -1,0 +1,85 @@
+Update Log
+----------
+
+=== 0.1.0 ===
+
+==== Repository-Specific ====
+
+- Removed the development branch from the repository; The branch turns 
+  out unnecessary due to the simplicity of the project.
+
+- Removed "Do not use" warning. Basic functionality and underlying engine 
+  rewrites are complete.
+  
+- Modified """.gitattributes""" to enforce Unix-style line breaks throughout 
+  the repository.
+
+==== Project ====
+
+- Added a selection menu for wiki entry mime type. No more manually typing 
+  and guessing available types of wiki entries. There are three official types 
+  of wiki entries.
+
+  - Straight HTML """text/html"""
+  - BakaBakaMark Wiki text """text/x-bbm"""
+  - Plain text """text/plain"""
+  
+- Added the option to directly import HTML code into the wiki. No more 
+  converting them into HTML mime type after importing them as plain text.
+```
+
+=== 0.1.1 ===
+
+==== New Features ====
+
+- Added an explicit close button for dismissing side panels.
+- Added an automatic name generation for importing individual
+  text files as wiki entries. The files' names shall be their
+  title.
+
+This change does not affect importing wiki entries from JSON
+data sets.
+
+- Re-arranged the editing interface to have the following order:
+
+1. Title
+2. Tags
+3. Content
+4. Mime type
+
+This is to be consistent with the viewing interface, which
+displays wiki entry information in that order.
+
+- Fixed an issue where clicking on the indexing button for the
+first time forces the screen to scroll to bottom in Firefox.
+
+
+
+=== 0.1.2 ===
+
+==== New Features ====
+
+- Added double pipes `||` as a valid delimiter for startup wiki entry 
+  titles, in addition to line breaks. (Better horizontal space utilization)
+  
+- Added a proper UI dashboard for managing wiki entry tags, which have the
+  following controls:
+
+  - A lookup table for existing tags.
+  - A convenient text field for adding tags.
+  - Tag deletion; Click on the tag.
+  
+  Currently, it cannot prevent adding identical tags, though they will be 
+  cleaned up after committing the edit.
+  
+==== Fixes ====
+
+- Wiki entries should now display the tags in alphabetical order in both 
+  viewing and editing mode.
+
+==== Project-Specific ====
+
+- Renamed the template script file `$t.js` to `$TMPL.js`,
+  avoiding letter case inconsistency in commits.
+
+- Separated the update log from README into a separate file.

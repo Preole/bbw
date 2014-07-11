@@ -91,16 +91,6 @@
    "created": 1403203760729,
    "edited": 1403203761729
   },
-  "EntryPoint": {
-   "title": "EntryPoint",
-   "src": "The back-end of BareBonesWiki has been fixed by Update 4; It should \nno longer be a pain to push updates and implement new features at this \npoint. Most of the milestones have been met by Update 7, except for a \nmore elaborate tag interface.\n\nMilestones\n----------\n\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n\n\n\nUpdate Log\n----------\n\n- #<Enhancement Update 7>\n- #<Enhancement Update 6>\n- #<Enhancement Update 5>\n- #<Enhancement Update 4>\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n\n\n\nReferences\n----------\n\n- #<JSON Datastore>\n- #<Build Instruction>",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1394841548715,
-   "edited": 1404196566404
-  },
   "Possible Front-end Enhancement": {
    "title": "Possible Front-end Enhancement",
    "src": "Editing Interface\n=================\n\nThe **mime type** field of the editing interface should be a \ndrop-down box offering a slew of choices with a default \npre-selected. A simple text field may be too primitive an \ninterface. {++Done++}\n\nThe **tags** field of the editing interface can use the same \ntreatment; Either selecting a pre-existing tag or enter a \nnew tag string manually.\n\nThe search & indexing result panel should have an explicit \nclose button, rather than relying on an empty search query \nto close it. {++Done++}\n\n\n\nImporting Interface\n===================\n\nThe current interface for importing is limited to reading \nUTF-8 encoded text. It should be extended to accept other \ncharacter sets in addition to UTF-8. {++Done++}\n\nNext, the importing interface now supports the following \nfile types:\n\n- Plain text (No interpretation)\n- HTML Snippets (Raw HTML)\n- BareBonesWiki wiki text (Also plain text)\n- JSON (A data set extracted from another BareBonesWiki)\n\nFinally, aside from importing as a data set, importing \nwiki entries as individual text files now have sensible\nname generation, as well as a renaming scheme in case \nof name conflict.\n\n",
@@ -130,12 +120,33 @@
    ],
    "created": 1404196730179,
    "edited": 1404198799186
+  },
+  "Enhancement Update 8": {
+   "title": "Enhancement Update 8",
+   "src": "New Features\n============\n\n- Added double pipes `||` as a valid delimiter for startup wiki entry \n  titles, in addition to line breaks. (Better horizontal space utilization)\n  \n- Added a proper UI dashboard for managing wiki entry tags, which have the\n  following controls:\n\n  - A lookup table for existing tags.\n  - A convenient text field for adding tags.\n  - Tag deletion; Click on the tag.\n  \n  Currently, it cannot prevent adding identical tags, though they will be \n  cleaned up after committing the edit.\n  \nFixes \n=====\n\n- Wiki entries should now display the tags in alphabetical order in both \n  viewing and editing mode.\n\nProject-Specific\n================\n\n- Renamed the template script file `$t.js` to `$TMPL.js`,\n  avoiding letter case inconsistency in commits.\n\n- Separated the update log from README into a separate file.",
+   "mime": "text/x-bbm",
+   "tags": [
+    "Uncategorized"
+   ],
+   "created": 1405040291578,
+   "edited": 1405040292578
+  },
+  "EntryPoint": {
+   "title": "EntryPoint",
+   "src": "The back-end of BareBonesWiki has been fixed by Update 4; It should \nno longer be a pain to push updates and implement new features at this \npoint. Most of the milestones have been met by Update 7, except for a \nmore elaborate tag interface.\n\nMilestones\n----------\n\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n\n\n\nUpdate Log\n----------\n\n- #<Enhancement Update 8>\n- #<Enhancement Update 7>\n- #<Enhancement Update 6>\n- #<Enhancement Update 5>\n- #<Enhancement Update 4>\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n\n\n\nReferences\n----------\n\n- #<JSON Datastore>\n- #<Build Instruction>",
+   "mime": "text/x-bbm",
+   "tags": [
+    "Uncategorized"
+   ],
+   "created": 1394841548715,
+   "edited": 1405040311391
   }
  },
  "EDGES": {
   "EntryPoint": {
    "Possible Back-end Enhancement": null,
    "Possible Front-end Enhancement": null,
+   "Enhancement Update 8": null,
    "Enhancement Update 7": null,
    "Enhancement Update 6": null,
    "Enhancement Update 5": null,

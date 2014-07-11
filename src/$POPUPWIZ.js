@@ -6,7 +6,6 @@ var $POPUPWIZ = (function ($wiz){
  var $title = $wiz.find("#js-popup-title");
  var $content = $wiz.find("#js-popup-content");
  
- 
  var MODE_ENUM =
  {
   TAGS : 0,
@@ -14,16 +13,9 @@ var $POPUPWIZ = (function ($wiz){
  };
  var MODE = MODE_ENUM.TAGS;
 
- /*
- The popup wizard is responsible for events generated under its subtree.
- For events happening outside its jurisdiction, the popup window gets closed.
- */
- $wiz.on(EV.CLICK, function(evt){
+ $wiz.find(CSS.B_CLOSE).on(EV.CLICK, function(evt){
   evt.stopPropagation();
-  if ($(evt.target).hasClass(CLS.B_CLOSE))
-  {
-   $wiz.trigger(EVT.CLOSE);
-  }
+  $wiz.trigger(EVT.CLOSE);
  });
  
  $wiz.on(EV.CLICK, CSS.WLINK, function (evt){

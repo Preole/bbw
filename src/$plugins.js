@@ -18,6 +18,8 @@ var EVT =
  DELETE : "delete",
  CANCEL : "cancel",
  COMMIT : "finish",
+ ADDTAG : "addtag",
+ SETTAG : "settag",
  
  //Indexing & searching + search result view area.
  TAG : "tag",
@@ -65,6 +67,8 @@ var CSS =
  CONTENT : ".js-content",
  CONTENT_DELEGATE : ".js-tags, .js-content",
  B_CLOSE : ".js-b-close",
+ B_SELF_DEL : ".js-b-self-del",
+ B_SELF_DEL_TEXT : ".js-b-self-del-text",
  B_SAVE : ".js-b-save"
 };
 
@@ -76,6 +80,16 @@ var CSS =
 /*jQuery convenience & alias plugins, plus CSS manipulation*/
 (function ($){
  var protoExtend = (function (){
+ 
+  function textArray()
+  {
+   var texts = this.toArray();
+   texts.forEach(function (val, index){
+    texts[index] = $(val).text();
+   });
+   return texts;
+  }
+  
   function filterChecked()
   {
    return this.filter(":checked");
@@ -169,6 +183,7 @@ var CSS =
 
 
   return {
+   textArray : textArray,
    filterChecked : filterChecked,
    checked : checked,
    log : log,

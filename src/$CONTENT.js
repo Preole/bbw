@@ -116,15 +116,16 @@ var $CONTENT = (function ($baseEle){
   return true;
  }
  
- function commit(evt, title, $edit)
+ function commit(evt, title)
  {
-  if (!verifyCommit(title, $edit)) {return;}
+  var $edit = $oMap.get(title);
+  if (!$edit || !verifyCommit(title, $edit)) {return;}
   
   var wNode = DB.newNode(
    $edit.find(".js-i-title").val(),
    $edit.find(".js-i-src").val(),
    $edit.find(".js-i-mime").val() || DB.MIME.TEXT,
-   $edit.find(".js-i-tags").val()
+   $edit.find(".js-tags").find(CSS.B_SELF_DEL_TEXT).textArray()
   );
   
   var $frag = $.parseBBM(wNode.src, wNode.mime);
@@ -148,6 +149,33 @@ var $CONTENT = (function ($baseEle){
   $oMap.remove(title);
  }
  
+ function addTag(evt, title, tag)
+ {
+  var $edit = $oMap.get(title);
+  if (!$edit) {return;}
+  
+  var $tagTextField = $edit.find(".js-i-tags-add");
+  var tagText = STR.titleize(tag || $tagTextField.val());
+  if (tagText.length <= 0) {return;}
+  
+  $edit.find(".js-tags").append($TMPL.buttonDel(tagText));
+  $tagTextField.val("");
+ }
+ 
+ function setTag(evt, title)
+ {
+  var $edit = $oMap.get(title);
+  if (!$edit) {return;}
+  
+  var tagText = $edit.find(".js-s-tags-lookup").val() || "";
+  addTag.call(this, evt, title, tagText);
+ }
+ 
+ function dispatchEnter(evt)
+ {
+  if (evt.which === 13) {dispatch.call(this, evt);}
+ }
+ 
  function dispatch(evt)
  {
   var $e = $(this),
@@ -155,14 +183,7 @@ var $CONTENT = (function ($baseEle){
    title = $form.data().title,
    op = evt.data;
   
-  if (op === EVT.COMMIT)
-  {
-   $baseEle.trigger(op, [title, $form]);
-  }
-  else
-  {
-   $baseEle.trigger(op, [title]);
-  }
+  $baseEle.trigger(op, [title]);
  }
  
 
@@ -173,6 +194,11 @@ var $CONTENT = (function ($baseEle){
  .on(EVT.DELETE, remove)
  .on(EVT.COMMIT, commit)
  .on(EVT.CANCEL, cancel)
+ .on(EVT.ADDTAG, addTag)
+ .on(EVT.SETTAG, setTag)
+ .on(EV.CLICK, ".js-ctrl > .js-b-tags-add", EVT.ADDTAG, dispatch)
+ .on(EV.CHANGE, ".js-ctrl > .js-s-tags-lookup", EVT.SETTAG, dispatch)
+ .on(EV.KEYDOWN, ".js-ctrl > .js-i-tags-add", EVT.ADDTAG, dispatchEnter)
  .on(EV.CLICK, ".js-ctrl > .js-b-close", EVT.CLOSE, dispatch)
  .on(EV.CLICK, ".js-ctrl > .js-b-close-o", EVT.CLOSEO, dispatch)
  .on(EV.CLICK, ".js-ctrl > .js-b-edit", EVT.EDIT, dispatch)

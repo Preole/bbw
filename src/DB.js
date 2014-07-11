@@ -65,7 +65,7 @@ var DB = (function ()
  var WikiNode = (function (){
   function defaultTags(tagStr)
   {
-   var tags = uniqueWords(tagStr, STR.wordsByPipes);
+   var tags = uniqueWords(tagStr, STR.wordsByPipes).sort();
    if (tags.length < 1)
    {
     tags.push("Uncategorized");
@@ -425,7 +425,9 @@ var DB = (function ()
  
  function getNode(title)
  {
-  return hasNode(title) ? NODES[title] : WikiNode.create(title);
+  var wNode =  hasNode(title) ? NODES[title] : WikiNode.create(title);
+  wNode.tags.sort();
+  return wNode;
  }
  
  function setConfig(cfgObj)

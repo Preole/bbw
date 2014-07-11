@@ -224,8 +224,15 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
  <input class="js-i-title" type="text">
 </fieldset>
 <fieldset>
- <legend>Tags (Delimited by Line-breaks or "<code style="background: inherit;">||</code>")</legend>
- <textarea class="js-i-tags" rows="5" cols="80"></textarea>
+ <legend>Tags</legend>
+ <div class="js-ctrl">
+  <select class="js-s-tags-lookup">
+   <option value="">-- Clear --</option>
+  </select>
+  <input class="js-i-tags-add css-short-field" type="text">
+  <button class="js-b-tags-add" type="button">+</button>
+ </div>
+ <div class="js-tags css-index"></div>
 </fieldset>
 <fieldset>
  <legend>WikiText source code</legend>
@@ -243,6 +250,12 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </script>
 
 <!--Replaceable HTML fragments-->
+<script type="text/html" id="js-t-button-del">
+<button type="button" class="js-css-wlink js-b-self-del">
+ <span class="js-b-self-del-text"></span>
+ <span>✘</span>
+</button>
+</script>
 <script type="text/html" id="js-t-dl">
 <dl></dl>
 </script>
