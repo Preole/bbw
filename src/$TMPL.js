@@ -10,7 +10,7 @@ var $TMPL = (function ()
   $tDD = $($("#js-t-dd").html()),
   $tPara = $($("#js-t-para").html()),
   $tButton = $($("#js-t-button").html()),
-  $tButtonDel = $($("#js-t-button-del").html()),
+  $tButtonTag = $($("#js-t-button-tag").html()),
   $tLinkW = $($("#js-t-wlink").html());
  
  function sigStr(msEdited, msCreated)
@@ -36,6 +36,7 @@ var $TMPL = (function ()
  function t_edit(wNode)
  {
   var $edit = $tEdit.clone();
+  var $editTags = $edit.find(".js-d-tags");
   var tagIndex = _.pluck(DB.indexTags(), "key").sort();
   
   $edit.find(".js-i-old-title").text("Editing \"" + wNode.title + "\"");
@@ -43,8 +44,14 @@ var $TMPL = (function ()
   $edit.find(".js-i-src").val(wNode.src);
   $edit.find(".js-i-mime").val(wNode.mime || DB.MIME.TEXT);
   $edit.find(".js-s-tags-lookup").append(t_options(tagIndex));
-  $edit.find(".js-tags").append(t_buttonsDel(wNode.tags));
   $edit.data("title", wNode.title);
+  $edit.data("tags", {});
+  
+  wNode.tags.forEach(function (val, index){
+   $edit.data("tags")[val] = t_buttonTag(val)
+    .appendTo($editTags)
+    .data("tag", val);
+  });
   return $edit;
  }
 
@@ -70,21 +77,12 @@ var $TMPL = (function ()
   .append($tDD.clone().append($frag));
  }
  
- function t_doButtonsDel(acc, str)
+ function t_buttonTag(displayText)
  {
-  return acc.add(t_buttonDel(str));
- }
- 
- function t_buttonsDel(strList)
- {
-  return strList.filter(_.isString).reduce(t_doButtonsDel, $(""));
- }
- 
- function t_buttonDel(displayText)
- {
-  var $buttonDel = $tButtonDel.clone();
-  $buttonDel.find(CSS.B_SELF_DEL_TEXT).text(displayText);
-  return $buttonDel;
+  return $tButtonTag.clone()
+   .find(".js-b-tag-text")
+   .text(displayText)
+   .end();
  }
  
  function t_button(displayText)
@@ -153,8 +151,7 @@ var $TMPL = (function ()
   view : t_view,
   dl : t_dl,
   options : t_options,
-  buttonsDel : t_buttonsDel,
-  buttonDel : t_buttonDel,
+  buttonTag : t_buttonTag,
   button : t_button,
   link : t_link,
   links : t_links,

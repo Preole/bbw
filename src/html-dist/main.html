@@ -38,15 +38,13 @@
  </div>
  
  <div class="css-table">
-  <div id="js-area-index" class="css-index css-top js-css-invis js-content">
-   <dl>
-    <dt class="css-table css-pad">
-     <span id="js-area-index-title"></span>
-     <span class="css-right"><button type="button" class="js-b-close">Close</button></span>
-    </dt>
-    <dd id="js-area-index-content"></dd>
-   </dl>
-  </div>
+  <dl id="js-area-index" class="css-index css-top js-css-invis js-content">
+   <dt class="css-table css-pad">
+    <span id="js-area-index-title"></span>
+    <span class="css-right"><button type="button" class="js-b-close">Close</button></span>
+   </dt>
+   <dd id="js-area-index-content"></dd>
+  </dl>
   <div id="js-area-content" class="css-top"></div>
  </div>
  
@@ -230,9 +228,9 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
    <option value="">-- Clear --</option>
   </select>
   <input class="js-i-tags-add css-short-field" type="text">
-  <button class="js-b-tags-add" type="button">+</button>
+  <button class="js-b-tags-add" type="button">Add</button>
  </div>
- <div class="js-tags css-index"></div>
+ <div class="js-d-tags js-ctrl css-index"></div>
 </fieldset>
 <fieldset>
  <legend>WikiText source code</legend>
@@ -250,9 +248,9 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </script>
 
 <!--Replaceable HTML fragments-->
-<script type="text/html" id="js-t-button-del">
-<button type="button" class="js-css-wlink js-b-self-del">
- <span class="js-b-self-del-text"></span>
+<script type="text/html" id="js-t-button-tag">
+<button type="button" class="js-css-wlink js-b-tag-item">
+ <span class="js-b-tag-text"></span>
  <span>✘</span>
 </button>
 </script>

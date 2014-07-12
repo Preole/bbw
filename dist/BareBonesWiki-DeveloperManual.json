@@ -123,29 +123,40 @@
   },
   "Enhancement Update 8": {
    "title": "Enhancement Update 8",
-   "src": "New Features\n============\n\n- Added double pipes `||` as a valid delimiter for startup wiki entry \n  titles, in addition to line breaks. (Better horizontal space utilization)\n  \n- Added a proper UI dashboard for managing wiki entry tags, which have the\n  following controls:\n\n  - A lookup table for existing tags.\n  - A convenient text field for adding tags.\n  - Tag deletion; Click on the tag.\n  \n  Currently, it cannot prevent adding identical tags, though they will be \n  cleaned up after committing the edit.\n  \nFixes \n=====\n\n- Wiki entries should now display the tags in alphabetical order in both \n  viewing and editing mode.\n\nProject-Specific\n================\n\n- Renamed the template script file `$t.js` to `$TMPL.js`,\n  avoiding letter case inconsistency in commits.\n\n- Separated the update log from README into a separate file.",
+   "src": "New Features\n============\n\n- Added double pipes `||` as a valid delimiter for startup wiki entry \n  titles, in addition to line breaks. (Better horizontal space utilization)\n  \n- Added a proper UI dashboard for managing wiki entry tags, which have the\n  following controls:\n\n  - A lookup table for existing tags.\n  - A convenient text field for adding tags.\n  - Tag deletion; Click on the tag.\n\n  Currently, it cannot handle duplicate tag detection, resulting in \n  duplicates that are cleaned up after commits.\n\nFixes \n=====\n\n- Wiki entries should now display the tags in alphabetical order in both \n  viewing and editing mode.\n\nProject-Specific\n================\n\n- Renamed the template script file `$t.js` to `$TMPL.js`,\n  avoiding letter case inconsistency in commits.\n\n- Separated the update log from README into a separate file.",
    "mime": "text/x-bbm",
    "tags": [
     "Uncategorized"
    ],
    "created": 1405040291578,
-   "edited": 1405040292578
+   "edited": 1405200597787
   },
   "EntryPoint": {
    "title": "EntryPoint",
-   "src": "The back-end of BareBonesWiki has been fixed by Update 4; It should \nno longer be a pain to push updates and implement new features at this \npoint. Most of the milestones have been met by Update 7, except for a \nmore elaborate tag interface.\n\nMilestones\n----------\n\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n\n\n\nUpdate Log\n----------\n\n- #<Enhancement Update 8>\n- #<Enhancement Update 7>\n- #<Enhancement Update 6>\n- #<Enhancement Update 5>\n- #<Enhancement Update 4>\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n\n\n\nReferences\n----------\n\n- #<JSON Datastore>\n- #<Build Instruction>",
+   "src": "The back-end of BareBonesWiki has been fixed by Update 4; It should \nno longer be a pain to push updates and implement new features at this \npoint. Most of the milestones have been met by Update 7, except for a \nmore elaborate tag interface.\n\nMilestones\n----------\n\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n\n\n\nUpdate Log\n----------\n\n- #<Enhancement Update 9>\n- #<Enhancement Update 8>\n- #<Enhancement Update 7>\n- #<Enhancement Update 6>\n- #<Enhancement Update 5>\n- #<Enhancement Update 4>\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n\n\n\nReferences\n----------\n\n- #<JSON Datastore>\n- #<Build Instruction>",
    "mime": "text/x-bbm",
    "tags": [
     "Uncategorized"
    ],
    "created": 1394841548715,
-   "edited": 1405040311391
+   "edited": 1405200615571
+  },
+  "Enhancement Update 9": {
+   "title": "Enhancement Update 9",
+   "src": "Fixes\n=====\n\n- The tag editing interface should no longer add identical tags to the \n  display.\n\n- Fixed an error on importing; If an index is requested before the import, \n  and then the same index is requested immediately afterwards, the index \n  should now properly display the update.\n\n- Fixed a bug where the indexing panel would persist in the next launch \n  if left unclosed prior to saving, where the buttons in that panel raised\n  errors when clicked.\n",
+   "mime": "text/x-bbm",
+   "tags": [
+    "Uncategorized"
+   ],
+   "created": 1405200728993,
+   "edited": 1405200729993
   }
  },
  "EDGES": {
   "EntryPoint": {
    "Possible Back-end Enhancement": null,
    "Possible Front-end Enhancement": null,
+   "Enhancement Update 9": null,
    "Enhancement Update 8": null,
    "Enhancement Update 7": null,
    "Enhancement Update 6": null,

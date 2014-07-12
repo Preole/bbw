@@ -83,3 +83,20 @@ first time forces the screen to scroll to bottom in Firefox.
   avoiding letter case inconsistency in commits.
 
 - Separated the update log from README into a separate file.
+
+
+
+=== 0.1.3 ===
+
+==== Fixes ====
+
+- The tag editing interface should no longer add identical tags to the 
+  display.
+
+- Fixed an error on importing; If an index is requested before the import, 
+  and then the same index is requested immediately afterwards, the index 
+  should now properly display the update.
+
+- Fixed a bug where the indexing panel would persist in the next launch 
+  if left unclosed prior to saving. Clicking on buttons in this panel 
+  resulted in errors, until the panel is refreshed.

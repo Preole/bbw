@@ -65,6 +65,10 @@ var $INDEXVIEW = (function ($dest, $text){
   $dest.toggleInvis(true);
  }
  
- return $dest.on(EVT.SEARCH, search).on(EVT.INDEX, index);
+ close();
+ 
+ return $dest.on(EVT.SEARCH, search)
+  .on(EVT.INDEX, index)
+  .on(EVT.CLOSE, close);
 }($("#js-area-index"), $("#js-txt-search")));
 

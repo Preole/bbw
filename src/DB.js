@@ -455,6 +455,8 @@ var DB = (function ()
   _.merge(CONFIG, Config.create(jsonObj.CONFIG));
   _.merge(NODES, jsonObj.NODES);
   _.filter(NODES, itIsValidNode);
+  
+  nullifyCache()
  }
  
  function toJSON()

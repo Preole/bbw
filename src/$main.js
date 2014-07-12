@@ -36,11 +36,6 @@
   $POPUPWIZ.trigger(EVT.CLOSE);
  });
  
- //Self-deleting buttons should remove themselves when clicked.
- $body.on(EV.CLICK, CSS.B_SELF_DEL, function (evt){
-  $(this).remove();
- });
- 
  //Handles wiki link click events in general
  $body.on(EV.CLICK, CSS.WLINK, function (evt){
   var $src = $(evt.target);

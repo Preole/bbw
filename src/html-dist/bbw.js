@@ -1332,6 +1332,8 @@ var DB = (function ()
   _.merge(CONFIG, Config.create(jsonObj.CONFIG));
   _.merge(NODES, jsonObj.NODES);
   _.filter(NODES, itIsValidNode);
+  
+  nullifyCache()
  }
  
  function toJSON()
@@ -1421,8 +1423,6 @@ var EVT =
  DELETE : "delete",
  CANCEL : "cancel",
  COMMIT : "finish",
- ADDTAG : "addtag",
- SETTAG : "settag",
  
  //Indexing & searching + search result view area.
  TAG : "tag",
@@ -1470,8 +1470,6 @@ var CSS =
  CONTENT : ".js-content",
  CONTENT_DELEGATE : ".js-tags, .js-content",
  B_CLOSE : ".js-b-close",
- B_SELF_DEL : ".js-b-self-del",
- B_SELF_DEL_TEXT : ".js-b-self-del-text",
  B_SAVE : ".js-b-save"
 };
 
@@ -1483,15 +1481,6 @@ var CSS =
 /*jQuery convenience & alias plugins, plus CSS manipulation*/
 (function ($){
  var protoExtend = (function (){
- 
-  function textArray()
-  {
-   var texts = this.toArray();
-   texts.forEach(function (val, index){
-    texts[index] = $(val).text();
-   });
-   return texts;
-  }
   
   function filterChecked()
   {
@@ -1586,7 +1575,6 @@ var CSS =
 
 
   return {
-   textArray : textArray,
    filterChecked : filterChecked,
    checked : checked,
    log : log,
@@ -1761,7 +1749,7 @@ var $TMPL = (function ()
   $tDD = $($("#js-t-dd").html()),
   $tPara = $($("#js-t-para").html()),
   $tButton = $($("#js-t-button").html()),
-  $tButtonDel = $($("#js-t-button-del").html()),
+  $tButtonTag = $($("#js-t-button-tag").html()),
   $tLinkW = $($("#js-t-wlink").html());
  
  function sigStr(msEdited, msCreated)
@@ -1787,6 +1775,7 @@ var $TMPL = (function ()
  function t_edit(wNode)
  {
   var $edit = $tEdit.clone();
+  var $editTags = $edit.find(".js-d-tags");
   var tagIndex = _.pluck(DB.indexTags(), "key").sort();
   
   $edit.find(".js-i-old-title").text("Editing \"" + wNode.title + "\"");
@@ -1794,8 +1783,14 @@ var $TMPL = (function ()
   $edit.find(".js-i-src").val(wNode.src);
   $edit.find(".js-i-mime").val(wNode.mime || DB.MIME.TEXT);
   $edit.find(".js-s-tags-lookup").append(t_options(tagIndex));
-  $edit.find(".js-tags").append(t_buttonsDel(wNode.tags));
   $edit.data("title", wNode.title);
+  $edit.data("tags", {});
+  
+  wNode.tags.forEach(function (val, index){
+   $edit.data("tags")[val] = t_buttonTag(val)
+    .appendTo($editTags)
+    .data("tag", val);
+  });
   return $edit;
  }
 
@@ -1821,21 +1816,12 @@ var $TMPL = (function ()
   .append($tDD.clone().append($frag));
  }
  
- function t_doButtonsDel(acc, str)
+ function t_buttonTag(displayText)
  {
-  return acc.add(t_buttonDel(str));
- }
- 
- function t_buttonsDel(strList)
- {
-  return strList.filter(_.isString).reduce(t_doButtonsDel, $(""));
- }
- 
- function t_buttonDel(displayText)
- {
-  var $buttonDel = $tButtonDel.clone();
-  $buttonDel.find(CSS.B_SELF_DEL_TEXT).text(displayText);
-  return $buttonDel;
+  return $tButtonTag.clone()
+   .find(".js-b-tag-text")
+   .text(displayText)
+   .end();
  }
  
  function t_button(displayText)
@@ -1904,8 +1890,7 @@ var $TMPL = (function ()
   view : t_view,
   dl : t_dl,
   options : t_options,
-  buttonsDel : t_buttonsDel,
-  buttonDel : t_buttonDel,
+  buttonTag : t_buttonTag,
   button : t_button,
   link : t_link,
   links : t_links,
@@ -2044,7 +2029,7 @@ var $CONTENT = (function ($baseEle){
    $edit.find(".js-i-title").val(),
    $edit.find(".js-i-src").val(),
    $edit.find(".js-i-mime").val() || DB.MIME.TEXT,
-   $edit.find(".js-tags").find(CSS.B_SELF_DEL_TEXT).textArray()
+   _.keys($edit.data("tags"))
   );
   
   var $frag = $.parseBBM(wNode.src, wNode.mime);
@@ -2068,44 +2053,81 @@ var $CONTENT = (function ($baseEle){
   $oMap.remove(title);
  }
  
- function addTag(evt, title, tag)
- {
-  var $edit = $oMap.get(title);
-  if (!$edit) {return;}
-  
-  var $tagTextField = $edit.find(".js-i-tags-add");
-  var tagText = STR.titleize(tag || $tagTextField.val());
-  if (tagText.length <= 0) {return;}
-  
-  $edit.find(".js-tags").append($TMPL.buttonDel(tagText));
-  $tagTextField.val("");
- }
- 
- function setTag(evt, title)
- {
-  var $edit = $oMap.get(title);
-  if (!$edit) {return;}
-  
-  var tagText = $edit.find(".js-s-tags-lookup").val() || "";
-  addTag.call(this, evt, title, tagText);
- }
- 
- function dispatchEnter(evt)
- {
-  if (evt.which === 13) {dispatch.call(this, evt);}
- }
- 
  function dispatch(evt)
  {
-  var $e = $(this),
-   $form = $e.parents(".js-form").first(),
-   title = $form.data().title,
+  var title = $(this).parents(".js-form").first().data().title,
    op = evt.data;
   
   $baseEle.trigger(op, [title]);
  }
  
+ function toggleTagEdit(evt, title, tag, forceSwitch)
+ {
+  var $edit = $oMap.get(title);
+  if (STR.titleize(tag).length <= 0) {return;}
+  if (!$edit) {return;}
+  
+  var tagTable = $edit.data().tags;
+  if (!tagTable) {return;}
+  
+  function removeTag()
+  {
+   tagTable[tag].remove();
+   delete tagTable[tag];
+  }
 
+  function addTag()
+  {
+   tagTable[tag] = $TMPL.buttonTag(tag).appendTo($edit.find(".js-d-tags"));
+  }
+  
+  if (_.isBoolean(forceSwitch) && forceSwitch)
+  {
+   if (forceSwitch && !_.has(tagTable, tag)) {addTag();}
+   else if (!forceSwitch && _.has(tagTable, tag)) {removeTag();}
+  }
+  else if (_.has(tagTable, tag)) {removeTag();}
+  else {addTag();}
+ }
+ 
+ function dispatchTags(evt)
+ {
+  var $e = $(this),
+   $form = $e.parents(".js-form").first(),
+   title = $form.data().title,
+   tagTable = $form.data().tags;
+
+  if (!tagTable) {return;}
+
+  var $tagField = $form.find(".js-i-tags-add"),
+   tag = $tagField.val() || "";
+   
+  if ($e.hasClass("js-b-tag-item"))
+  {
+   tag = $e.find(".js-b-tag-text").text();
+   toggleTagEdit.call(this, evt, title, tag, false);
+  }
+  else if ($e.hasClass("js-s-tags-lookup"))
+  {
+   tag = $e.val();
+   toggleTagEdit.call(this, evt, title, tag, true);
+  }
+  else
+  {
+   $tagField.val("");
+   toggleTagEdit.call(this, evt, title, tag);
+  }
+ }
+ 
+ function dispatchTagsEnter(evt)
+ {
+  if (evt.which === 13) {dispatchTags.call(this, evt);}
+ }
+ 
+
+ //TODO: change the css class of the self-deleting button
+ //In: $TMPL.js, css.css, $CONTENT.js, $plugins.js, main.html
+ //TODO: Implement a tag toggle.
  return $baseEle.on(EVT.OPEN, open)
  .on(EVT.EDIT, edit)
  .on(EVT.CLOSE, close)
@@ -2113,11 +2135,11 @@ var $CONTENT = (function ($baseEle){
  .on(EVT.DELETE, remove)
  .on(EVT.COMMIT, commit)
  .on(EVT.CANCEL, cancel)
- .on(EVT.ADDTAG, addTag)
- .on(EVT.SETTAG, setTag)
- .on(EV.CLICK, ".js-ctrl > .js-b-tags-add", EVT.ADDTAG, dispatch)
- .on(EV.CHANGE, ".js-ctrl > .js-s-tags-lookup", EVT.SETTAG, dispatch)
- .on(EV.KEYDOWN, ".js-ctrl > .js-i-tags-add", EVT.ADDTAG, dispatchEnter)
+ .on(EVT.TOGGLETAG, toggleTagEdit)
+ .on(EV.CLICK, ".js-ctrl > .js-b-tag-item", dispatchTags)
+ .on(EV.CLICK, ".js-ctrl > .js-b-tags-add", dispatchTags)
+ .on(EV.CHANGE, ".js-ctrl > .js-s-tags-lookup", dispatchTags)
+ .on(EV.KEYDOWN, ".js-ctrl > .js-i-tags-add", dispatchTagsEnter)
  .on(EV.CLICK, ".js-ctrl > .js-b-close", EVT.CLOSE, dispatch)
  .on(EV.CLICK, ".js-ctrl > .js-b-close-o", EVT.CLOSEO, dispatch)
  .on(EV.CLICK, ".js-ctrl > .js-b-edit", EVT.EDIT, dispatch)
@@ -2198,7 +2220,11 @@ var $INDEXVIEW = (function ($dest, $text){
   $dest.toggleInvis(true);
  }
  
- return $dest.on(EVT.SEARCH, search).on(EVT.INDEX, index);
+ close();
+ 
+ return $dest.on(EVT.SEARCH, search)
+  .on(EVT.INDEX, index)
+  .on(EVT.CLOSE, close);
 }($("#js-area-index"), $("#js-txt-search")));
 
 
@@ -2440,7 +2466,7 @@ var $EXPORTWIZ = (function ($wiz){
 /* requires $EXPORTWIZ.js */
 
 
-var $SAVER = (function ($detachList){
+var $SAVER = (function ($contentArea){
  var $obj = $({});
 
  function uOuterHTML($ele)
@@ -2466,18 +2492,9 @@ var $SAVER = (function ($detachList){
  
  function saveDoc(evt, fname)
  {
-  var cList = [];
-  
-  $detachList.each(function (){
-   cList.push($(this).contents().detach());
-  });
-  
+  var $contents = $contentArea.contents().detach();
   save(evt, uExportWhole(), DB.MIME.HTML, fname);
-  
-  cList = cList.reverse();
-  $detachList.each(function (){
-   cList.pop().appendTo($(this));
-  });
+  $contentArea.append($contents);
  }
  
  
@@ -2770,11 +2787,6 @@ var $ERRORWIZ = (function ($wiz){
  //If a click event manages to bubble up to here, close the popup.
  $body.on(EV.CLICK, function (evt){
   $POPUPWIZ.trigger(EVT.CLOSE);
- });
- 
- //Self-deleting buttons should remove themselves when clicked.
- $body.on(EV.CLICK, CSS.B_SELF_DEL, function (evt){
-  $(this).remove();
  });
  
  //Handles wiki link click events in general

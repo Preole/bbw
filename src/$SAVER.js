@@ -2,7 +2,7 @@
 /* requires $EXPORTWIZ.js */
 
 
-var $SAVER = (function ($detachList){
+var $SAVER = (function ($contentArea){
  var $obj = $({});
 
  function uOuterHTML($ele)
@@ -28,18 +28,9 @@ var $SAVER = (function ($detachList){
  
  function saveDoc(evt, fname)
  {
-  var cList = [];
-  
-  $detachList.each(function (){
-   cList.push($(this).contents().detach());
-  });
-  
+  var $contents = $contentArea.contents().detach();
   save(evt, uExportWhole(), DB.MIME.HTML, fname);
-  
-  cList = cList.reverse();
-  $detachList.each(function (){
-   cList.pop().appendTo($(this));
-  });
+  $contentArea.append($contents);
  }
  
  
