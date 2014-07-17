@@ -133,13 +133,13 @@
   },
   "EntryPoint": {
    "title": "EntryPoint",
-   "src": "The back-end of BareBonesWiki has been fixed by Update 4; It should \nno longer be a pain to push updates and implement new features at this \npoint. Most of the milestones have been met by Update 7, except for a \nmore elaborate tag interface.\n\nMilestones\n----------\n\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n\n\n\nUpdate Log\n----------\n\n- #<Enhancement Update 9>\n- #<Enhancement Update 8>\n- #<Enhancement Update 7>\n- #<Enhancement Update 6>\n- #<Enhancement Update 5>\n- #<Enhancement Update 4>\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n\n\n\nReferences\n----------\n\n- #<JSON Datastore>\n- #<Build Instruction>",
+   "src": "The back-end of BareBonesWiki has been fixed by Update 4; It should \nno longer be a pain to push updates and implement new features at this \npoint. Most of the milestones have been met by Update 7, except for a \nmore elaborate tag interface.\n\nMilestones\n----------\n\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n\n\n\nUpdate Log\n----------\n\n- #<Enhancement Update 10>-[Enhancement Update 10 - Version 0.1.4]\n- #<Enhancement Update 9>\n- #<Enhancement Update 8>\n- #<Enhancement Update 7>\n- #<Enhancement Update 6>\n- #<Enhancement Update 5>\n- #<Enhancement Update 4>\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n\n\n\nReferences\n----------\n\n- #<JSON Datastore>\n- #<Build Instruction>",
    "mime": "text/x-bbm",
    "tags": [
     "Uncategorized"
    ],
    "created": 1394841548715,
-   "edited": 1405200615571
+   "edited": 1405638892521
   },
   "Enhancement Update 9": {
    "title": "Enhancement Update 9",
@@ -150,6 +150,16 @@
    ],
    "created": 1405200728993,
    "edited": 1405200729993
+  },
+  "Enhancement Update 10": {
+   "title": "Enhancement Update 10",
+   "src": "=== 0.1.4 ===\n\nFixes\n=====\n\n- The drop-down menu for existing tags in editing mode had a \n  behavior change; It will now fill the nearby textbox with \n  the tag, rather than adding the tag directly.\n\n  Internet Explorer should no longer add tags every time the \n  tag selection menu changes from keyboard presses.\n\n  This change is made to better accommodate keyboard navigation \n  under certain browsers, which have different behaviors for \n  menu item changes made by the keyboard.\n\n- Fixed a low-level error that prevented saving and exporting \n  under Internet Explorer 10 or higher.\n",
+   "mime": "text/x-bbm",
+   "tags": [
+    "Uncategorized"
+   ],
+   "created": 1405638899344,
+   "edited": 1405638900344
   }
  },
  "EDGES": {
@@ -166,7 +176,8 @@
    "Enhancement Update 2": null,
    "Enhancement Update": null,
    "JSON Datastore": null,
-   "Build Instruction": null
+   "Build Instruction": null,
+   "Enhancement Update 10": null
   }
  },
  "CONFIG": {

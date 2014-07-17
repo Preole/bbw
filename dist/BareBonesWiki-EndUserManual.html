@@ -417,11 +417,11 @@ background: #000;
 <body>
 
  <noscript>
-  <div class="css-modal-sys">
-   <div class="css-pad-sys css-font-big">
+  &lt;div class="css-modal-sys"&gt;
+   &lt;div class="css-pad-sys css-font-big"&gt;
     BareBonesWiki requires Javascript to function. Please enable Javascript.
-   </div>
-  </div>
+   &lt;/div&gt;
+  &lt;/div&gt;
  </noscript>
 
 
@@ -429,51 +429,51 @@ background: #000;
  
  <div class="css-table css-pad">
   <div>
-   <input id="js-txt-search" type="text">
+   <input id="js-txt-search" type="text" value="">
   </div>
   <div>
-   <button type="button" id="js-b-search">Search</button>
-   <button type="button" id="js-b-index">Index▼</button>
+   <button id="js-b-search" type="button">Search</button>
+   <button id="js-b-index" type="button">Index▼</button>
   </div>
   <div class="css-right">
-   <button type="button" id="js-b-cfg">Options</button>
-   <button type="button" id="js-b-save">Save</button>
-   <button type="button" id="js-b-new">New</button>
+   <button id="js-b-cfg" type="button">Options</button>
+   <button id="js-b-save" type="button">Save</button>
+   <button id="js-b-new" type="button">New</button>
   </div>
  </div>
  
  <div class="css-table">
-  <dl id="js-area-index" class="css-index css-top js-css-invis js-content">
+  <dl class="css-index css-top js-css-invis js-content" id="js-area-index">
    <dt class="css-table css-pad">
     <span id="js-area-index-title"></span>
-    <span class="css-right"><button type="button" class="js-b-close">Close</button></span>
+    <span class="css-right"><button class="js-b-close" type="button">Close</button></span>
    </dt>
    <dd id="js-area-index-content"></dd>
   </dl>
-  <div id="js-area-content" class="css-top"></div>
+  <div class="css-top" id="js-area-content"></div>
  </div>
  
  <div class="css-pad">
-  <button type="button" id="js-b-top">To Top</button>
-  <button type="button" id="js-b-export">Export</button>
-  <button type="button" id="js-b-import">Import▼</button>
+  <button id="js-b-top" type="button">To Top</button>
+  <button id="js-b-export" type="button">Export</button>
+  <button id="js-b-import" type="button">Import▼</button>
  </div>
 
  
 <!--Hidden import wizard.-->
-<form class="css-modal-sys js-modal js-css-invis" tabindex="0" id="js-import-wiz">
+<form tabindex="0" class="css-modal-sys js-modal js-css-invis" id="js-import-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">Import Wizard</div>
  <fieldset>
  <legend>Import as...</legend>
-  <label><input name="js-import-type" value="application/json" checked="" type="radio">As Dataset</label>
-  <label><input name="js-import-type" value="text/x-bbm" type="radio">As Wiki Entry</label>
-  <label><input name="js-import-type" value="text/plain" type="radio">As Plain Text</label>
-  <label><input name="js-import-type" value="text/html" type="radio">As HTML Snippets</label>
+  <label><input name="js-import-type" type="radio" checked="" value="application/json">As Dataset</label>
+  <label><input name="js-import-type" type="radio" value="text/x-bbm">As Wiki Entry</label>
+  <label><input name="js-import-type" type="radio" value="text/plain">As Plain Text</label>
+  <label><input name="js-import-type" type="radio" value="text/html">As HTML Snippets</label>
  </fieldset>
  <fieldset>
  <legend>Choose...</legend>
- <label><input id="js-i-import" multiple="" type="file"></label>
+ <label><input id="js-i-import" type="file" multiple="" value=""></label>
  <select id="js-s-import-charset">
   <option value="UTF-8">Unicode (UTF-8)</option>
   <option value="UCS-2">UCS-2</option>
@@ -499,35 +499,35 @@ background: #000;
  
  <fieldset>
  <legend>Import Log</legend>
- <textarea cols="80" rows="6" id="js-i-import-log"></textarea>
+ <textarea id="js-i-import-log" rows="6" cols="80"></textarea>
  </fieldset>
  
  <div class="css-right">
-  <button type="button" class="js-b-close">Close</button>
+  <button class="js-b-close" type="button">Close</button>
  </div>
 </div>
 </form>
 
 <!--Hidden popup menu-->
-<div class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
+<div tabindex="0" class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz">
  <div class="css-font-med" id="js-popup-title"></div>
  <div class="css-index css-min-height" id="js-popup-content"></div>
  <div class="css-right">
-  <button type="button" class="js-b-close">Close</button>
+  <button class="js-b-close" type="button">Close</button>
  </div>
 </div>
 
 <!--Hidden configuration wizard.-->
-<form class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
+<form tabindex="0" class="css-modal-sys js-css-invis js-modal" id="js-cfg-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">Configuration Wizard</div>
  <fieldset>
  <legend>Title</legend>
- <input id="js-i-cfg-title" type="text">
+ <input id="js-i-cfg-title" type="text" value="">
  </fieldset>
  <fieldset>
  <legend>Startup Titles (Delimited by Line-breaks or "<code style="background: inherit;">||</code>")</legend>
- <textarea cols="30" rows="10" id="js-i-cfg-startup"></textarea>
+ <textarea id="js-i-cfg-startup" rows="10" cols="30"></textarea>
  </fieldset>
  <fieldset>
  <legend>Confirmations</legend>
@@ -545,14 +545,14 @@ background: #000;
  </label>
  </fieldset>
  <div class="css-right">
-  <button type="button" class="js-b-save">Ok</button>
-  <button type="button" class="js-b-close">Close</button>
+  <button class="js-b-save" type="button">Ok</button>
+  <button class="js-b-close" type="button">Close</button>
  </div>
 </div>
 </form>
 
 <!--Hidden Export wizard-->
-<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-export-wiz">
+<div tabindex="0" class="css-modal-sys js-css-invis js-modal" id="js-export-wiz">
 <div class="css-pad-sys">
 <p class="css-font-big">Manual-saving &amp; Exporting Wizard</p>
 <p>
@@ -572,16 +572,16 @@ and for data exporting, """.json""".
 There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </p>
 <p>
-<a href="#" tabindex="0" id="js-save-link" class="css-font-med" target="_blank">Save this link target</a>
+<a tabindex="0" class="css-font-med" id="js-save-link" href="#" target="_blank">Save this link target</a>
 </p>
 <p>
-<button type="button" class="js-b-close">Close</button>
+<button class="js-b-close" type="button">Close</button>
 </p>
 </div>
 </div>
 
 <!--Error Reporting-->
-<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-err-wiz">
+<div tabindex="0" class="css-modal-sys js-css-invis js-modal" id="js-err-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">
   BareBonesWiki Error Reporting
@@ -593,13 +593,13 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
  </p>
  <textarea id="js-i-error-log"></textarea>
  <div class="css-right">
-  <button type="button" class="js-b-close">Close</button>
+  <button class="js-b-close" type="button">Close</button>
  </div>
 </div>
 </div>
 
 <!--View Template-->
-<script type="text/html" id="js-t-view">
+<script id="js-t-view" type="text/html">
 <div class="css-pad-big js-form" tabindex="0">
  <div class="css-right js-ctrl">
   <button type="button" class="js-b-close-o">Close Others</button>
@@ -615,7 +615,7 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 
 
 <!--Edit Template-->
-<script type="text/html" id="js-t-edit">
+<script id="js-t-edit" type="text/html">
 <form class="css-pad-big js-form" tabindex="0">
 <fieldset class="css-right js-ctrl">
  <button type="button" class="js-b-delete">Delete</button>
@@ -653,28 +653,28 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </script>
 
 <!--Replaceable HTML fragments-->
-<script type="text/html" id="js-t-button-tag">
+<script id="js-t-button-tag" type="text/html">
 <button type="button" class="js-css-wlink js-b-tag-item">
  <span class="js-b-tag-text"></span>
  <span>✘</span>
 </button>
 </script>
-<script type="text/html" id="js-t-dl">
+<script id="js-t-dl" type="text/html">
 <dl></dl>
 </script>
-<script type="text/html" id="js-t-dd">
+<script id="js-t-dd" type="text/html">
 <dd></dd>
 </script>
-<script type="text/html" id="js-t-dt">
+<script id="js-t-dt" type="text/html">
 <dt class="css-pad"></dt>
 </script>
-<script type="text/html" id="js-t-wlink">
+<script id="js-t-wlink" type="text/html">
 <a href="#" tabindex="0" class="js-css-wlink js-wlink"></a>
 </script>
-<script type="text/html" id="js-t-para">
+<script id="js-t-para" type="text/html">
 <p class="css-margin"></p>
 </script>
-<script type="text/html" id="js-t-button">
+<script id="js-t-button" type="text/html">
 <button type="button"></button>
 </script>
 
@@ -685,7 +685,7 @@ JSON Data storage.
 Unescape HTML entities "&amp; &lt; &gt;" prior to parsing, if extracting
 directly from here.
 -->
-<script type="application/json" id="js-db">{
+<script id="js-db" type="application/json">{
  "NODES": {
   "Syntax": {
    "title": "Syntax",
@@ -2996,8 +2996,7 @@ var $CONTENT = (function ($baseEle){
   }
   else if ($e.hasClass("js-s-tags-lookup"))
   {
-   tag = $e.val();
-   toggleTagEdit.call(this, evt, title, tag, true);
+   $tagField.val($e.val());
   }
   else
   {
@@ -3296,8 +3295,8 @@ var autoSave = (function()
  
  function msieDownload(dataStr, mimeStr, fileName)
  {
-  var blob = new Blob([data], {type: mime});
-  window.navigator.msSaveBlob(blob, fName);
+  var blob = new Blob([dataStr], {type: mimeStr});
+  window.navigator.msSaveBlob(blob, fileName);
  }
  
  

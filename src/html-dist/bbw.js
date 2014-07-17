@@ -2109,8 +2109,7 @@ var $CONTENT = (function ($baseEle){
   }
   else if ($e.hasClass("js-s-tags-lookup"))
   {
-   tag = $e.val();
-   toggleTagEdit.call(this, evt, title, tag, true);
+   $tagField.val($e.val());
   }
   else
   {
@@ -2409,8 +2408,8 @@ var autoSave = (function()
  
  function msieDownload(dataStr, mimeStr, fileName)
  {
-  var blob = new Blob([data], {type: mime});
-  window.navigator.msSaveBlob(blob, fName);
+  var blob = new Blob([dataStr], {type: mimeStr});
+  window.navigator.msSaveBlob(blob, fileName);
  }
  
  

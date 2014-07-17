@@ -205,8 +205,7 @@ var $CONTENT = (function ($baseEle){
   }
   else if ($e.hasClass("js-s-tags-lookup"))
   {
-   tag = $e.val();
-   toggleTagEdit.call(this, evt, title, tag, true);
+   $tagField.val($e.val());
   }
   else
   {

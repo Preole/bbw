@@ -39,8 +39,8 @@ var autoSave = (function()
  
  function msieDownload(dataStr, mimeStr, fileName)
  {
-  var blob = new Blob([data], {type: mime});
-  window.navigator.msSaveBlob(blob, fName);
+  var blob = new Blob([dataStr], {type: mimeStr});
+  window.navigator.msSaveBlob(blob, fileName);
  }
  
  

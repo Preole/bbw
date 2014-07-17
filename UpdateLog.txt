@@ -100,3 +100,23 @@ first time forces the screen to scroll to bottom in Firefox.
 - Fixed a bug where the indexing panel would persist in the next launch 
   if left unclosed prior to saving. Clicking on buttons in this panel 
   resulted in errors, until the panel is refreshed.
+
+
+=== 0.1.4 ===
+
+==== Fixes ====
+
+- The drop-down menu for existing tags in editing mode had a 
+  behavior change; It will now fill the nearby textbox with 
+  the tag, rather than adding the tag directly.
+
+  Internet Explorer should no longer add tags every time the 
+  tag selection menu changes from keyboard presses.
+
+  This change is made to better accommodate keyboard navigation 
+  under certain browsers, which have different behaviors for 
+  menu item changes made by the keyboard.
+
+- Fixed a low-level error that prevented saving and exporting 
+  under Internet Explorer 10 or higher.
+
