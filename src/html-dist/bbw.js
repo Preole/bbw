@@ -246,6 +246,20 @@ var STR = (function()
    return hasSubstring(str, substr, caseSense);
   });
  }
+ 
+ function encodeHTMLBody(str)
+ {
+  return str.replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;");
+ }
+ 
+ function decodeHTMLBody(str)
+ {
+  return str.replace(/&amp;/g, "&")
+  .replace(/&lt;/g, "<")
+  .replace(/&gt;/g, ">");
+ }
 
  return {
   hasSubstring : hasSubstring,
@@ -255,7 +269,9 @@ var STR = (function()
   words : words,
   wordsByPipes : wordsByPipes,
   isBlank : isBlank,
-  isNotBlank : isNotBlank
+  isNotBlank : isNotBlank,
+  encodeHTMLBody : encodeHTMLBody,
+  decodeHTMLBody : decodeHTMLBody
  };
 }());
 
@@ -1646,7 +1662,7 @@ var CSS =
  var maxDepth = 10;
  var protoExtend = (function (){
  
-  function doLinkify(val)
+  function doLinkify(index, val)
   {
    var $e = $(val);
    var title = $e.attr("href") || $e.data().title;
@@ -1661,7 +1677,8 @@ var CSS =
  
   function linkify()
   {
-   this.links().tabify().toArray().forEach(doLinkify);
+   this.links().each(doLinkify);
+   this.tabify().each(doLinkify);
    return this;
   }
   
@@ -1693,7 +1710,6 @@ var CSS =
    
    cStack.push(url);
    $.parseBBM(wNode.src, wNode.mime)
-    .linkify()
     .transclude(cStack)
     .replaceAll($e.parent());
    cStack.pop(url);
@@ -1798,8 +1814,8 @@ var $TMPL = (function ()
  {
   var $view = $tView.clone();
   var $frag = (frag || $.parseBBM(wNode.src, wNode.mime))
-   .linkify()
-   .transclude();
+   .transclude()
+   .linkify();
   
   $view.find(".js-title").text(wNode.title);
   $view.find(".js-subtitle").text(sigStr(wNode.edited, wNode.created));
@@ -1833,8 +1849,8 @@ var $TMPL = (function ()
  {
   return $tLinkW.clone()
    .text(displayText)
-   .data("title", displayText)
-   .attr("href", displayText);
+   .attr("href", displayText)
+   .data("title", displayText);
  }
  
  function t_doLinks(acc, str)
@@ -1881,6 +1897,7 @@ var $TMPL = (function ()
   
    $dl.append($label).append(t_linksDD(vals));
   }
+  $dl.links().linkify();
   return $dl;
  }
  
@@ -2772,7 +2789,7 @@ var $ERRORWIZ = (function ($wiz){
   $CONTENT.trigger(EVT.OPEN, entryRecent.title);
  }
  
- DB.fromJSON($DS.text());
+ DB.fromJSON(STR.decodeHTMLBody($DS.html()));
  if (DB.getConfig().startup.length > 0)
  {
   DB.getConfig().startup.reverse().forEach(initStartup);
@@ -2845,13 +2862,12 @@ var $ERRORWIZ = (function ($wiz){
  });
  
  $("#js-b-save").on(EV.CLICK, function (evt){
-  $DS.text(JSON.stringify(DB, null, " "));
+  $DS.text(STR.encodeHTMLBody(JSON.stringify(DB, null, " ")));
   $SAVER.trigger(EVT.SAVE, [document.title + ".html"]);
  });
  
  $("#js-b-export").on(EV.CLICK, function (evt){
-  var jsonStr = JSON.stringify(DB, null, " ");
-  $DS.text(jsonStr);
+  var jsonStr = STR.encodeHTMLBody(JSON.stringify(DB, null, " "));
   $SAVER.trigger(EVT.EXPORT, [jsonStr, document.title + ".json"]);
  });
  

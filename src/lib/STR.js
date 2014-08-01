@@ -180,6 +180,20 @@ var STR = (function()
    return hasSubstring(str, substr, caseSense);
   });
  }
+ 
+ function encodeHTMLBody(str)
+ {
+  return str.replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;");
+ }
+ 
+ function decodeHTMLBody(str)
+ {
+  return str.replace(/&amp;/g, "&")
+  .replace(/&lt;/g, "<")
+  .replace(/&gt;/g, ">");
+ }
 
  return {
   hasSubstring : hasSubstring,
@@ -189,7 +203,9 @@ var STR = (function()
   words : words,
   wordsByPipes : wordsByPipes,
   isBlank : isBlank,
-  isNotBlank : isNotBlank
+  isNotBlank : isNotBlank,
+  encodeHTMLBody : encodeHTMLBody,
+  decodeHTMLBody : decodeHTMLBody
  };
 }());
 

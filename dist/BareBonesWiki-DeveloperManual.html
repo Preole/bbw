@@ -417,11 +417,11 @@ background: #000;
 <body>
 
  <noscript>
-  &lt;div class="css-modal-sys"&gt;
-   &lt;div class="css-pad-sys css-font-big"&gt;
+  <div class="css-modal-sys">
+   <div class="css-pad-sys css-font-big">
     BareBonesWiki requires Javascript to function. Please enable Javascript.
-   &lt;/div&gt;
-  &lt;/div&gt;
+   </div>
+  </div>
  </noscript>
 
 
@@ -429,51 +429,51 @@ background: #000;
  
  <div class="css-table css-pad">
   <div>
-   <input id="js-txt-search" type="text" value="">
+   <input id="js-txt-search" type="text">
   </div>
   <div>
-   <button id="js-b-search" type="button">Search</button>
-   <button id="js-b-index" type="button">Index▼</button>
+   <button type="button" id="js-b-search">Search</button>
+   <button type="button" id="js-b-index">Index▼</button>
   </div>
   <div class="css-right">
-   <button id="js-b-cfg" type="button">Options</button>
-   <button id="js-b-save" type="button">Save</button>
-   <button id="js-b-new" type="button">New</button>
+   <button type="button" id="js-b-cfg">Options</button>
+   <button type="button" id="js-b-save">Save</button>
+   <button type="button" id="js-b-new">New</button>
   </div>
  </div>
  
  <div class="css-table">
-  <dl class="css-index css-top js-content js-css-invis" id="js-area-index">
+  <dl id="js-area-index" class="css-index css-top js-content js-css-invis">
    <dt class="css-table css-pad">
     <span id="js-area-index-title"></span>
-    <span class="css-right"><button class="js-b-close" type="button">Close</button></span>
+    <span class="css-right"><button type="button" class="js-b-close">Close</button></span>
    </dt>
    <dd id="js-area-index-content"></dd>
   </dl>
-  <div class="css-top" id="js-area-content"></div>
+  <div id="js-area-content" class="css-top"></div>
  </div>
  
  <div class="css-pad">
-  <button id="js-b-top" type="button">To Top</button>
-  <button id="js-b-export" type="button">Export</button>
-  <button id="js-b-import" type="button">Import▼</button>
+  <button type="button" id="js-b-top">To Top</button>
+  <button type="button" id="js-b-export">Export</button>
+  <button type="button" id="js-b-import">Import▼</button>
  </div>
 
  
 <!--Hidden import wizard.-->
-<form tabindex="0" class="css-modal-sys js-modal js-css-invis" id="js-import-wiz">
+<form class="css-modal-sys js-modal js-css-invis" tabindex="0" id="js-import-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">Import Wizard</div>
  <fieldset>
  <legend>Import as...</legend>
-  <label><input name="js-import-type" type="radio" checked="" value="application/json">As Dataset</label>
-  <label><input name="js-import-type" type="radio" value="text/x-bbm">As Wiki Entry</label>
-  <label><input name="js-import-type" type="radio" value="text/plain">As Plain Text</label>
-  <label><input name="js-import-type" type="radio" value="text/html">As HTML Snippets</label>
+  <label><input name="js-import-type" value="application/json" checked="" type="radio">As Dataset</label>
+  <label><input name="js-import-type" value="text/x-bbm" type="radio">As Wiki Entry</label>
+  <label><input name="js-import-type" value="text/plain" type="radio">As Plain Text</label>
+  <label><input name="js-import-type" value="text/html" type="radio">As HTML Snippets</label>
  </fieldset>
  <fieldset>
  <legend>Choose...</legend>
- <label><input id="js-i-import" type="file" multiple="" value=""></label>
+ <label><input id="js-i-import" multiple="" type="file"></label>
  <select id="js-s-import-charset">
   <option value="UTF-8">Unicode (UTF-8)</option>
   <option value="UCS-2">UCS-2</option>
@@ -499,35 +499,35 @@ background: #000;
  
  <fieldset>
  <legend>Import Log</legend>
- <textarea id="js-i-import-log" rows="6" cols="80"></textarea>
+ <textarea cols="80" rows="6" id="js-i-import-log"></textarea>
  </fieldset>
  
  <div class="css-right">
-  <button class="js-b-close" type="button">Close</button>
+  <button type="button" class="js-b-close">Close</button>
  </div>
 </div>
 </form>
 
 <!--Hidden popup menu-->
-<div tabindex="0" class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" style="left: 458px; top: 92px;">
+<div style="left: 499px; top: 94px;" class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
  <div class="css-font-med" id="js-popup-title"></div>
  <div class="css-index css-min-height" id="js-popup-content"></div>
  <div class="css-right">
-  <button class="js-b-close" type="button">Close</button>
+  <button type="button" class="js-b-close">Close</button>
  </div>
 </div>
 
 <!--Hidden configuration wizard.-->
-<form tabindex="0" class="css-modal-sys js-css-invis js-modal" id="js-cfg-wiz">
+<form class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">Configuration Wizard</div>
  <fieldset>
  <legend>Title</legend>
- <input id="js-i-cfg-title" type="text" value="">
+ <input id="js-i-cfg-title" type="text">
  </fieldset>
  <fieldset>
  <legend>Startup Titles (Delimited by Line-breaks or "<code style="background: inherit;">||</code>")</legend>
- <textarea id="js-i-cfg-startup" rows="10" cols="30"></textarea>
+ <textarea cols="30" rows="10" id="js-i-cfg-startup"></textarea>
  </fieldset>
  <fieldset>
  <legend>Confirmations</legend>
@@ -545,14 +545,14 @@ background: #000;
  </label>
  </fieldset>
  <div class="css-right">
-  <button class="js-b-save" type="button">Ok</button>
-  <button class="js-b-close" type="button">Close</button>
+  <button type="button" class="js-b-save">Ok</button>
+  <button type="button" class="js-b-close">Close</button>
  </div>
 </div>
 </form>
 
 <!--Hidden Export wizard-->
-<div tabindex="0" class="css-modal-sys js-css-invis js-modal" id="js-export-wiz">
+<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-export-wiz">
 <div class="css-pad-sys">
 <p class="css-font-big">Manual-saving &amp; Exporting Wizard</p>
 <p>
@@ -572,16 +572,16 @@ and for data exporting, """.json""".
 There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </p>
 <p>
-<a tabindex="0" class="css-font-med" id="js-save-link" href="#" target="_blank">Save this link target</a>
+<a href="#" tabindex="0" id="js-save-link" class="css-font-med" target="_blank">Save this link target</a>
 </p>
 <p>
-<button class="js-b-close" type="button">Close</button>
+<button type="button" class="js-b-close">Close</button>
 </p>
 </div>
 </div>
 
 <!--Error Reporting-->
-<div tabindex="0" class="css-modal-sys js-css-invis js-modal" id="js-err-wiz">
+<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-err-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">
   BareBonesWiki Error Reporting
@@ -593,13 +593,13 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
  </p>
  <textarea id="js-i-error-log"></textarea>
  <div class="css-right">
-  <button class="js-b-close" type="button">Close</button>
+  <button type="button" class="js-b-close">Close</button>
  </div>
 </div>
 </div>
 
 <!--View Template-->
-<script id="js-t-view" type="text/html">
+<script type="text/html" id="js-t-view">
 <div class="css-pad-big js-form" tabindex="0">
  <div class="css-right js-ctrl">
   <button type="button" class="js-b-close-o">Close Others</button>
@@ -615,7 +615,7 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 
 
 <!--Edit Template-->
-<script id="js-t-edit" type="text/html">
+<script type="text/html" id="js-t-edit">
 <form class="css-pad-big js-form" tabindex="0">
 <fieldset class="css-right js-ctrl">
  <button type="button" class="js-b-delete">Delete</button>
@@ -653,28 +653,28 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </script>
 
 <!--Replaceable HTML fragments-->
-<script id="js-t-button-tag" type="text/html">
+<script type="text/html" id="js-t-button-tag">
 <button type="button" class="js-css-wlink js-b-tag-item">
  <span class="js-b-tag-text"></span>
  <span>✘</span>
 </button>
 </script>
-<script id="js-t-dl" type="text/html">
+<script type="text/html" id="js-t-dl">
 <dl></dl>
 </script>
-<script id="js-t-dd" type="text/html">
+<script type="text/html" id="js-t-dd">
 <dd></dd>
 </script>
-<script id="js-t-dt" type="text/html">
+<script type="text/html" id="js-t-dt">
 <dt class="css-pad"></dt>
 </script>
-<script id="js-t-wlink" type="text/html">
+<script type="text/html" id="js-t-wlink">
 <a href="#" tabindex="0" class="js-css-wlink js-wlink"></a>
 </script>
-<script id="js-t-para" type="text/html">
+<script type="text/html" id="js-t-para">
 <p class="css-margin"></p>
 </script>
-<script id="js-t-button" type="text/html">
+<script type="text/html" id="js-t-button">
 <button type="button"></button>
 </script>
 
@@ -685,10 +685,20 @@ JSON Data storage.
 Unescape HTML entities "&amp; &lt; &gt;" prior to parsing, if extracting
 directly from here.
 -->
-<script id="js-db" type="application/json">{
+<script type="application/json" id="js-db">{
  "NODES": {
-  "CSS Class & ID Prefixes": {
-   "title": "CSS Class & ID Prefixes",
+  "New Entry 1": {
+   "title": "New Entry 1",
+   "src": "#&lt;BAD&gt;",
+   "mime": "text/x-bbm",
+   "tags": [
+    "Uncategorized"
+   ],
+   "created": 1406873091255,
+   "edited": 1406873092255
+  },
+  "CSS Class &amp; ID Prefixes": {
+   "title": "CSS Class &amp; ID Prefixes",
    "src": "; \"\"\"css-\"\"\"\n: Strictly for styling purposes.\n\n; \"\"\"js-\"\"\"\n: Strictly for application logic.\n\n; \"\"\"js-css-\"\"\"\n: Used by application logic to control styling.\n  (Toggling visibility, red linking)\n\n; \"\"\"bbm-\"\"\"\n: CSS namespace custom classes and identifiers \n  coming out of the wiki text parser.\n\n",
    "tags": [
     "Front-end",
@@ -710,7 +720,7 @@ directly from here.
   },
   "Enhancement Update 2": {
    "title": "Enhancement Update 2",
-   "src": "March 23, 2014\n==============\n\nIdentified a few key areas for engine improvement.\n\n1. On initialization, instead of doing a nested loop to \n   find recently edited entries, sort the entries first,\n   then pick the most recent few using a simple loop.\n\n\n\nMarch 24nd, 2014 Update\n=======================\n\nImprovements\n------------\n\n- Consolidated similar, repeated littering string literals\n  and CSS selectors so that it's easier to chase them down \n  for maintenance.\n\n- Created factory modules for creating and managing Wiki entries,\n  configuration objects, and hopefully, edge objects as well.\n\n\n\nI have compiled a list of CSS selectors that are tightly coupled \nwith javascript, and should not be changed at the CSS/HTML level:\n\n; \"\"\".js-css-invis\"\"\"\n: Toggles the visibility state of the HTML element.\n\n; \"\"\".js-wlink\"\"\"\n: Wiki-Links; Only applies to \"\"\"<a>\"\"\" elements. Hyperlinks with \n  this class will exhibit special behaviors instead of the standard \n  hyperlink behavior, depending its container's CSS classes.\n\n; \"\"\".js-content\"\"\"\n: Content area label; Wiki-links under this container will open a \n  new wiki entry based on its URL.\n\n; \"\"\".js-index\"\"\"\n: Indexing area label; Wiki-links under this container will index \n  the database and post the result onto a specialized display.\n\n; \"\"\".js-tags\"\"\"\n: Tagging area label; Wiki-links under this container will index \n  and display all wiki entries that have this tag.\n\n----\n\nMeanwhile, here's a list of javascript events (Triggered via jQuery), \nand their descriptions.\n\n; \"\"\"EVT.INDEX\"\"\"\n: Launches a popup modal box that displays a list of available \n  indexing methods. Clicking on one of these indexing methods \n  result in wiki entries being displayed arranged in a specific \n  order. Occurs on clicking the indexing button.\n\n; \"\"\"EVT.TAG\"\"\"\n: Launches a popup modal box displaying the list of wiki entries \n  under a specific tag. Occurs when a tag hyperlink is clicked.\n\n; \"\"\"EVT.SAVE\"\"\"\n: Serializes this entire application into one single HTML file, \n  where the location is to be specified by the user.\n\n  Alternatively, saves a configuration object into the data store.\n\n; \"\"\"EVT.EXPORT\"\"\"\n: Serializes the database into a JSON file for saving.\n\n; \"\"\"EVT.IMPORT\"\"\"\n: Loads a plain text file into the database for viewing, or loads \n  a JSON file and merge that database into the current one, \n  overwriting any name conflicts.\n\n; \"\"\"EVT.LOAD\"\"\"\n: Used by various static, hidden form elements for populating \n  the interface with data, and showing themselves.\n\n; \"\"\"EVT.CLOSE\"\"\"\n: Closes or destroys the container window, such as an editing \n  form or a modal popup box. This is a generic event.\n\n\n\nThe following events are specific to the content area where \nwiki entries are displayed:\n\n; \"\"\"EVT.CLOSEO\"\"\"\n: Closes all open wiki entries except the one that initiated\n  this event.\n\n; \"\"\"EVT.EDIT\"\"\"\n: Switches an open wiki entry into editing mode.\n\n; \"\"\"EVT.COMMIT\"\"\"\n: Saves the wiki entry being edited into the database (memory).\n\n; \"\"\"EVT.CANCEL\"\"\"\n: Discard changes and switch the wiki entry back to view mode.\n\n; \"\"\"EVT.DELETE\"\"\"\n: Removes the wiki entry from storage.\n\n; \"\"\"EVT.OPEN\"\"\"\n; Opens a wiki entry with a particular title for viewing.\n\n\nNew Problems Identified\n-----------------------\n\n- The popup modal box tag hyperlinks and indexing button does not \n  always appear right underneath the said elements under Firefox 27.\n\n- When importing an external plain text file, the wiki engine always \n  treat the input as a data set regardless of the choices made in the \n  radio buttons.\n\n- There's no way to specify the expected charset when importing a \n  file.\n\n\n\nClosing\n-------\n\nStill pondering how to organize the database code so it's more human-\nreadable. Still wondering where to put the mime type registry, and \nstill massively refactoring my code. Also forgot to finish my sentences.",
+   "src": "March 23, 2014\n==============\n\nIdentified a few key areas for engine improvement.\n\n1. On initialization, instead of doing a nested loop to \n   find recently edited entries, sort the entries first,\n   then pick the most recent few using a simple loop.\n\n\n\nMarch 24nd, 2014 Update\n=======================\n\nImprovements\n------------\n\n- Consolidated similar, repeated littering string literals\n  and CSS selectors so that it's easier to chase them down \n  for maintenance.\n\n- Created factory modules for creating and managing Wiki entries,\n  configuration objects, and hopefully, edge objects as well.\n\n\n\nI have compiled a list of CSS selectors that are tightly coupled \nwith javascript, and should not be changed at the CSS/HTML level:\n\n; \"\"\".js-css-invis\"\"\"\n: Toggles the visibility state of the HTML element.\n\n; \"\"\".js-wlink\"\"\"\n: Wiki-Links; Only applies to \"\"\"&lt;a&gt;\"\"\" elements. Hyperlinks with \n  this class will exhibit special behaviors instead of the standard \n  hyperlink behavior, depending its container's CSS classes.\n\n; \"\"\".js-content\"\"\"\n: Content area label; Wiki-links under this container will open a \n  new wiki entry based on its URL.\n\n; \"\"\".js-index\"\"\"\n: Indexing area label; Wiki-links under this container will index \n  the database and post the result onto a specialized display.\n\n; \"\"\".js-tags\"\"\"\n: Tagging area label; Wiki-links under this container will index \n  and display all wiki entries that have this tag.\n\n----\n\nMeanwhile, here's a list of javascript events (Triggered via jQuery), \nand their descriptions.\n\n; \"\"\"EVT.INDEX\"\"\"\n: Launches a popup modal box that displays a list of available \n  indexing methods. Clicking on one of these indexing methods \n  result in wiki entries being displayed arranged in a specific \n  order. Occurs on clicking the indexing button.\n\n; \"\"\"EVT.TAG\"\"\"\n: Launches a popup modal box displaying the list of wiki entries \n  under a specific tag. Occurs when a tag hyperlink is clicked.\n\n; \"\"\"EVT.SAVE\"\"\"\n: Serializes this entire application into one single HTML file, \n  where the location is to be specified by the user.\n\n  Alternatively, saves a configuration object into the data store.\n\n; \"\"\"EVT.EXPORT\"\"\"\n: Serializes the database into a JSON file for saving.\n\n; \"\"\"EVT.IMPORT\"\"\"\n: Loads a plain text file into the database for viewing, or loads \n  a JSON file and merge that database into the current one, \n  overwriting any name conflicts.\n\n; \"\"\"EVT.LOAD\"\"\"\n: Used by various static, hidden form elements for populating \n  the interface with data, and showing themselves.\n\n; \"\"\"EVT.CLOSE\"\"\"\n: Closes or destroys the container window, such as an editing \n  form or a modal popup box. This is a generic event.\n\n\n\nThe following events are specific to the content area where \nwiki entries are displayed:\n\n; \"\"\"EVT.CLOSEO\"\"\"\n: Closes all open wiki entries except the one that initiated\n  this event.\n\n; \"\"\"EVT.EDIT\"\"\"\n: Switches an open wiki entry into editing mode.\n\n; \"\"\"EVT.COMMIT\"\"\"\n: Saves the wiki entry being edited into the database (memory).\n\n; \"\"\"EVT.CANCEL\"\"\"\n: Discard changes and switch the wiki entry back to view mode.\n\n; \"\"\"EVT.DELETE\"\"\"\n: Removes the wiki entry from storage.\n\n; \"\"\"EVT.OPEN\"\"\"\n; Opens a wiki entry with a particular title for viewing.\n\n\nNew Problems Identified\n-----------------------\n\n- The popup modal box tag hyperlinks and indexing button does not \n  always appear right underneath the said elements under Firefox 27.\n\n- When importing an external plain text file, the wiki engine always \n  treat the input as a data set regardless of the choices made in the \n  radio buttons.\n\n- There's no way to specify the expected charset when importing a \n  file.\n\n\n\nClosing\n-------\n\nStill pondering how to organize the database code so it's more human-\nreadable. Still wondering where to put the mime type registry, and \nstill massively refactoring my code. Also forgot to finish my sentences.",
    "tags": [
     "Uncategorized"
    ],
@@ -730,7 +740,7 @@ directly from here.
   },
   "Build Instruction": {
    "title": "Build Instruction",
-   "src": "Basic Build Instructions\n========================\n\n1. Install ?<http://nodejs.org/>-[node.js]. \n\n2. Jump to the project's root directory using command-line and type \n   \"\"\"node build.js\"\"\". If you're on Windows, shift-right click the\n   open white space in the Explorer window and select \"\"\"Open \n   command-prompt\"\"\"\n   \n3. Retrieve the generated HTML file in \"\"\"./dist/\"\"\".\n\n\n\nSlightly more complicated builds\n================================\n\nAssuming you're in the project's root directory in the command line, with \nnode.js installed, install the following node.js modules:\n\n\"\"\"\nnpm install jscombiner\nnpm install fuse\n\"\"\"\n\nThe former is a javascript file concatenator, while the latter is a HTML, \nCSS, and Javascript file injector.\n\nIf you'll be using the wiki in older web browsers, Navigate to the source code \ndirectory and switch jQuery library versions located in \"\"\"./src/lib/\"\"\". \n**Note**: this operation does not enable Internet Explorer 8-9 to commit \npersistent changes to the wiki.\n\n\"\"\"\ncd src/lib/\ncp jQuery1.x.min.js jQuery.min.js\n\"\"\"\n\nRetrieve the generated HTML file in \"\"\"./dist/\"\"\"\n\n\n\n\n\nHard Dependencies\n=================\n\nThey're already included in the source code, but just in case updates come \nout:\n\n; jQuery \n\n  : Download the minified library from ?<http://jquery.com/download/>\n     -[the official website], then put it into the source folder. Download \n     the 1.x branch if planning to use the wiki with older web browsers.\n     (Not Internet Explorer, unfortunately)\n\n; lodash\n\n  : Retrieve the minified compatibility build of lodash from \n    ?<http://lodash.com/>, by John-David Dalton, and drop it off at\n    \"\"\"./src/lib/\"\"\".\n    \n; bbm (BakaBakaMark; The markup syntax used in the wiki)\n\n  : ?<https://github.com/Preole/bbm>\n\n    Simply drag, drop, and replace the old library with the new one.\n\n\n\n\nlodash Custom Build\n===================\n\nIf memory consumption and saving a few bytes matter, we can build a custom \nversion of lodash using **node.js**.\n\n1. Install node.js\n2. Install npm (Which comes along with node.js)\n3. \"\"\"\n   npm install lodash-cli -g\n   \"\"\"\n\n4. \"\"\"\n   lodash compat category=collections,objects exports=global include=difference,uniq,union,identity\n   \"\"\"\n   \n   Switch out \"\"\"compat\"\"\" with \"\"\"modern\"\"\" if you'll always be using\n   modern web browsers.\n   \n5. Drag & drop the minified library into \"\"\"./src/lib/\"\"\".\n\n\n\njQuery Custom Build\n===================\n\nLike the lodash custom build, follow these instructions if you're looking \nto save a few extra bytes. This build instruction assumes that the following \ncommands are available in the command line shell:\n\n- node (?<node.js>)\n- npm (Comes along with node.js)\n- git (?<git>)\n- grunt-cli (\"\"\"npm install grunt-cli -g\"\"\")\n\n:{node.js}: http://nodejs.org/\n:{git}: http://www.vogella.com/tutorials/Git/article.html#installation\n\n\nFrom the command line in the github directory, clone jQuery's repository\nand build its dependencies using the following commands:\n\n\"\"\"\ngit clone git://github.com/jquery/jquery.git\ncd jquery\nnpm run build\n\"\"\"\n\n\n\nAfter building, run one of the following scripts depending on how modern \nyour web browsers will be. For older Gecko and Webkit-based, use the 1.x \nbranch:\n\n\"\"\"\ngit checkout 1.11.0\ngrunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callbacks,-queue,-forms,-deprecated,-exports/amd,-css\n\"\"\"\n\n\n\nAnd if you'll always use the latest browsers, use the 2.x branch.\n\n\"\"\"\ngit checkout 2.1.0\ngrunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callbacks,-queue,-forms,-deprecated,-exports/amd,-css,-sizzle\n\"\"\"\n\nDrop the minified jquery from \"\"\"$(jQueryRoot)/dist/jquery.min.js\"\"\" \nto the wiki's source directory: \"\"\"$(bbwRoot)/src/lib/jquery.min.js\"\"\"\n\n",
+   "src": "Basic Build Instructions\n========================\n\n1. Install ?&lt;http://nodejs.org/&gt;-[node.js]. \n\n2. Jump to the project's root directory using command-line and type \n   \"\"\"node build.js\"\"\". If you're on Windows, shift-right click the\n   open white space in the Explorer window and select \"\"\"Open \n   command-prompt\"\"\"\n   \n3. Retrieve the generated HTML file in \"\"\"./dist/\"\"\".\n\n\n\nSlightly more complicated builds\n================================\n\nAssuming you're in the project's root directory in the command line, with \nnode.js installed, install the following node.js modules:\n\n\"\"\"\nnpm install jscombiner\nnpm install fuse\n\"\"\"\n\nThe former is a javascript file concatenator, while the latter is a HTML, \nCSS, and Javascript file injector.\n\nIf you'll be using the wiki in older web browsers, Navigate to the source code \ndirectory and switch jQuery library versions located in \"\"\"./src/lib/\"\"\". \n**Note**: this operation does not enable Internet Explorer 8-9 to commit \npersistent changes to the wiki.\n\n\"\"\"\ncd src/lib/\ncp jQuery1.x.min.js jQuery.min.js\n\"\"\"\n\nRetrieve the generated HTML file in \"\"\"./dist/\"\"\"\n\n\n\n\n\nHard Dependencies\n=================\n\nThey're already included in the source code, but just in case updates come \nout:\n\n; jQuery \n\n  : Download the minified library from ?&lt;http://jquery.com/download/&gt;\n     -[the official website], then put it into the source folder. Download \n     the 1.x branch if planning to use the wiki with older web browsers.\n     (Not Internet Explorer, unfortunately)\n\n; lodash\n\n  : Retrieve the minified compatibility build of lodash from \n    ?&lt;http://lodash.com/&gt;, by John-David Dalton, and drop it off at\n    \"\"\"./src/lib/\"\"\".\n    \n; bbm (BakaBakaMark; The markup syntax used in the wiki)\n\n  : ?&lt;https://github.com/Preole/bbm&gt;\n\n    Simply drag, drop, and replace the old library with the new one.\n\n\n\n\nlodash Custom Build\n===================\n\nIf memory consumption and saving a few bytes matter, we can build a custom \nversion of lodash using **node.js**.\n\n1. Install node.js\n2. Install npm (Which comes along with node.js)\n3. \"\"\"\n   npm install lodash-cli -g\n   \"\"\"\n\n4. \"\"\"\n   lodash compat category=collections,objects exports=global include=difference,uniq,union,identity\n   \"\"\"\n   \n   Switch out \"\"\"compat\"\"\" with \"\"\"modern\"\"\" if you'll always be using\n   modern web browsers.\n   \n5. Drag &amp; drop the minified library into \"\"\"./src/lib/\"\"\".\n\n\n\njQuery Custom Build\n===================\n\nLike the lodash custom build, follow these instructions if you're looking \nto save a few extra bytes. This build instruction assumes that the following \ncommands are available in the command line shell:\n\n- node (?&lt;node.js&gt;)\n- npm (Comes along with node.js)\n- git (?&lt;git&gt;)\n- grunt-cli (\"\"\"npm install grunt-cli -g\"\"\")\n\n:{node.js}: http://nodejs.org/\n:{git}: http://www.vogella.com/tutorials/Git/article.html#installation\n\n\nFrom the command line in the github directory, clone jQuery's repository\nand build its dependencies using the following commands:\n\n\"\"\"\ngit clone git://github.com/jquery/jquery.git\ncd jquery\nnpm run build\n\"\"\"\n\n\n\nAfter building, run one of the following scripts depending on how modern \nyour web browsers will be. For older Gecko and Webkit-based, use the 1.x \nbranch:\n\n\"\"\"\ngit checkout 1.11.0\ngrunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callbacks,-queue,-forms,-deprecated,-exports/amd,-css\n\"\"\"\n\n\n\nAnd if you'll always use the latest browsers, use the 2.x branch.\n\n\"\"\"\ngit checkout 2.1.0\ngrunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callbacks,-queue,-forms,-deprecated,-exports/amd,-css,-sizzle\n\"\"\"\n\nDrop the minified jquery from \"\"\"$(jQueryRoot)/dist/jquery.min.js\"\"\" \nto the wiki's source directory: \"\"\"$(bbwRoot)/src/lib/jquery.min.js\"\"\"\n\n",
    "mime": "text/x-bbm",
    "tags": [
     "Uncategorized"
@@ -780,7 +790,7 @@ directly from here.
   },
   "Possible Front-end Enhancement": {
    "title": "Possible Front-end Enhancement",
-   "src": "Editing Interface\n=================\n\nThe **mime type** field of the editing interface should be a \ndrop-down box offering a slew of choices with a default \npre-selected. A simple text field may be too primitive an \ninterface. {++Done++}\n\nThe **tags** field of the editing interface can use the same \ntreatment; Either selecting a pre-existing tag or enter a \nnew tag string manually.\n\nThe search & indexing result panel should have an explicit \nclose button, rather than relying on an empty search query \nto close it. {++Done++}\n\n\n\nImporting Interface\n===================\n\nThe current interface for importing is limited to reading \nUTF-8 encoded text. It should be extended to accept other \ncharacter sets in addition to UTF-8. {++Done++}\n\nNext, the importing interface now supports the following \nfile types:\n\n- Plain text (No interpretation)\n- HTML Snippets (Raw HTML)\n- BareBonesWiki wiki text (Also plain text)\n- JSON (A data set extracted from another BareBonesWiki)\n\nFinally, aside from importing as a data set, importing \nwiki entries as individual text files now have sensible\nname generation, as well as a renaming scheme in case \nof name conflict.\n\n",
+   "src": "Editing Interface\n=================\n\nThe **mime type** field of the editing interface should be a \ndrop-down box offering a slew of choices with a default \npre-selected. A simple text field may be too primitive an \ninterface. {++Done++}\n\nThe **tags** field of the editing interface can use the same \ntreatment; Either selecting a pre-existing tag or enter a \nnew tag string manually.\n\nThe search &amp; indexing result panel should have an explicit \nclose button, rather than relying on an empty search query \nto close it. {++Done++}\n\n\n\nImporting Interface\n===================\n\nThe current interface for importing is limited to reading \nUTF-8 encoded text. It should be extended to accept other \ncharacter sets in addition to UTF-8. {++Done++}\n\nNext, the importing interface now supports the following \nfile types:\n\n- Plain text (No interpretation)\n- HTML Snippets (Raw HTML)\n- BareBonesWiki wiki text (Also plain text)\n- JSON (A data set extracted from another BareBonesWiki)\n\nFinally, aside from importing as a data set, importing \nwiki entries as individual text files now have sensible\nname generation, as well as a renaming scheme in case \nof name conflict.\n\n",
    "mime": "text/x-bbm",
    "tags": [
     "Front-end"
@@ -790,7 +800,7 @@ directly from here.
   },
   "Possible Back-end Enhancement": {
    "title": "Possible Back-end Enhancement",
-   "src": "Database (Solved)\n=================\n\nConsider separating tags from wiki entries, rather than \nintegrated as part of wiki entry objects. Tag objects should \nhave its own module for enforcing business constraints, which \nare essential for effective tagging (partitioning) of wiki \nentries based on categories. Specifically, \n\n- There can only be one unique tag per application instance,\n  determined by the tag name.\n- Each tag can refer to at most one unique wiki entry \n  identified by their title text.\n- Similarly, each wiki entry can be tagged at most once by \n  any given tag object.\n- Control characters **must be stripped** from tag names.\n- All consecutive white space characters in tag names **must**\n  be collapsed into a single ASCII white space. However, single\n  non-ASCII space characters are permitted to remain as they \n  are.\n\nWiki entries are not supposed to know which categories they \nbelong to; They should only need to know when they're last \nedited, the date they're created, its title and its source code.\n\n**Wiki entry objects** should also abide to the following rules:\n\n- One unique wiki entry title per application.\n- No control characters allowed in **Mime Type** and **Title**\n  fields.\n- In the same field, process white space in the same way as the \n  tag names do to its white space characters.\n\n{++\nThe end result is a dedicated graph data structure that can \npossibly be re-used elsewhere.\n++}\n\n\n\nView Controller (Solved)\n========================\n\nThe code base currently has severe problems with string literals \nrepeatedly used in different areas. The worst offending use case \nare **jQuery CSS selectors**, which often have little to no variation \nfrom one another, but are used as string literals because of the \nCSS selector syntax:\n\n\"\"\"\n$(\"#someConstantModule\").on(\"someEvent\", \".js-wlink\", ...)\n\nfunction doSomething(evt)\n{\n if ($(evt.target).hasClass(\"js-wlink\"))\n {\n  //Do something fancy.\n }\n}\n\"\"\"\n\nHere, the class \"js-wlink\" refers to \"javascript wiki links\", \nwhich opens a wiki entry when they're clicked. Due to the nature \nof CSS selectors, the string value has to be repeated every time \nthere's a different relationship regarding the link, such as \nwhether it's a descendant of a particular kind of \"\"\"div\"\"\". \nInstances of such string constants lead to difficult maintenance.\n\n{++\nRe-arranged the string constants such that each string constant \nis only defined once in the entire application, and they're not \nused outside the files they belong to, except through an explicit \ninterface from each module.\n++}\n\n{++\nOrganized view controllers as single files, with dependencies \nspecified by comments such as \"\"\"/*import something.js*/\"\"\". \n++}\n\nAPI & Architecture Design Flaws (Solved)\n========================================\n\n1. In order to find forward links within a wiki entry, the engine \n   must perform the following procedure every time a wiki entry is \n   saved.\n\n   1. Parse the text into HTML strings.\n   2. Build the HTML DOM.\n   3. Query the DOM for a list of links.\n\n   The third step in the parsing process is critical for indexing \n   orphaned entries and their back links, which are very convenient \n   features to end-users. The other two steps are basic plain text \n   - HTML transformation. None of these steps can be combined or \n   simplified at the current state of affairs.\n\n2. Rendering a wiki entry requires a database query to determine \n   whether to display links in a different way. (Red linking)\n\n3. The rendering engine should not have to generate the same data \n   structure as ones used within the database. (Retrieving \n   edges from HTML DOM)\n\n{++\nIsolated the linking steps by storing identifiers inside DOM \nelements; Then, linking only involves retrieving this identifier, \nand make an inexpensive existence query against the database.\n++}",
+   "src": "Database (Solved)\n=================\n\nConsider separating tags from wiki entries, rather than \nintegrated as part of wiki entry objects. Tag objects should \nhave its own module for enforcing business constraints, which \nare essential for effective tagging (partitioning) of wiki \nentries based on categories. Specifically, \n\n- There can only be one unique tag per application instance,\n  determined by the tag name.\n- Each tag can refer to at most one unique wiki entry \n  identified by their title text.\n- Similarly, each wiki entry can be tagged at most once by \n  any given tag object.\n- Control characters **must be stripped** from tag names.\n- All consecutive white space characters in tag names **must**\n  be collapsed into a single ASCII white space. However, single\n  non-ASCII space characters are permitted to remain as they \n  are.\n\nWiki entries are not supposed to know which categories they \nbelong to; They should only need to know when they're last \nedited, the date they're created, its title and its source code.\n\n**Wiki entry objects** should also abide to the following rules:\n\n- One unique wiki entry title per application.\n- No control characters allowed in **Mime Type** and **Title**\n  fields.\n- In the same field, process white space in the same way as the \n  tag names do to its white space characters.\n\n{++\nThe end result is a dedicated graph data structure that can \npossibly be re-used elsewhere.\n++}\n\n\n\nView Controller (Solved)\n========================\n\nThe code base currently has severe problems with string literals \nrepeatedly used in different areas. The worst offending use case \nare **jQuery CSS selectors**, which often have little to no variation \nfrom one another, but are used as string literals because of the \nCSS selector syntax:\n\n\"\"\"\n$(\"#someConstantModule\").on(\"someEvent\", \".js-wlink\", ...)\n\nfunction doSomething(evt)\n{\n if ($(evt.target).hasClass(\"js-wlink\"))\n {\n  //Do something fancy.\n }\n}\n\"\"\"\n\nHere, the class \"js-wlink\" refers to \"javascript wiki links\", \nwhich opens a wiki entry when they're clicked. Due to the nature \nof CSS selectors, the string value has to be repeated every time \nthere's a different relationship regarding the link, such as \nwhether it's a descendant of a particular kind of \"\"\"div\"\"\". \nInstances of such string constants lead to difficult maintenance.\n\n{++\nRe-arranged the string constants such that each string constant \nis only defined once in the entire application, and they're not \nused outside the files they belong to, except through an explicit \ninterface from each module.\n++}\n\n{++\nOrganized view controllers as single files, with dependencies \nspecified by comments such as \"\"\"/*import something.js*/\"\"\". \n++}\n\nAPI &amp; Architecture Design Flaws (Solved)\n========================================\n\n1. In order to find forward links within a wiki entry, the engine \n   must perform the following procedure every time a wiki entry is \n   saved.\n\n   1. Parse the text into HTML strings.\n   2. Build the HTML DOM.\n   3. Query the DOM for a list of links.\n\n   The third step in the parsing process is critical for indexing \n   orphaned entries and their back links, which are very convenient \n   features to end-users. The other two steps are basic plain text \n   - HTML transformation. None of these steps can be combined or \n   simplified at the current state of affairs.\n\n2. Rendering a wiki entry requires a database query to determine \n   whether to display links in a different way. (Red linking)\n\n3. The rendering engine should not have to generate the same data \n   structure as ones used within the database. (Retrieving \n   edges from HTML DOM)\n\n{++\nIsolated the linking steps by storing identifiers inside DOM \nelements; Then, linking only involves retrieving this identifier, \nand make an inexpensive existence query against the database.\n++}",
    "mime": "text/x-bbm",
    "tags": [
     "Back-end"
@@ -820,7 +830,7 @@ directly from here.
   },
   "EntryPoint": {
    "title": "EntryPoint",
-   "src": "The back-end of BareBonesWiki has been fixed by Update 4; It should \nno longer be a pain to push updates and implement new features at this \npoint. Most of the milestones have been met by Update 7, except for a \nmore elaborate tag interface.\n\nMilestones\n----------\n\n- #<Possible Back-end Enhancement>\n- #<Possible Front-end Enhancement>\n\n\n\nUpdate Log\n----------\n\n- #<Enhancement Update 10>-[Enhancement Update 10 - Version 0.1.4]\n- #<Enhancement Update 9>\n- #<Enhancement Update 8>\n- #<Enhancement Update 7>\n- #<Enhancement Update 6>\n- #<Enhancement Update 5>\n- #<Enhancement Update 4>\n- #<Enhancement Update 3>\n- #<Enhancement Update 2>\n- #<Enhancement Update>\n\n\n\nReferences\n----------\n\n- #<JSON Datastore>\n- #<Build Instruction>",
+   "src": "The back-end of BareBonesWiki has been fixed by Update 4; It should \nno longer be a pain to push updates and implement new features at this \npoint. Most of the milestones have been met by Update 7, except for a \nmore elaborate tag interface.\n\nMilestones\n----------\n\n- #&lt;Possible Back-end Enhancement&gt;\n- #&lt;Possible Front-end Enhancement&gt;\n\n\n\nUpdate Log\n----------\n\n- #&lt;Enhancement Update 10&gt;-[Enhancement Update 10 - Version 0.1.4]\n- #&lt;Enhancement Update 9&gt;\n- #&lt;Enhancement Update 8&gt;\n- #&lt;Enhancement Update 7&gt;\n- #&lt;Enhancement Update 6&gt;\n- #&lt;Enhancement Update 5&gt;\n- #&lt;Enhancement Update 4&gt;\n- #&lt;Enhancement Update 3&gt;\n- #&lt;Enhancement Update 2&gt;\n- #&lt;Enhancement Update&gt;\n\n\n\nReferences\n----------\n\n- #&lt;JSON Datastore&gt;\n- #&lt;Build Instruction&gt;",
    "mime": "text/x-bbm",
    "tags": [
     "Uncategorized"
@@ -850,6 +860,9 @@ directly from here.
   }
  },
  "EDGES": {
+  "New Entry 1": {
+   "BAD": null
+  },
   "EntryPoint": {
    "Possible Back-end Enhancement": null,
    "Possible Front-end Enhancement": null,
@@ -1129,6 +1142,20 @@ var STR = (function()
    return hasSubstring(str, substr, caseSense);
   });
  }
+ 
+ function encodeHTMLBody(str)
+ {
+  return str.replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;");
+ }
+ 
+ function decodeHTMLBody(str)
+ {
+  return str.replace(/&amp;/g, "&")
+  .replace(/&lt;/g, "<")
+  .replace(/&gt;/g, ">");
+ }
 
  return {
   hasSubstring : hasSubstring,
@@ -1138,7 +1165,9 @@ var STR = (function()
   words : words,
   wordsByPipes : wordsByPipes,
   isBlank : isBlank,
-  isNotBlank : isNotBlank
+  isNotBlank : isNotBlank,
+  encodeHTMLBody : encodeHTMLBody,
+  decodeHTMLBody : decodeHTMLBody
  };
 }());
 
@@ -2529,7 +2558,7 @@ var CSS =
  var maxDepth = 10;
  var protoExtend = (function (){
  
-  function doLinkify(val)
+  function doLinkify(index, val)
   {
    var $e = $(val);
    var title = $e.attr("href") || $e.data().title;
@@ -2544,7 +2573,8 @@ var CSS =
  
   function linkify()
   {
-   this.links().tabify().toArray().forEach(doLinkify);
+   this.links().each(doLinkify);
+   this.tabify().each(doLinkify);
    return this;
   }
   
@@ -2576,7 +2606,6 @@ var CSS =
    
    cStack.push(url);
    $.parseBBM(wNode.src, wNode.mime)
-    .linkify()
     .transclude(cStack)
     .replaceAll($e.parent());
    cStack.pop(url);
@@ -2681,8 +2710,8 @@ var $TMPL = (function ()
  {
   var $view = $tView.clone();
   var $frag = (frag || $.parseBBM(wNode.src, wNode.mime))
-   .linkify()
-   .transclude();
+   .transclude()
+   .linkify();
   
   $view.find(".js-title").text(wNode.title);
   $view.find(".js-subtitle").text(sigStr(wNode.edited, wNode.created));
@@ -2716,8 +2745,8 @@ var $TMPL = (function ()
  {
   return $tLinkW.clone()
    .text(displayText)
-   .data("title", displayText)
-   .attr("href", displayText);
+   .attr("href", displayText)
+   .data("title", displayText);
  }
  
  function t_doLinks(acc, str)
@@ -2764,6 +2793,7 @@ var $TMPL = (function ()
   
    $dl.append($label).append(t_linksDD(vals));
   }
+  $dl.links().linkify();
   return $dl;
  }
  
@@ -3655,7 +3685,7 @@ var $ERRORWIZ = (function ($wiz){
   $CONTENT.trigger(EVT.OPEN, entryRecent.title);
  }
  
- DB.fromJSON($DS.text());
+ DB.fromJSON(STR.decodeHTMLBody($DS.html()));
  if (DB.getConfig().startup.length > 0)
  {
   DB.getConfig().startup.reverse().forEach(initStartup);
@@ -3728,13 +3758,12 @@ var $ERRORWIZ = (function ($wiz){
  });
  
  $("#js-b-save").on(EV.CLICK, function (evt){
-  $DS.text(JSON.stringify(DB, null, " "));
+  $DS.text(STR.encodeHTMLBody(JSON.stringify(DB, null, " ")));
   $SAVER.trigger(EVT.SAVE, [document.title + ".html"]);
  });
  
  $("#js-b-export").on(EV.CLICK, function (evt){
-  var jsonStr = JSON.stringify(DB, null, " ");
-  $DS.text(jsonStr);
+  var jsonStr = STR.encodeHTMLBody(JSON.stringify(DB, null, " "));
   $SAVER.trigger(EVT.EXPORT, [jsonStr, document.title + ".json"]);
  });
  

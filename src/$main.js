@@ -20,7 +20,7 @@
   $CONTENT.trigger(EVT.OPEN, entryRecent.title);
  }
  
- DB.fromJSON($DS.text());
+ DB.fromJSON(STR.decodeHTMLBody($DS.html()));
  if (DB.getConfig().startup.length > 0)
  {
   DB.getConfig().startup.reverse().forEach(initStartup);
@@ -93,13 +93,12 @@
  });
  
  $("#js-b-save").on(EV.CLICK, function (evt){
-  $DS.text(JSON.stringify(DB, null, " "));
+  $DS.text(STR.encodeHTMLBody(JSON.stringify(DB, null, " ")));
   $SAVER.trigger(EVT.SAVE, [document.title + ".html"]);
  });
  
  $("#js-b-export").on(EV.CLICK, function (evt){
-  var jsonStr = JSON.stringify(DB, null, " ");
-  $DS.text(jsonStr);
+  var jsonStr = STR.encodeHTMLBody(JSON.stringify(DB, null, " "));
   $SAVER.trigger(EVT.EXPORT, [jsonStr, document.title + ".json"]);
  });
  

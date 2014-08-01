@@ -241,7 +241,7 @@ var CSS =
  var maxDepth = 10;
  var protoExtend = (function (){
  
-  function doLinkify(val)
+  function doLinkify(index, val)
   {
    var $e = $(val);
    var title = $e.attr("href") || $e.data().title;
@@ -256,7 +256,8 @@ var CSS =
  
   function linkify()
   {
-   this.links().tabify().toArray().forEach(doLinkify);
+   this.links().each(doLinkify);
+   this.tabify().each(doLinkify);
    return this;
   }
   
@@ -288,7 +289,6 @@ var CSS =
    
    cStack.push(url);
    $.parseBBM(wNode.src, wNode.mime)
-    .linkify()
     .transclude(cStack)
     .replaceAll($e.parent());
    cStack.pop(url);

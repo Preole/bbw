@@ -59,8 +59,8 @@ var $TMPL = (function ()
  {
   var $view = $tView.clone();
   var $frag = (frag || $.parseBBM(wNode.src, wNode.mime))
-   .linkify()
-   .transclude();
+   .transclude()
+   .linkify();
   
   $view.find(".js-title").text(wNode.title);
   $view.find(".js-subtitle").text(sigStr(wNode.edited, wNode.created));
@@ -94,8 +94,8 @@ var $TMPL = (function ()
  {
   return $tLinkW.clone()
    .text(displayText)
-   .data("title", displayText)
-   .attr("href", displayText);
+   .attr("href", displayText)
+   .data("title", displayText);
  }
  
  function t_doLinks(acc, str)
@@ -142,6 +142,7 @@ var $TMPL = (function ()
   
    $dl.append($label).append(t_linksDD(vals));
   }
+  $dl.links().linkify();
   return $dl;
  }
  

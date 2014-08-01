@@ -120,3 +120,15 @@ first time forces the screen to scroll to bottom in Firefox.
 - Fixed a low-level error that prevented saving and exporting 
   under Internet Explorer 10 or higher.
 
+
+
+=== 0.1.5 ===
+
+==== Fixes ====
+
+- Fixed an XSS vulnerability with `</script>` present in the data store
+  entered at the application level.
+
+- Back links should now be properly turned orange when the target entry 
+  doesn't exist in the data storage.
+
