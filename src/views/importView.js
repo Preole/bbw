@@ -1,23 +1,24 @@
-/* requires $plugins.js */
-/* requires $CONTENT.js */
-/* requires $CONFIGWIZ.js */
+/* requires tabView.js */
+/* requires configView.js */
 
-var $IMPORTWIZ = (function ($wiz){
- var $importAs = $wiz.find("input[type='radio'][name='js-import-type']"),
-  $charset = $wiz.find("#js-s-import-charset");
-  $fileEle = $wiz.find("#js-i-import"),
-  $log = $wiz.find("#js-i-import-log"),
+$views.importView = (function (){
+ var $baseEle = $("#js-import-view"),
+  $importAs = $baseEle.find("input[type='radio'][name='js-import-type']"),
+  $charset = $baseEle.find("#js-import-charset"),
+  $fileEle = $baseEle.find("#js-import-file"),
+  $closeBtn = $baseEle.find("#js-import-close"),
+  $log = $baseEle.find("#js-import-log"),
   MSIZE = Math.pow(2, 20) * 10;
   
  function importDelegate(evt)
  {
   if (!(File && FileReader))
   {
-   $log.log("Error: File reading not supported.");
+   $log.log("Error: File reading not supported in this web browser.");
    return;
   }
   
-  var charset = $charset.val() || DB.CHARSET.UTF8;
+  var charset = $charset.val() || CHARSET.UTF8;
   var files = evt.target.files;
   for (var i = 0, ii = files.length; i < ii; i += 1)
   {
@@ -40,14 +41,14 @@ var $IMPORTWIZ = (function ($wiz){
  {
   var text = evt.target.result,
    fName = evt.target.fileName || DB.newName(),
-   type = $importAs.filterChecked().val() || DB.MIME.TEXT;
+   type = $importAs.filterChecked().val() || MIME.TEXT;
    
-  if (type === DB.MIME.JSON)
+  if (type === MIME.JSON)
   {
    try
    {
     DB.fromJSON(text);
-    $CONFIGWIZ.trigger(EVT.UPDATE, [DB.getConfig()]);
+    $views.configView.update(DB.getConfig());
     $log.log("Successfully imported JSON dataset");
    }
    catch (err)
@@ -56,11 +57,16 @@ var $IMPORTWIZ = (function ($wiz){
    }
    return;
   }
-  $log.log("Imported " + fName);
+
   
   var wNode = DB.newNodeNoConflict(fName, text, type);
-  DB.editNode(wNode, $.parseBBM(text, type).getEdges());
-  $CONTENT.trigger(EVT.OPEN, [wNode.title]);
+  var $frag = $.parseBBM(text, type);
+  
+  $log.log("Imported " + fName + " successfully.")
+   .log(fName + " is imported under " + wNode.title);
+  
+  DB.editNode(wNode, $frag.getEdges());
+  $views.tabView.newTab(wNode.title, $frag);
  }
  
  function onError(evt)
@@ -73,19 +79,25 @@ var $IMPORTWIZ = (function ($wiz){
   return fName + " is too large. (" + maxSize + " >= max " + real + " bytes)";
  }
  
- $wiz.on(EVT.LOAD, function (evt){
-  $log.unlog();
-  $wiz.toggleInvis(false).focus();
- });
+ function load()
+ {
+  $log.log();
+  $baseEle.toggleInvis(false).focus();
+ }
  
- $wiz.on(EVT.CLOSE, function (evt){
-  $log.unlog();
-  $wiz.toggleInvis(true);
- });
-
+ function close()
+ {
+  $log.log();
+  $baseEle.toggleInvis(true);
+ }
+ 
+ $closeBtn.on(EV.CLICK, close);
  $fileEle.on(EV.CHANGE, importDelegate);
+ close();
 
- 
- return $wiz;
-}($("#js-import-wiz")));
+ return {
+  load : load,
+  close : close
+ };
+}());
 

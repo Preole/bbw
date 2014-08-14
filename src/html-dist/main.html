@@ -1,155 +1,135 @@
 <!DOCTYPE HTML>
 <head>
-<meta charset="UTF-8">
 <title>BareBonesWiki</title>
+<meta charset="UTF-8">
+<meta name="author" content="Preole Soandso">
+<meta name="application-name" content="BareBonesWiki">
+<meta name="description" content="
+Minimalist single-file offline personal wiki in web browsers. 
 
+Version: 0.2.0
+License: BSD-2-Clause
+URL: <https://github.com/Preole>
+">
+
+<!--Normalization Style sheet-->
+<style type="text/css">
+<!-- @depends normalize.css -->
+</style>
+
+<!--Application Style sheet-->
 <style type="text/css">
 <!-- @depends css.css -->
 </style>
+
 </head>
 <body>
 
- <noscript>
-  <div class="css-modal-sys">
-   <div class="css-pad-sys css-font-big">
-    BareBonesWiki requires Javascript to function. Please enable Javascript.
-   </div>
-  </div>
- </noscript>
-
-
- <h1 class="css-center css-font-big" id="js-pg-title">
-  BareBonesWiki
- </h1>
- 
- <div class="css-table css-pad">
-  <div>
-   <input type="text" id="js-txt-search">
-  </div>
-  <div>
-   <button type="button" id="js-b-search">Search</button>
-   <button type="button" id="js-b-index">Index▼</button>
-  </div>
-  <div class="css-right">
-   <button type="button" id="js-b-cfg">Options</button>
-   <button type="button" id="js-b-save">Save</button>
-   <button type="button" id="js-b-new">New</button>
-  </div>
+<noscript>
+ <div class="css-modal css-center">
+  <h1>
+   BareBonesWiki requires Javascript to function. Please enable Javascript.
+  </h1>
  </div>
- 
- <div class="css-table">
-  <dl id="js-area-index" class="css-index css-top js-css-invis js-content">
-   <dt class="css-table css-pad">
-    <span id="js-area-index-title"></span>
-    <span class="css-right"><button type="button" class="js-b-close">Close</button></span>
-   </dt>
-   <dd id="js-area-index-content"></dd>
-  </dl>
-  <div id="js-area-content" class="css-top"></div>
- </div>
- 
- <div class="css-pad">
-  <button type="button" id="js-b-top">To Top</button>
-  <button type="button" id="js-b-export">Export</button>
-  <button type="button" id="js-b-import">Import▼</button>
- </div>
+</noscript>
 
- 
-<!--Hidden import wizard.-->
-<form class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-import-wiz">
-<div class="css-pad-sys">
- <div class="css-font-big">Import Wizard</div>
- <fieldset>
- <legend>Import as...</legend>
-  <label><input type="radio" name="js-import-type" value="application/json" checked>As Dataset</label>
-  <label><input type="radio" name="js-import-type" value="text/x-bbm">As Wiki Entry</label>
-  <label><input type="radio" name="js-import-type" value="text/plain">As Plain Text</label>
-  <label><input type="radio" name="js-import-type" value="text/html">As HTML Snippets</label>
- </fieldset>
- <fieldset>
- <legend>Choose...</legend>
- <label><input type="file" id="js-i-import" multiple></label>
- <select id="js-s-import-charset">
-  <option value="UTF-8">Unicode (UTF-8)</option>
-  <option value="UCS-2">UCS-2</option>
-  <option value="UTF-16">UTF-16</option>
-  <option value="US-ASCII">ASCII</option>
-  
-  <option value="Shift-JIS">Japanese</option>
-  <option value="Big5">Chinese (Traditional)</option>
-  <option value="GB2312">Chinese (Simplified)</option>
-  
-  <option value="ISO-8859-1">Western European</option>
-  <option value="ISO-8859-2">Centural European</option>
-  <option value="ISO-8859-5">Cyrillic</option>
-  <option value="ISO-8859-6">Arabic</option>
-  <option value="ISO-8859-7">Greek</option>
-  <option value="ISO-8859-8">Hebrew</option>
-  <option value="ISO-8859-9">Turkish</option>
-  <option value="ISO-8859-10">Nordic</option>
-  <option value="ISO-8859-13">Baltic</option>
-  <option value="ISO-8859-14">Celtic</option>
- </select>
- </fieldset>
- 
- <fieldset>
- <legend>Import Log</legend>
- <textarea cols="80" rows="6" id="js-i-import-log"></textarea>
- </fieldset>
- 
- <div class="css-right">
-  <button type="button" class="js-b-close">Close</button>
+<h1 id="js-pg-title" class="css-center">
+BareBonesWiki - A Minimalist Offline Notebook in Web Browsers.
+</h1>
+
+<div class="css-grid-mobile">
+ <nav id="js-tabs" tabindex="0" class="css-v-top css-bg-2nd css-pad css-w-30" role="navigation">
+  <div class="css-grid">
+   <span id="js-new-tab-btn"><button>New Tab</button></span>
+   <span id="js-fork-tab-btn"><button>Fork Tab</button></span>
+  </div>
+  <hr>
+  <ul id="js-tabs-view" class="css-no-pad"></ul>
+ </nav>
+ <div class="css-v-top css-w-70 css-v-sep">
+  <header id="css-top-menu" class="css-bg-2nd css-grid css-pad">
+   <span><button id="js-back-btn">Back</button></span>
+   <span><button id="js-next-btn">Next</button></span>
+   <span><button id="js-refresh-btn">Refresh</button></span>
+   <span><button id="js-home-btn">Home</button></span>
+   <span><button id="js-tabs-btn">Tabs</button></span>
+  </header>
+  <article id="js-main" class="css-pad" tabindex="0"></article>
  </div>
 </div>
+<footer class="css-bg-2nd css-grid css-pad">
+ <span><button id="js-config-btn">Options</button></span>
+ <span><button id="js-import-btn">Import</button></span>
+ <span><button id="js-export-btn">Export</button></span>
+ <span><button id="js-save-btn">Save</button></span>
+ <span><button id="js-top-btn">Top</button></span>
+</footer>
+
+<aside>
+<!--Import Wizard-->
+<form class="css-modal js-css-invis" tabindex="0" id="js-import-view">
+ <h1>Import Wizard</h1>
+ <fieldset>
+  <legend>Import Type</legend>
+  <label><input type="radio" name="js-import-type" value="application/json" checked> As Dataset</label>
+  <label><input type="radio" name="js-import-type" value="text/x-bbm"> As Wiki Entry</label>
+  <label><input type="radio" name="js-import-type" value="text/plain"> As Plain Text</label>
+  <label><input type="radio" name="js-import-type" value="text/html"> As HTML Snippets</label>
+ </fieldset>
+ 
+ <fieldset>
+  <legend>Choose File</legend>
+  <input type="file" id="js-import-file" multiple>
+  <select id="js-import-charset">
+   <option value="UTF-8">Unicode (UTF-8)</option>
+   <option value="UCS-2">UCS-2</option>
+   <option value="UTF-16">UTF-16</option>
+   <option value="US-ASCII">ASCII</option>
+   
+   <option value="Shift-JIS">Japanese</option>
+   <option value="Big5">Chinese (Traditional)</option>
+   <option value="GB2312">Chinese (Simplified)</option>
+   
+   <option value="ISO-8859-1">Western European</option>
+   <option value="ISO-8859-2">Central European</option>
+   <option value="ISO-8859-5">Cyrillic</option>
+   <option value="ISO-8859-6">Arabic</option>
+   <option value="ISO-8859-7">Greek</option>
+   <option value="ISO-8859-8">Hebrew</option>
+   <option value="ISO-8859-9">Turkish</option>
+   <option value="ISO-8859-10">Nordic</option>
+   <option value="ISO-8859-13">Baltic</option>
+   <option value="ISO-8859-14">Celtic</option>
+  </select>
+ </fieldset>
+ 
+ <fieldset>
+  <legend>Import Log</legend>
+  <textarea cols="80" rows="7" id="js-import-log"></textarea>
+ </fieldset>
+ 
+ <fieldset>
+  <button id="js-import-close" class="css-w-100">Close</button>
+ </fieldset>
 </form>
 
-<!--Hidden popup menu-->
-<div class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
- <div class="css-font-med" id="js-popup-title"></div>
- <div class="css-index css-min-height" id="js-popup-content"></div>
- <div class="css-right">
-  <button type="button" class="js-b-close">Close</button>
- </div>
+<!--Error Reporting-->
+<div class="css-modal js-css-invis" tabindex="0" id="js-err-view">
+<h1>
+BareBonesWiki Error Reporting
+</h1>
+<p>
+ Oops! BareBonesWiki has encountered an error. It would be wise to save 
+ and verify your work as soon as possible. Error messages have been logged 
+ into the text box.
+</p>
+<textarea rows="7" cols="80" id="js-err-log"></textarea>
+<p><button id="js-err-close" class="css-w-100">Close</button></p>
 </div>
 
-<!--Hidden configuration wizard.-->
-<form class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
-<div class="css-pad-sys">
- <div class="css-font-big">Configuration Wizard</div>
- <fieldset>
- <legend>Title</legend>
- <input type="text" id="js-i-cfg-title">
- </fieldset>
- <fieldset>
- <legend>Startup Titles (Delimited by Line-breaks or "<code style="background: inherit;">||</code>")</legend>
- <textarea cols="30" rows="10" id="js-i-cfg-startup"></textarea>
- </fieldset>
- <fieldset>
- <legend>Confirmations</legend>
- <label>
- <input type="checkbox" id="js-c-cfg-cfm-del"> On Delete
- </label>
- <label>
- <input type="checkbox" id="js-c-cfg-cfm-nav"> On Navigating Away
- </label>
- </fieldset>
- <fieldset>
- <legend>Search options</legend>
- <label>
- <input type="checkbox" id="js-c-cfg-search-case"> Case sensitive
- </label>
- </fieldset>
- <div class="css-right">
-  <button type="button" class="js-b-save">Ok</button>
-  <button type="button" class="js-b-close">Close</button>
- </div>
-</div>
-</form>
-
-<!--Hidden Export wizard-->
-<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-export-wiz">
-<div class="css-pad-sys">
-<p class="css-font-big">Manual-saving & Exporting Wizard</p>
+<!--Export Wizard-->
+<div class="css-modal js-css-invis" tabindex="0" id="js-export-view">
+<h1>Manual Exporting Wizard</h1>
 <p>
 Your web browser can only export (save) data manually. Please mouse
 right-click (or long-tap) the link and choose...
@@ -159,127 +139,197 @@ right-click (or long-tap) the link and choose...
 <li><code>Download Linked Content As...</code> for Apple Safari</li>
 <li><code>Save Linked Content As...</code> in Opera</li>
 </ul>
+<p>Then, you need to name the file extension accordingly.</p>
+<ul>
+<li><code>.html</code> for "Save"</li>
+<li><code>.json</code> for "Export"</li>
+</ul>
 <p>
-If you are saving the wiki, your file extension needs to end with """.html""",
-and for data exporting, """.json""".
+<a href="#" tabindex="0" id="js-export-link-save" target="_blank">Save this link target</a>
 </p>
-<p>
-There are no plans to support Internet Explorer &lt; 10 for exporting data.
-</p>
-<p>
-<a href="#" tabindex="0" id="js-save-link" class="css-font-med" target="_blank">Save this link target</a>
-</p>
-<p>
-<button type="button" class="js-b-close">Close</button>
-</p>
-</div>
+<p>Exporting in Internet Explorer &lt; 10 is currently not supported</p>
+<p><button id="js-export-close" class="css-w-100">Close</button></p>
 </div>
 
-<!--Error Reporting-->
-<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-err-wiz">
-<div class="css-pad-sys">
- <div class="css-font-big">
-  BareBonesWiki Error Reporting
- </div>
- <p>
-  Oops! BareBonesWiki has encountered an error. It would be wise to save 
-  and verify your work as soon as possible. Error messages have been logged 
-  into the text box.
- </p>
- <textarea id="js-i-error-log"></textarea>
- <div class="css-right">
-  <button type="button" class="js-b-close">Close</button>
- </div>
-</div>
-</div>
-
-<!--View Template-->
-<script type="text/html" id="js-t-view">
-<div class="css-pad-big js-form" tabindex="0">
- <div class="css-right js-ctrl">
-  <button type="button" class="js-b-close-o">Close Others</button>
-  <button type="button" class="js-b-close">Close</button>
-  <button type="button" class="js-b-edit">Edit</button>
- </div>
- <div class="js-title css-font-big"></div>
- <div class="js-subtitle"></div>
- <div class="js-tags css-index"></div>
- <div class="js-content css-margin-tall css-min-height"></div>
-</div>
-</script>
+<!--Configuration Wizard-->
+<form class="css-modal js-css-invis" tabindex="0" id="js-cfg-view">
+ <h1>Configuration Wizard</h1>
+ <fieldset>
+  <legend>Wiki Title</legend>
+  <input class="css-w-100" maxlength="255" id="js-cfg-title">
+ </fieldset>
+ <fieldset>
+  <legend>Startups (One per line)</legend>
+  <textarea cols="80" rows="7" id="js-cfg-startup"></textarea>
+ </fieldset>
+ <fieldset>
+  <legend>Confirmations</legend>
+  <div class="css-grid">
+   <label><input type="checkbox" id="js-cfg-cfm-del"> On Delete</label>
+   <label><input type="checkbox" id="js-cfg-cfm-nav"> On Navigating Away</label>
+  </div>
+ </fieldset>
+ <fieldset>
+  <div class="css-grid">
+   <span id="js-cfg-save"><button>Save</button></span>
+   <span id="js-cfg-cancel"><button>Cancel</button></span>
+  </div>
+ </fieldset>
+</form>
+</aside>
 
 
-<!--Edit Template-->
-<script type="text/html" id="js-t-edit">
-<form class="css-pad-big js-form" tabindex="0">
-<fieldset class="css-right js-ctrl">
- <button type="button" class="js-b-delete">Delete</button>
- <button type="button" class="js-b-cancel">Cancel</button>
- <button type="button" class="js-b-finish">Finish</button>
-</fieldset>
-<fieldset>
- <legend class="js-i-old-title"></legend>
- <input class="js-i-title" type="text">
-</fieldset>
-<fieldset>
- <legend>Tags</legend>
- <div class="js-ctrl">
-  <select class="js-s-tags-lookup">
-   <option value="">-- Clear --</option>
+<!--Editing Form Template-->
+<script type="text/html" id="js-t-edit-form">
+<form action="editFinish">
+ <fieldset>
+  <div class="css-grid">
+   <span><button name="save">Finish</button></span>
+   <span><button name="saveAs">Save As</button></span>
+   <span><button name="delete">Delete</button></span>
+   <span><button name="cancel">Cancel</button></span>
+  </div>
+ </fieldset>
+ <h1>Editing "<span class="js-title-old">...</span>"</h1>
+ <fieldset>
+  <legend>Title</legend>
+  <input name="oldTitle" type="hidden">
+  <input name="title" class="css-w-100" maxlength="255">
+ </fieldset>
+ <fieldset class="js-tags-edit-widget" tabindex="0">
+  <legend>Tags</legend>
+  <select class="js-tags-select css-w-100">
+   <option value="">-- Choose an existing tag --</option>
   </select>
-  <input class="js-i-tags-add css-short-field" type="text">
-  <button class="js-b-tags-add" type="button">Add</button>
- </div>
- <div class="js-d-tags js-ctrl css-index"></div>
-</fieldset>
-<fieldset>
- <legend>WikiText source code</legend>
- <textarea class="js-i-src css-tall" rows="20" cols="80"></textarea>
-</fieldset>
-<fieldset>
- <legend>Mime type</legend>
- <select class="js-i-mime">
-  <option value="text/x-bbm">BakaBakaMark Wiki Text</option>
-  <option value="text/html">Raw HTML</option>
-  <option value="text/plain">Plain Text</option>
- </select>
-</fieldset>
+  <div class="css-grid">
+   <span class="css-w-70"><input class="js-tags-txt" maxlength="255"></span>
+   <span class="css-w-30"><button class="js-tags-add-btn">Add</button></span>
+  </div>
+  <hr>
+  <ul class="js-tags-view css-no-pad"></ul>
+ </fieldset>
+ <fieldset>
+  <legend>Source Text</legend>
+  <textarea cols="80" rows="28" name="src"></textarea>
+ </fieldset>
+ <fieldset>
+  <legend>Mime type</legend>
+  <select name="mime" class="css-w-100">
+   <option value="text/x-bbm">BakaBakaMark Wiki Text</option>
+   <option value="text/html">Raw HTML</option>
+   <option value="text/plain">Plain Text</option>
+  </select>
+ </fieldset>
+ <fieldset>
+  <div class="css-grid">
+   <span><button name="save">Finish</button></span>
+   <span><button name="saveAs">Save As</button></span>
+   <span><button name="delete">Delete</button></span>
+   <span><button name="cancel">Cancel</button></span>
+  </div>
+ </fieldset>
 </form>
 </script>
 
-<!--Replaceable HTML fragments-->
-<script type="text/html" id="js-t-button-tag">
-<button type="button" class="js-css-wlink js-b-tag-item">
- <span class="js-b-tag-text"></span>
- <span>✘</span>
-</button>
+<!--Viewing Form Template-->
+<script type="text/html" id="js-t-view-form">
+<div>
+<header>
+ <form action="edit" class="css-f-right">
+  <input name="title" type="hidden">
+  <button name="edit">Edit</button>
+ </form>
+ <h1 class="js-title"></h1>
+ <p>
+  <i>Date: <span class="js-create-stamp"></span></i>
+ </p>
+ <p class="js-tags">
+  <i>Tagged: </i>
+ </p>
+</header>
+<div class="js-content"></div>
+<footer>
+ <p>
+  <i>Last Modified: <span class="js-edited-stamp"></span></i>
+ </p>
+</footer>
+</div>
 </script>
-<script type="text/html" id="js-t-dl">
-<dl></dl>
+
+<script type="text/html" id="js-t-viewTmp-form">
+<div>
+<header>
+ <form action="edit" class="css-f-right">
+  <input name="title" type="hidden" value="New Entry">
+  <button name="editTmp">Create New Entry</button>
+ </form>
+ <h1 class="js-title"></h1>
+</header>
+<div class="js-content"></div>
+</div>
 </script>
-<script type="text/html" id="js-t-dd">
-<dd></dd>
+
+<script type="text/html" id="js-t-home-form">
+<div>
+<form action="edit" class="css-f-right">
+ <input name="title" type="hidden" value="New Entry">
+ <button name="editTmp" class="css-w-100">Create New Entry</button>
+</form>
+<h1>Home Page</h1>
+<form action="index">
+ <fieldset>
+  <legend>Full Text Search</legend>
+  <div class="css-grid">
+   <span class="css-w-70"><input type="search" name="searchText"></span>
+   <span class="css-w-30"><button name="search">Search</button></span>
+  </div>
+  <label><input type="checkbox" name="caseSense"> <span>Case Sensitive</span></label>
+ </fieldset>
+ <fieldset>
+  <legend>Indexing By Type</legend>
+  <div class="css-grid">
+   <span class="css-w-70">
+    <select name="indexType">
+     <option value="Title">Title</option>
+     <option value="Recent">Recently Edited</option>
+     <option value="Created">Date Created</option>
+     <option value="Tags">Tags</option>
+     <option value="Orphans">Orphans</option>
+     <option value="Backlink">Back Links</option>
+     <option value="Mime">Mime Type</option>
+    </select>
+   </span>
+   <span class="css-w-30">
+    <button name="index">Index</button>
+   </span>
+  </div>
+ </fieldset>
+</form>
+</div>
 </script>
-<script type="text/html" id="js-t-dt">
-<dt class="css-pad"></dt>
+
+<!--Tab Button-->
+<script type="text/html" id="js-t-btn-dbl">
+<li class="js-btn-dbl css-spacing-v css-grid">
+ <button class="css-w-70 css-h-3em js-btn-dbl-main"></button>
+ <button class="css-w-30 css-h-3em js-btn-dbl-close">Close</button>
+</li>
 </script>
+
+<!--Read-only Tag Button-->
+<script type="text/html" id="js-t-tag-field" tabindex="0">
+<li class="css-ib">
+ <input role="button" name="tags" class="js-tag-field css-center" maxlength="255" readonly>
+</li>
+</script>
+
+<!--Wiki Links-->
 <script type="text/html" id="js-t-wlink">
-<a href="#" tabindex="0" class="js-css-wlink js-wlink"></a>
-</script>
-<script type="text/html" id="js-t-para">
-<p class="css-margin"></p>
-</script>
-<script type="text/html" id="js-t-button">
-<button type="button"></button>
+<a href="#" tabindex="0" class="js-wlink"></a>
 </script>
 
 
-<!--
-JSON Data storage.
-
-Unescape HTML entities "&amp; &lt; &gt;" prior to parsing, if extracting
-directly from here.
--->
+<!--JSON Storage.-->
 <script type="application/json" id="js-db">
 {}
 </script>
@@ -287,7 +337,9 @@ directly from here.
 
 <!--Runtime code-->
 <script type="text/javascript">
+(function (){
 <!-- @depends bbw.js -->
+}());
 </script>
 
 </body>

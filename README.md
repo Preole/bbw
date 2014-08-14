@@ -2,26 +2,14 @@
 BareBonesWiki
 =============
 
-BareBonesWiki is a succinct personal wiki in one standalone HTML file. This 
-wiki, like any other similar wiki, features non-linear information organization 
-schemes designed to fit one's thought process, owing to the invention of the 
-?<www>-[WikiWikiWeb], Looking up information is a few keystrokes away, and 
-jumping between information pieces is only one click away.
+BareBonesWiki is a succinct personal wiki in one standalone HTML file. It's 
+a versatile toolbox for information organization, owing to the invention of 
+?<www>-[WikiWikiWeb]. It's free, standalone, and works on any reasonably 
+modern web browsers.
 
 :{www}: http://www.artima.com/intv/wiki.html
 
-The motivation stems from organizing personal experiences and in a paperback 
-notebook. The verdict is that reading is hard, and writing is infinitely 
-harder, because data are seldom best organized in linear fashions similar to 
-a private diary. Even the most linear kinds of printed work, such as a novel, 
-need to have clearly defined sections and table of contents to assist the 
-reader, so the readers know what they need to know. The wiki is the closest 
-software fitting that mental model for information organization.
-
-Therefore, it makes sense to read a notebook like navigating a wiki. From 
-there on, it's all about designing a robust personal notebook.
-
-Current version: **v0.1.4**
+Current version: **v0.2.0**
 
 
 Updates
@@ -37,30 +25,19 @@ Highlights
 
 ; Word-processor level functionality
 : Tables, lists, block quotations, links; BareBonesWiki has all the 
-  essentials of a word processor in readable plain text. For the more 
-  technologically inclined, straight embedded HTML is also available.
-  
-; Extensibility
+  essentials of a word processor in readable plain text.
+
 ; Source Readability
-; Low learning curve.
+; Low learning curve
 
   : Carefully designed base markup language that is readable in 
-    source code with low learning curve.
-    
-  : Using CSS as visual presentation back-end, the application looks
-    as good as the CSS author wants it to be.
+    source code and modestly easy to learn.
 
-; Hop-hop navigation
+; Versatile Navigation
 : Seamlessly jump from one piece of information onto another.
 
 ; High Portability
-: Works anywhere at anytime, so long as there's a somewhat modern 
-  web browser. No proprietary software needed, no Internet connection 
-  necessary, and impossible to miss as a single standalone HTML file, 
-  all without forgetting about languages other than English.
-  
-  Moreover, it's extremely small, clocking in @ ~170KB in its empty 
-  state uncompressed.
+: A web browser and ~170KB of space is all the wiki needs to work.
 
 ; Free
 : Open source project on 2-Clause BSD license.
@@ -71,7 +48,13 @@ Usage
 -----
 
 1. Download the file from """./dist/BareBonesWiki.html""". If you feel a 
-   tutorial is necessary, download the manuals as well.
+   tutorial is necessary, download the user manual in the same directory 
+   as well.
+   
+   If the new version is not satisfactory, you can try one of the older 
+   versions in the """distOld/""", which contains the old versions of 
+   the built project, plus the user manual for that version.
+   
 2. Open it with a web browser.
 3. Enable Javascript, if not enabled already.
 4. Enjoy.
@@ -80,10 +63,9 @@ Usage
 
 Browser compatibility
 ---------------------
-   
-BareBonesWiki works on all reasonably modern desktop web browsers. The 
-following web browsers have been tested for reliability and for varying
-levels of read-write support.
+
+The following desktop web browsers have been tested for reliability and 
+for varying levels of read-write support.
 
 ; Internet Explorer 10+
 ; Mozilla Firefox 20+
@@ -92,22 +74,20 @@ levels of read-write support.
 : Read-write plus automatic downloading. These web browsers are 
   recommended to use with BareBonesWiki.
 
-; Mozilla Firefox < 20
-; Google Chrome < 14
-; Opera <= 12
+; Mozilla Firefox 3.6.x - 20
+; Google Chrome 1 - 14
+; Opera 12.x
 ; Apple Safari >= 3
-; Any other browsers.
 : Read-write, with manual downloading for saving changes made in 
   the wiki. These web browsers need to follow the instruction in
   the dialogue box after pressing the save button.
 
-; Internet Explorer < 8
+; Internet Explorer < 9
 : Incompatible;
 
-; Internet Explorer 8-9
-: Read-only experience. Permanent saving is not supported due to 
-  character encoding issues, as well as future consideration for
-  mobile web browsers. No guarantee in stability.
+; Internet Explorer 9
+: Read-only experience. Permanent saving is not supported. No 
+  guarantee in stability.
 
 
 
@@ -119,3 +99,4 @@ BSD-2-Clause @ ?<http://opensource.org/licenses/BSD-2-Clause>
 
 
 
+```

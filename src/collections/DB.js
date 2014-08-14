@@ -1,171 +1,13 @@
-/* requires ./lib/lodash.min.js */
-/* requires ./lib/STR.js */
-/* requires ./lib/LooseEdge.js */
+/* requires ../models/$requires.js */
+/* requires ../lib/lodash.min.js */
+/* requires ../lib/STR.js */
 
+var DB = (function (){
+ //Database Tables
+ var NODES = {},
+  EDGES = $models.LooseEdge(),
+  CONFIG = $models.Config.create();
 
-
-var DB = (function ()
-{
- //List of recognized charsets.
- var CHARSET_ENUM =
- {
-  UTF8 : "UTF-8"
- };
- 
- //List of recognized mime types.
- var MIME_ENUM =
- {
-  TEXT : "text/plain",
-  HTML : "text/html",
-  WIKI : "text/x-bbm",
-  JSON : "application/json"
- };
-
- //Configuration Object factory
- var Config = (function (){
-  function create(title, startup, cfmDel, cfmNav, searchCase)
-  {
-   var obj =
-   {
-    title : _.isString(title) ? STR.titleize(title) : "BareBonesWiki",
-    startup : startup ? uniqueWords(startup, STR.wordsByPipes) : [],
-    cfmDel : !!cfmDel,
-    cfmNav : !!cfmNav,
-    searchCase : !!searchCase
-   };
-   return obj;
-  }
-
-  function createFromObject(cfgObj)
-  {
-   var obj = _.isObject(cfgObj) ? cfgObj : {};
-   return create(
-    obj.title,
-    obj.startup,
-    obj.cfmDel,
-    obj.cfmNav,
-    obj.searchCase
-   );
-  }
-  
-  function createRoute()
-  {
-   var args = arguments;
-   if (_.isObject(args[0]) && args.length === 1)
-   {
-    return createFromObject.call(this, args[0]);
-   }
-   return create.apply(this, args);
-  }
-  
-  return {create : createRoute};
- }());
-
- //WikiNode Object factory.
- var WikiNode = (function (){
-  function defaultTags(tagStr)
-  {
-   var tags = uniqueWords(tagStr, STR.wordsByPipes).sort();
-   if (tags.length < 1)
-   {
-    tags.push("Uncategorized");
-   }
-   return tags;
-  }
-  
-  function defaultMime(mimeStr)
-  {
-   return _.contains(_.values(MIME_ENUM), mimeStr) ? mimeStr : MIME_ENUM.WIKI;
-  }
-
-  function create(title, src, mime, tags, created, edited)
-  {
-   var obj =
-   {
-    title : STR.titleize(title),
-    src : _.isString(src) ? src : "",
-    mime : defaultMime(mime),
-    tags : defaultTags(tags),
-    created : parseInt(created, 10) || Date.now(),
-    edited : parseInt(edited, 10) || Date.now() + 1000
-   };
-   
-   if (obj.title.length <= 0)
-   {
-    throw new RangeError("A WikiNode cannot have an empty title.");
-   }
-   
-   return obj;
-  }
-
-  function createFromObject(wNodeObj)
-  {
-   var obj = _.isObject(wNodeObj) ? wNodeObj : {};
-   return create(
-    obj.title,
-    obj.src,
-    obj.mime,
-    obj.tags,
-    obj.created,
-    obj.edited
-   );
-  }
-  
-  function createRoute()
-  {
-   var args = arguments;
-   if (_.isObject(args[0]) && args.length === 1)
-   {
-    return createFromObject.call(this, args[0]);
-   }
-   return create.apply(this, args);
-  }
-  
-  function validate(obj)
-  {
-   return _.isObject(obj)
-    _.isString(obj.title) && STR.trim(obj.title).length > 0 &&
-    _.isArray(obj.tags) && obj.tags.every(_.isString)
-    _.isString(obj.src) &&
-    _.isString(obj.mime) &&
-    _.isNumber(obj.created) &&
-    _.isNumber(obj.edited) &&
-    obj.edited >= obj.created;
-  }
-  
-  function doSearch(obj, word, caseSense)
-  {
-   return STR.hasSubstring(obj.title, word, caseSense) ||
-    STR.hasSubstringArray(obj.tags, word, caseSense) ||
-    STR.hasSubstring(obj.src, word, caseSense);
-  }
-
-  //Simple keyword conjunction search; Must contain all keywords.
-  function search(obj, wordList, caseSense)
-  {
-   if (!validate(obj)) {return false;}
-  
-   var repeats = [];
-   for (var i = 0, ii = wordList.length; i < ii; i += 1)
-   {
-    var word = wordList[i];
-    if (!_.isString(word) || repeats.indexOf(word) !== -1) {continue;}
-    repeats.push(word);
-    if (!doSearch(obj, word, caseSense)) {return false;}
-   }
-   return true;
-  }
-
-
-  return {
-   create : createRoute,
-   search : search,
-   validate : validate
-  };
- }());
-
-
- 
  //Index cache
  var TAGTITLE = null,
   TITLES = null,
@@ -174,47 +16,28 @@ var DB = (function ()
   ORPHANS = null,
   BACKLINKS = null,
   MIME = null;
- 
+
  //Global states
  var CHANGED = false,
   PREF = "New Entry ",
   PREF_TMP = "TMP ",
   DATE = new Date(),
-  UUID = 0;
+  UUID = 0,
+  CASE_SENSE = false;
   
-  
- //Persistent models.
- var NODES = {}, //Node set; Plain object
-  EDGES = LooseEdge(), //Edge set; Special class
-  CONFIG = Config.create(); //Config; Plain object
-  
- 
- function uniqueWords(strArr, delimCallback)
- {
-  var delimFunc = _.isFunction(delimCallback) ? delimCallback : STR.words;
-  var strArray = _.isString(strArr) ? delimFunc(strArr) :
-   _.isArray(strArr) ? strArr.filter(_.isString) : [];
-   
-  return _.uniq(strArray.filter(STR.isNotBlank));
- }
- 
+
  function itSearchNode(acc, wNode, key, plainObj)
  {
   var wordList = this;
-  if (WikiNode.search(wNode, wordList, CONFIG.searchCase))
+  if ($models.WikiNode.search(wNode, wordList, CASE_SENSE))
   {
    acc.push(wNode.title);
   }
   return acc;
  }
  
- function itIsValidNode(wNode, key, plainObj)
- {
-  return WikiNode.validate(wNode) && wNode.title === key;
- }
- 
- 
- 
+
+
  //Iterators for sortable, nested indices.
  function itGroupTitleByDate(acc, wNode, propStr)
  {
@@ -255,6 +78,15 @@ var DB = (function ()
   return acc.addEdge(wNode.title, wNode.tags);
  }
  
+ function itValidateNode(acc, wNode)
+ {
+  if ($models.WikiNode.validate(wNode))
+  {
+   acc[wNode.title] = wNode;
+  }
+  return acc;
+ }
+ 
  //Comparators
  function compareByEdited(t1, t2)
  {
@@ -271,16 +103,22 @@ var DB = (function ()
  function indexMime()
  {
   MIME = MIME || _.values(NODES)
-   .reduce(itGroupTitleByMime, LooseEdge())
+   .reduce(itGroupTitleByMime, $models.LooseEdge())
    .listByInbound();
    
   return MIME;
  }
  
+ function indexTagsList()
+ {
+  TAGTITLE = indexTags();
+  return _.pluck(TAGTITLE, "key").sort();
+ }
+ 
  function indexTags()
  {
   TAGTITLE = TAGTITLE || _.values(NODES)
-   .reduce(itGroupTitleByTags, LooseEdge())
+   .reduce(itGroupTitleByTags, $models.LooseEdge())
    .listByInbound();
    
   return TAGTITLE;
@@ -337,9 +175,10 @@ var DB = (function ()
   return ORPHANS;
  }
  
- function indexSearch(wordList)
+ function indexSearch(wordList, caseSense)
  {
-  return _.transform(NODES, itSearchNode, [], uniqueWords(wordList)).sort();
+  CASE_SENSE = !!caseSense;
+  return _.transform(NODES, itSearchNode, [], _.uniq(wordList)).sort();
  }
 
 
@@ -377,21 +216,21 @@ var DB = (function ()
  
  function newNodeNoConflict(title, src, mime)
  {
-  return WikiNode.create(newTmpName(title), src, mime);
+  return $models.WikiNode.create(newTmpName(title), src, mime);
  }
  
  function newNode(title, src, mime, tags)
  {
-  return WikiNode.create(title, src, mime, tags);
+  return $models.WikiNode.create(title, src, mime, tags);
  }
  
  function editNode(wNode, targetList, oldTitle)
  {
-  if (!WikiNode.validate(wNode))
+  if (!$models.WikiNode.validate(wNode))
   {
    throw new TypeError("Schema error in wiki node objects.");
   }
-  if (hasNode(oldTitle))
+  if (_.isString(oldTitle) && hasNode(oldTitle))
   {
    wNode.created = getNode(oldTitle).created;
   }
@@ -410,7 +249,7 @@ var DB = (function ()
  
  function removeNode(title)
  {
-  if (hasNode(title))
+  if (_.isString(title) && hasNode(title))
   {
    delete NODES[title];
    EDGES.rmEdge(title, EDGES.getEdgesOut(title));
@@ -425,7 +264,7 @@ var DB = (function ()
  
  function getNode(title)
  {
-  var wNode =  hasNode(title) ? NODES[title] : WikiNode.create(title);
+  var wNode = hasNode(title) ? NODES[title] : $models.WikiNode.create(title);
   wNode.tags.sort();
   return wNode;
  }
@@ -433,7 +272,7 @@ var DB = (function ()
  function setConfig(cfgObj)
  {
   CHANGED = true;
-  return _.merge(CONFIG, Config.create(cfgObj))
+  return _.merge(CONFIG, $models.Config.create(cfgObj))
  }
  
  function getConfig()
@@ -452,11 +291,10 @@ var DB = (function ()
    _.isObject(input) ? input : {};
    
   EDGES.addEdge(jsonObj.EDGES);
-  _.merge(CONFIG, Config.create(jsonObj.CONFIG));
-  _.merge(NODES, jsonObj.NODES);
-  _.filter(NODES, itIsValidNode);
+  _.merge(CONFIG, $models.Config.create(jsonObj.CONFIG));
+  _.merge(NODES, _.reduce(jsonObj.NODES, itValidateNode, {}));
   
-  nullifyCache()
+  nullifyCache();
  }
  
  function toJSON()
@@ -483,14 +321,6 @@ var DB = (function ()
 
 
  return {
-  //Supported Mime types
-  MIME : MIME_ENUM,
-  CHARSET : CHARSET_ENUM,
-  
-  //Inner factories and classes.
-  Config : Config,
-  WikiNode : WikiNode,
- 
   //CRUD methods
   getConfig : getConfig,
   setConfig : setConfig,
@@ -507,6 +337,7 @@ var DB = (function ()
   indexSearch : indexSearch,
   indexOrphans : indexOrphans,
   indexTags : indexTags,
+  indexTagsList : indexTagsList,
   indexTagSingle : indexTagSingle,
   indexEdited : indexEdited,
   indexEditedFlat : indexEditedFlat,

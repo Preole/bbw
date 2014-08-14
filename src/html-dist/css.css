@@ -1,381 +1,105 @@
 /*
-== Basic rules & CSS Resets ==
+Reserved ID/Class namespace listing.
 
-Namespace prefixes: 
-
-; "css-"
-: CSS/HTML only attributes; Irrelevant to Javascript.
-  
-; "js-"
-: Javascript dependent attributes;
-
-; "js-css"
-: Javascript-dependent & CSS dependent.
-
-Classes and ID attributes in the latter two categories should not be 
-modified, as they're integral to the wiki's functioning.
+- "js-": Do not move HTML elements with this ID/class prefix
+- "css-": Default theme. Change as necessary.
+- "bbw-": Default namespace for wiki text ID/class.
 */
-
-*,
-*:after,
-*:before {
-box-sizing: border-box;
--moz-box-sizing: border-box;
--webkit-box-sizing: border-box;
-word-wrap: break-word;
-background: inherit;
-line-height: 1.25em;
-}
-
-/*Ugly hack to remove mysterious space in buttons and text field;*/
-input::-moz-focus-inner,
-button::-moz-focus-inner {
- border: 0;
- padding: 0;
- margin: 0;
- outline: 0;
-}
-
-[tabindex]:focus,
-a:focus,
-input:focus,
-button:focus,
-textarea:focus {
-outline: dotted 1px #eee;
-}
-
-body {
-background: #021;
-color: #eee;
-height: 100%;
-width: 98%;
-font-family: sans-serif;
-margin: 1% 1% 2% 1%;
-font-size: 16px;
-}
-
-/*Superscript and subscript line height fixes*/
-sup {
- font-size: smaller;
- vertical-align: baseline;
- position: relative;
- bottom: 0.33em;
-}
-
-sub {
- font-size: smaller;
- vertical-align: baseline;
- position: relative;
- bottom: -0.25em;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-ul,
-ol,
-dl,
-dd,
-dt,
-fieldset,
-pre,
-form,
-table,
-div {
-margin-top: 0.5em;
-margin-bottom: 0.5em;
-}
-
-input[type="text"],
-form,
-textarea,
-fieldset,
-ul,
-ol,
-dl,
-li,
-dd,
-dt,
-blockquote,
-pre,
-video,
-img,
-audio {
-max-width: 100%;
-}
-
 
 
 /*
-CSS Toolbox
-===========
-*/
-
-.css-right {
-text-align: right;
-}
-
-.css-center {
-text-align: center;
-}
-
-.css-table {
-display: table;
-table-layout: fixed;
-border-spacing: 0.5em 0;
-width: 100%;
-}
-
-.css-table > div,
-.css-table > span,
-.css-table > dl {
-display: table-cell;
-vertical-align: middle;
-}
-
-.css-table > .css-top {
-vertical-align: top;
-}
-
-.css-table > div:first-child,
-.css-table > dl:first-child {
-width: 30%;
-}
-
-.css-font-med,
-legend {
-font-size: 1.25em;
-}
-
-.css-font-big {
-font-size: 3em;
-font-weight: bold;
-margin: 4px 0;
-}
-
-.css-min-height {
-min-height: 4em;
-}
-
-.css-pad,
-.css-pad-big,
-.css-pad-sys {
-background: #241;
-padding: .5em;
-}
-
-.css-pad-big {
-padding: 1em;
-}
-
-.css-pad-sys {
-background: #410;
-border: 4px ridge #da9;
-}
-
-.css-margin {
-margin: 0.25em 0.25em 0.5em 0;
-}
-
-.css-margin-tall {
-margin: 1em 0;
-}
-
-.css-tall {
-min-height: 20em;
-}
-
-.css-short-field {
-width: 16em !important;
-}
-
-.js-css-invis {
-display: none !important;
+ Theme: Light on Dark, Sans-serif, Big Font.
+ -------------------------------------------------------- */
+ 
+html {
+ font-family: sans-serif;
+ background: #021;
+ color: #fff;
 }
 
 
+*:focus {
+outline: 2px dashed #fff;
+}
 
 
 /*
-== Hyperlinks and Control Widgets ==
-*/
-
-a:not(.js-css-wlink):not(.js-css-rlink) {
- border-bottom: dashed 1px #eee;
-}
-
-.js-css-wlink,
-.js-css-rlink {
-text-decoration: none;
-}
-
-.js-css-rlink {
-color: #f93;
-}
-
-.css-index .js-css-wlink,
-.css-link {
-background: #410;
-border: 1px solid #eee;
-padding: 0.25em;
-}
-
-.css-index > .js-css-wlink {
-margin: 0 0.25em 0.25em 0;
-}
+ Theme: Links, Forms, Controls
+ -------------------------------------------------------- */
 
 a,
 button,
 label,
+select,
 input,
-select {
-display: inline-block;
-color: #fd5;
+.css-ib {
+ color: #fd5;
+ display: inline-block;
 }
 
-a:hover img,
-a:focus img {
-opacity: 0.8;
-}
-
-
-
-a:hover,
-a:focus,
-label:hover,
-label:focus,
-button:hover,
-button:focus {
-cursor: pointer;
-background: #853 !important;
-color: #fff !important;
-}
-
-select:hover {
-cursor: pointer;
-}
-
-a:active,
-button:active,
-label:active {
-color: #000 !important;
-background: #eee !important;
-}
-
-a:active img {
-opacity: 0.7;
-}
-
-input[type="file"] {
-font-family: inherit;
-font-size: inherit;
-color: inherit;
-background: transparent;
-}
-
-input[type="text"],
+/*
+ * Light coffee border, Dark chocolate background for form controls.
+ */
+input:not([type="radio"]):not([type="checkbox"]),
 button,
-textarea,
+select,
 label,
-select {
-background: #410;
-border: 4px ridge #da9;
-font-size: inherit;
-font-family: inherit;
-padding: 0.25em;
+textarea {
+ border: 1px solid #fff;
 }
 
-input[type="text"],
-button {
-height: 2.25em;
+button,
+select,
+label,
+input[type="file"],
+input[readonly] {
+ background: #241;
+ padding: 0.5em;
 }
 
-input[type="text"],
+button,
+select,
+label,
+option,
+input[type="file"],
+input:not([type]),
+input[type="search"],
 textarea,
-legend {
-width: 100%;
-color: inherit;
+h1,h2,h3,h4,h5,h6 {
+ vertical-align: middle;
 }
 
+input:not([type]):not([readonly]),
 input[type="text"],
+input[type="search"],
 textarea {
-background: #000;
-min-width: 8em;
-}
-
-textarea {
-font-family: monospace;
-word-wrap: normal;
-white-space: pre;
-height: 6em;
-overflow: auto;
-}
-
-legend, fieldset {
-color: inherit;
-padding: 0.2em 0;
-border: none;
-}
-
-
-
-/*
-== Modal dialog box CSS ==
-*/
-
-.css-modal-sys,
-.css-modal {
- z-index: 999;
-}
-
-.css-modal {
- position: absolute;
- min-height: 20%;
- min-width: 20%;
-}
-
-.css-modal-sys {
- position: fixed;
- width: 100%;
- height: 100%;
- top: 0;
- left: 0;
- margin: 0;
  background: #000;
- overflow: auto;
+ color: #fff;
+ padding: 0.5em;
 }
 
-.css-modal-sys > div,
-.css-modal-sys > form {
-margin: 2% 2% 2% 2%;
+textarea {
+ font-family: monospace, monospace;
+ display: block;
+ width: 100%;
 }
-
 
 
 /*
-User Content CSS
-================
-*/
+ Theme: Grouping Content
+ -------------------------------------------------------- */
 
 
 blockquote {
- background: #040;
- border-left: 0.5em solid #161;
- margin: 0.75em 0.5em;
- padding: 0.25em 0.5em;
+background: #040;
+border-left: 0.25em solid #060;
+margin: 0.75em 0.5em;
+padding: 0.25em 0.5em;
 }
 
 pre {
-background: #021;
-border: 1px dotted #eee;
 padding: 0.5em;
 clear: both;
-overflow: auto;
 }
 
 pre > code {
@@ -383,26 +107,130 @@ background: none;
 }
 
 pre, code {
-font-family: monospace;
+background: #010;
 }
 
-code {
-background: #142;
+table, tr {
+width: 100%;
+table-layout: fixed;
 }
 
-table, td, th, tr, hr {
-border: 1px solid #eee;
+
+
+/*
+ Javascript-Specific
+ -------------------------------------------------------- */
+
+a:not(.js-css-rlink):not(.js-wlink) {
+ border-bottom: dashed 1px #fff;
 }
 
-td > p, th > p {
-margin: 0.5em;
-padding: 0;
+a.js-css-rlink {
+ color: #f93;
 }
 
-img, video, audio {
-vertical-align: bottom;
+.js-css-invis {
+ display: none !important;
 }
 
-video, audio {
-background: #000;
+.js-css-active > * {
+ background: #410;
+ font-weight: bold;
+}
+
+
+/*
+ Toolbox
+ -------------------------------------------------------- */
+
+.css-modal {
+ border: 4px ridge #da9;
+ position: fixed;
+ top: 0;
+ left: 0;
+ background: #410;
+ height: 100%;
+ width: 100%;
+ overflow: auto;
+ z-index: 999;
+}
+
+.css-no-pad {
+ padding:0;
+ margin:0;
+}
+
+.css-pad,
+.css-modal {
+ padding: 0.5em;
+}
+.css-bg-2nd {
+ background: #031;
+}
+
+.css-center {
+ text-align: center;
+}
+.css-f-right {
+ float: right;
+}
+
+.css-grid-mobile,
+.css-grid {
+ display: table;
+ table-layout: fixed;
+}
+.css-grid > * ,
+.css-grid-mobile > * {
+ display: table-cell;
+}
+.css-w-20 {
+ width: 20%;
+}
+.css-w-25 {
+ width: 25%;
+}
+.css-w-30 {
+ width: 30%;
+}
+.css-w-50 {
+ width: 50%;
+}
+.css-w-70 {
+ width: 70%;
+}
+.css-grid-mobile,
+.css-grid,
+.css-w-100,
+span > input,
+span > button,
+span > select {
+ width: 100%;
+}
+
+.css-v-top {
+ vertical-align: top;
+}
+.css-h-3em {
+ height: 3.5em;
+}
+
+@media (min-width: 800px) {
+ #css-top-menu {
+  padding: 0.5em 0.5em 0.5em 0;
+ }
+}
+
+@media (max-width: 799px) {
+ .css-grid-mobile,
+ .css-grid-mobile > * {
+  display: block;
+ }
+ .css-grid-mobile > * {
+  width: 100% !important;
+ }
+ .css-v-sep {
+  border: 1px solid #ccc;
+  border-width: 1px 0 0 0;
+ }
 }

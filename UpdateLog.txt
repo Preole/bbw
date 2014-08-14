@@ -132,3 +132,94 @@ first time forces the screen to scroll to bottom in Firefox.
 - Back links should now be properly turned orange when the target entry 
   doesn't exist in the data storage.
 
+
+=== 0.2.0 ===
+
+==== New Features ====
+
+- Navigation History; There's now the "back" and "next" buttons, which 
+  enables browsing history traversal similar to a web browser's back and 
+  forward buttons.
+  
+  Additionally, there's now a dedicated refresh button to fetch new changes 
+  made to the page since it has been opened.
+  
+  Now, it should be easier going back to previously visited wiki entries. 
+  Digging through indices and search results should no longer be necessary.
+  
+- Single Browsing Pane; Clicking on internal links or submitting forms 
+  within the browsing pane opens up the resulting page in the same pane, 
+  instead of opening up a new pane containing the result.
+  
+  This change is made for similarity and consistency with web browser 
+  behaviors in general.
+
+- Tabbed Navigation UI; At most one browsing session (tab) is in the 
+  viewing pane at any given time, which can be swapped out for another 
+  tab in the side panel.
+  
+  This feature is added to deal with vertically long viewing pane, 
+  which would be stretched endlessly every time an internal link is clicked. 
+  The large number of interface widgets and sections has made keyboard, and 
+  at times, mouse navigation rather overwhelming.
+
+
+
+==== Changed Features ====
+
+- The original vertical layout of BareBonesWiki from versions 0.1.x have 
+  been replaced with **Tabbed Navigation UI**, **Single Browsing Pane**, 
+  and **Navigation History**.
+
+- The UI has been redesigned to accommodate narrow, portrait screens in 
+  addition to desktop widescreen.
+  
+- The search and indexing interface have been baked into the default 
+  home page. They are no longer available as part of the standard menu.
+
+- There's no more dedicated view panel for search & index results. They'll 
+  simply be posted to the main viewing pane now.
+
+
+
+==== Internal Changes ====
+
+- Improved HTML semantics.
+- Streamlined event handling.
+- Eliminated more string constant littering.
+- Removed unnecessary content in """README.md""".
+- Project restructured into traditional MVC pattern with linear dependency 
+  between layers.
+  
+  ; """lib/"""
+  : Libraries used in the project, like jQuery, lodash, etc.
+  
+  ; """models/"""
+  : Data storage objects, factory singletons, prototypal classes used 
+    within the objects. Currently missing a dedicated abstraction for 
+    objects used within the HistoryList class.
+  
+  ; """collections/DB.js"""
+  : The management singleton for manipulating multiple different view 
+    models at once. Its current responsibilities are basic CRUD operations 
+    and returning data structures from read requests.
+    
+  ; """router/$plugins.js"""
+  : jQuery plugins for facilitating view manipulation and templating.
+  
+  ; """router/TMPL.js"""
+  : Generates HTML templates from data structures. Returns jQuery objects 
+    (HTML Fragments) to be appended to the view.
+    
+  ; """router/CTRL.js"""
+  : Maps internal link and form submission requests into Database calls, 
+    then returns the appropriate HTML fragment using one of the available
+    templates.
+    
+  ; """views/"""
+  : Presentational logic. Intercepts UI events, performs simulated HTTP 
+    requests, then posts the resulting HTML onto the screen.
+    
+  ; """main.js""", """const.js"""
+  : Application kickstarter.
+  

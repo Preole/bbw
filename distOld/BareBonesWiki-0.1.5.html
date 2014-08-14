@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html><head>
 <meta charset="UTF-8">
-<title>BareBonesWiki-DeveloperManual</title>
+<title>Jacob-DailyLife</title>
 
 <style type="text/css">
 /*
@@ -57,7 +57,7 @@ height: 100%;
 width: 98%;
 font-family: sans-serif;
 margin: 1% 1% 2% 1%;
-font-size: 16px;
+font-size: 16pt;
 }
 
 /*Superscript and subscript line height fixes*/
@@ -425,55 +425,55 @@ background: #000;
  </noscript>
 
 
- <h1 class="css-center css-font-big" id="js-pg-title">BareBonesWiki-DeveloperManual</h1>
+ <h1 class="css-center css-font-big" id="js-pg-title">BareBonesWiki</h1>
  
  <div class="css-table css-pad">
   <div>
-   <input id="js-txt-search" type="text">
+   <input id="js-txt-search" value="" type="text">
   </div>
   <div>
-   <button type="button" id="js-b-search">Search</button>
-   <button type="button" id="js-b-index">Index▼</button>
+   <button id="js-b-search" type="button">Search</button>
+   <button id="js-b-index" type="button">Index▼</button>
   </div>
   <div class="css-right">
-   <button type="button" id="js-b-cfg">Options</button>
-   <button type="button" id="js-b-save">Save</button>
-   <button type="button" id="js-b-new">New</button>
+   <button id="js-b-cfg" type="button">Options</button>
+   <button id="js-b-save" type="button">Save</button>
+   <button id="js-b-new" type="button">New</button>
   </div>
  </div>
  
  <div class="css-table">
-  <dl id="js-area-index" class="css-index css-top js-content js-css-invis">
+  <dl class="css-index css-top js-content js-css-invis" id="js-area-index">
    <dt class="css-table css-pad">
     <span id="js-area-index-title"></span>
-    <span class="css-right"><button type="button" class="js-b-close">Close</button></span>
+    <span class="css-right"><button class="js-b-close" type="button">Close</button></span>
    </dt>
    <dd id="js-area-index-content"></dd>
   </dl>
-  <div id="js-area-content" class="css-top"></div>
+  <div class="css-top" id="js-area-content"></div>
  </div>
  
  <div class="css-pad">
-  <button type="button" id="js-b-top">To Top</button>
-  <button type="button" id="js-b-export">Export</button>
-  <button type="button" id="js-b-import">Import▼</button>
+  <button id="js-b-top" type="button">To Top</button>
+  <button id="js-b-export" type="button">Export</button>
+  <button id="js-b-import" type="button">Import▼</button>
  </div>
 
  
 <!--Hidden import wizard.-->
-<form class="css-modal-sys js-modal js-css-invis" tabindex="0" id="js-import-wiz">
+<form tabindex="0" class="css-modal-sys js-modal js-css-invis" id="js-import-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">Import Wizard</div>
  <fieldset>
  <legend>Import as...</legend>
-  <label><input name="js-import-type" value="application/json" checked="" type="radio">As Dataset</label>
+  <label><input name="js-import-type" checked="" value="application/json" type="radio">As Dataset</label>
   <label><input name="js-import-type" value="text/x-bbm" type="radio">As Wiki Entry</label>
   <label><input name="js-import-type" value="text/plain" type="radio">As Plain Text</label>
   <label><input name="js-import-type" value="text/html" type="radio">As HTML Snippets</label>
  </fieldset>
  <fieldset>
  <legend>Choose...</legend>
- <label><input id="js-i-import" multiple="" type="file"></label>
+ <label><input id="js-i-import" multiple="" value="" type="file"></label>
  <select id="js-s-import-charset">
   <option value="UTF-8">Unicode (UTF-8)</option>
   <option value="UCS-2">UCS-2</option>
@@ -499,35 +499,35 @@ background: #000;
  
  <fieldset>
  <legend>Import Log</legend>
- <textarea cols="80" rows="6" id="js-i-import-log"></textarea>
+ <textarea id="js-i-import-log" rows="6" cols="80"></textarea>
  </fieldset>
  
  <div class="css-right">
-  <button type="button" class="js-b-close">Close</button>
+  <button class="js-b-close" type="button">Close</button>
  </div>
 </div>
 </form>
 
 <!--Hidden popup menu-->
-<div style="left: 499px; top: 94px;" class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" tabindex="0">
+<div tabindex="0" class="css-modal css-pad-sys js-css-invis" id="js-popup-wiz" style="left: 46px; top: 414px;">
  <div class="css-font-med" id="js-popup-title"></div>
  <div class="css-index css-min-height" id="js-popup-content"></div>
  <div class="css-right">
-  <button type="button" class="js-b-close">Close</button>
+  <button class="js-b-close" type="button">Close</button>
  </div>
 </div>
 
 <!--Hidden configuration wizard.-->
-<form class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-cfg-wiz">
+<form tabindex="0" class="css-modal-sys js-modal js-css-invis" id="js-cfg-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">Configuration Wizard</div>
  <fieldset>
  <legend>Title</legend>
- <input id="js-i-cfg-title" type="text">
+ <input id="js-i-cfg-title" value="" type="text">
  </fieldset>
  <fieldset>
  <legend>Startup Titles (Delimited by Line-breaks or "<code style="background: inherit;">||</code>")</legend>
- <textarea cols="30" rows="10" id="js-i-cfg-startup"></textarea>
+ <textarea id="js-i-cfg-startup" rows="10" cols="30"></textarea>
  </fieldset>
  <fieldset>
  <legend>Confirmations</legend>
@@ -545,14 +545,14 @@ background: #000;
  </label>
  </fieldset>
  <div class="css-right">
-  <button type="button" class="js-b-save">Ok</button>
-  <button type="button" class="js-b-close">Close</button>
+  <button class="js-b-save" type="button">Ok</button>
+  <button class="js-b-close" type="button">Close</button>
  </div>
 </div>
 </form>
 
 <!--Hidden Export wizard-->
-<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-export-wiz">
+<div tabindex="0" class="css-modal-sys js-css-invis js-modal" id="js-export-wiz">
 <div class="css-pad-sys">
 <p class="css-font-big">Manual-saving &amp; Exporting Wizard</p>
 <p>
@@ -572,16 +572,16 @@ and for data exporting, """.json""".
 There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </p>
 <p>
-<a href="#" tabindex="0" id="js-save-link" class="css-font-med" target="_blank">Save this link target</a>
+<a tabindex="0" class="css-font-med" id="js-save-link" href="#" target="_blank">Save this link target</a>
 </p>
 <p>
-<button type="button" class="js-b-close">Close</button>
+<button class="js-b-close" type="button">Close</button>
 </p>
 </div>
 </div>
 
 <!--Error Reporting-->
-<div class="css-modal-sys js-css-invis js-modal" tabindex="0" id="js-err-wiz">
+<div tabindex="0" class="css-modal-sys js-css-invis js-modal" id="js-err-wiz">
 <div class="css-pad-sys">
  <div class="css-font-big">
   BareBonesWiki Error Reporting
@@ -593,13 +593,13 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
  </p>
  <textarea id="js-i-error-log"></textarea>
  <div class="css-right">
-  <button type="button" class="js-b-close">Close</button>
+  <button class="js-b-close" type="button">Close</button>
  </div>
 </div>
 </div>
 
 <!--View Template-->
-<script type="text/html" id="js-t-view">
+<script id="js-t-view" type="text/html">
 <div class="css-pad-big js-form" tabindex="0">
  <div class="css-right js-ctrl">
   <button type="button" class="js-b-close-o">Close Others</button>
@@ -615,7 +615,7 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 
 
 <!--Edit Template-->
-<script type="text/html" id="js-t-edit">
+<script id="js-t-edit" type="text/html">
 <form class="css-pad-big js-form" tabindex="0">
 <fieldset class="css-right js-ctrl">
  <button type="button" class="js-b-delete">Delete</button>
@@ -653,28 +653,28 @@ There are no plans to support Internet Explorer &lt; 10 for exporting data.
 </script>
 
 <!--Replaceable HTML fragments-->
-<script type="text/html" id="js-t-button-tag">
+<script id="js-t-button-tag" type="text/html">
 <button type="button" class="js-css-wlink js-b-tag-item">
  <span class="js-b-tag-text"></span>
  <span>✘</span>
 </button>
 </script>
-<script type="text/html" id="js-t-dl">
+<script id="js-t-dl" type="text/html">
 <dl></dl>
 </script>
-<script type="text/html" id="js-t-dd">
+<script id="js-t-dd" type="text/html">
 <dd></dd>
 </script>
-<script type="text/html" id="js-t-dt">
+<script id="js-t-dt" type="text/html">
 <dt class="css-pad"></dt>
 </script>
-<script type="text/html" id="js-t-wlink">
+<script id="js-t-wlink" type="text/html">
 <a href="#" tabindex="0" class="js-css-wlink js-wlink"></a>
 </script>
-<script type="text/html" id="js-t-para">
+<script id="js-t-para" type="text/html">
 <p class="css-margin"></p>
 </script>
-<script type="text/html" id="js-t-button">
+<script id="js-t-button" type="text/html">
 <button type="button"></button>
 </script>
 
@@ -685,211 +685,9 @@ JSON Data storage.
 Unescape HTML entities "&amp; &lt; &gt;" prior to parsing, if extracting
 directly from here.
 -->
-<script type="application/json" id="js-db">{
- "NODES": {
-  "New Entry 1": {
-   "title": "New Entry 1",
-   "src": "#&lt;BAD&gt;",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1406873091255,
-   "edited": 1406873092255
-  },
-  "CSS Class &amp; ID Prefixes": {
-   "title": "CSS Class &amp; ID Prefixes",
-   "src": "; \"\"\"css-\"\"\"\n: Strictly for styling purposes.\n\n; \"\"\"js-\"\"\"\n: Strictly for application logic.\n\n; \"\"\"js-css-\"\"\"\n: Used by application logic to control styling.\n  (Toggling visibility, red linking)\n\n; \"\"\"bbm-\"\"\"\n: CSS namespace custom classes and identifiers \n  coming out of the wiki text parser.\n\n",
-   "tags": [
-    "Front-end",
-    "Back-end"
-   ],
-   "mime": "text/x-bbm",
-   "created": 1395010882719,
-   "edited": 1395011295023
-  },
-  "Enhancement Update": {
-   "title": "Enhancement Update",
-   "src": "March 22nd, 2014 Update\n=======================\n\nRegarding the issue with data store, I have decided to forfeit \nusing a separate data store for tags; Tightly coupling keywords \nand tags with wiki entries is only natural, because these tags \nonly have semantic meanings when they appear with these entries. \nI shall still enforce the business constraints required of tags \nand wiki entries.\n\nI have created a \"\"\"WikiNode\"\"\" utility class isolated from the \ndatabase singleton, which has its own data validation scheme. \n\nI have also curated a new Directed Graph class object, which \nwill be responsible as the formal data structure backing up the \ndatabase. The introduction of the data structure should also \nreduce redundancy for generating data structures for indices. \n(Not yet finished)\n\n\nNew Problems Identified\n-----------------------\n\n- Lack of Error Reporting, both on the UI level and the API level\n- Lack of Error detection and constraint enforcing at the API level\n\n",
-   "tags": [
-    "Uncategorized"
-   ],
-   "mime": "text/x-bbm",
-   "created": 1395525216255,
-   "edited": 1395722948663
-  },
-  "Enhancement Update 2": {
-   "title": "Enhancement Update 2",
-   "src": "March 23, 2014\n==============\n\nIdentified a few key areas for engine improvement.\n\n1. On initialization, instead of doing a nested loop to \n   find recently edited entries, sort the entries first,\n   then pick the most recent few using a simple loop.\n\n\n\nMarch 24nd, 2014 Update\n=======================\n\nImprovements\n------------\n\n- Consolidated similar, repeated littering string literals\n  and CSS selectors so that it's easier to chase them down \n  for maintenance.\n\n- Created factory modules for creating and managing Wiki entries,\n  configuration objects, and hopefully, edge objects as well.\n\n\n\nI have compiled a list of CSS selectors that are tightly coupled \nwith javascript, and should not be changed at the CSS/HTML level:\n\n; \"\"\".js-css-invis\"\"\"\n: Toggles the visibility state of the HTML element.\n\n; \"\"\".js-wlink\"\"\"\n: Wiki-Links; Only applies to \"\"\"&lt;a&gt;\"\"\" elements. Hyperlinks with \n  this class will exhibit special behaviors instead of the standard \n  hyperlink behavior, depending its container's CSS classes.\n\n; \"\"\".js-content\"\"\"\n: Content area label; Wiki-links under this container will open a \n  new wiki entry based on its URL.\n\n; \"\"\".js-index\"\"\"\n: Indexing area label; Wiki-links under this container will index \n  the database and post the result onto a specialized display.\n\n; \"\"\".js-tags\"\"\"\n: Tagging area label; Wiki-links under this container will index \n  and display all wiki entries that have this tag.\n\n----\n\nMeanwhile, here's a list of javascript events (Triggered via jQuery), \nand their descriptions.\n\n; \"\"\"EVT.INDEX\"\"\"\n: Launches a popup modal box that displays a list of available \n  indexing methods. Clicking on one of these indexing methods \n  result in wiki entries being displayed arranged in a specific \n  order. Occurs on clicking the indexing button.\n\n; \"\"\"EVT.TAG\"\"\"\n: Launches a popup modal box displaying the list of wiki entries \n  under a specific tag. Occurs when a tag hyperlink is clicked.\n\n; \"\"\"EVT.SAVE\"\"\"\n: Serializes this entire application into one single HTML file, \n  where the location is to be specified by the user.\n\n  Alternatively, saves a configuration object into the data store.\n\n; \"\"\"EVT.EXPORT\"\"\"\n: Serializes the database into a JSON file for saving.\n\n; \"\"\"EVT.IMPORT\"\"\"\n: Loads a plain text file into the database for viewing, or loads \n  a JSON file and merge that database into the current one, \n  overwriting any name conflicts.\n\n; \"\"\"EVT.LOAD\"\"\"\n: Used by various static, hidden form elements for populating \n  the interface with data, and showing themselves.\n\n; \"\"\"EVT.CLOSE\"\"\"\n: Closes or destroys the container window, such as an editing \n  form or a modal popup box. This is a generic event.\n\n\n\nThe following events are specific to the content area where \nwiki entries are displayed:\n\n; \"\"\"EVT.CLOSEO\"\"\"\n: Closes all open wiki entries except the one that initiated\n  this event.\n\n; \"\"\"EVT.EDIT\"\"\"\n: Switches an open wiki entry into editing mode.\n\n; \"\"\"EVT.COMMIT\"\"\"\n: Saves the wiki entry being edited into the database (memory).\n\n; \"\"\"EVT.CANCEL\"\"\"\n: Discard changes and switch the wiki entry back to view mode.\n\n; \"\"\"EVT.DELETE\"\"\"\n: Removes the wiki entry from storage.\n\n; \"\"\"EVT.OPEN\"\"\"\n; Opens a wiki entry with a particular title for viewing.\n\n\nNew Problems Identified\n-----------------------\n\n- The popup modal box tag hyperlinks and indexing button does not \n  always appear right underneath the said elements under Firefox 27.\n\n- When importing an external plain text file, the wiki engine always \n  treat the input as a data set regardless of the choices made in the \n  radio buttons.\n\n- There's no way to specify the expected charset when importing a \n  file.\n\n\n\nClosing\n-------\n\nStill pondering how to organize the database code so it's more human-\nreadable. Still wondering where to put the mime type registry, and \nstill massively refactoring my code. Also forgot to finish my sentences.",
-   "tags": [
-    "Uncategorized"
-   ],
-   "mime": "text/x-bbm",
-   "created": 1395632199923,
-   "edited": 1396228477152
-  },
-  "Enhancement Update 3": {
-   "title": "Enhancement Update 3",
-   "src": "March 30th, 2014\n================\n\nReadied a bug fix where modal windows are spawning in unexpected\nplaces. That is, when a tag link gets clicked, the modal box \nthat contains all title links related to that tag fails to appear \nunderneath the link.\n\nReadied a bug fix for importing data sets; When the new configuration \nobject is imported, the page title and status fail to be updated, \nunless the wiki is saved and re-opened at a later time.",
-   "tags": [
-    "Uncategorized"
-   ],
-   "mime": "text/x-bbm",
-   "created": 1396228440559,
-   "edited": 1396229603336
-  },
-  "Build Instruction": {
-   "title": "Build Instruction",
-   "src": "Basic Build Instructions\n========================\n\n1. Install ?&lt;http://nodejs.org/&gt;-[node.js]. \n\n2. Jump to the project's root directory using command-line and type \n   \"\"\"node build.js\"\"\". If you're on Windows, shift-right click the\n   open white space in the Explorer window and select \"\"\"Open \n   command-prompt\"\"\"\n   \n3. Retrieve the generated HTML file in \"\"\"./dist/\"\"\".\n\n\n\nSlightly more complicated builds\n================================\n\nAssuming you're in the project's root directory in the command line, with \nnode.js installed, install the following node.js modules:\n\n\"\"\"\nnpm install jscombiner\nnpm install fuse\n\"\"\"\n\nThe former is a javascript file concatenator, while the latter is a HTML, \nCSS, and Javascript file injector.\n\nIf you'll be using the wiki in older web browsers, Navigate to the source code \ndirectory and switch jQuery library versions located in \"\"\"./src/lib/\"\"\". \n**Note**: this operation does not enable Internet Explorer 8-9 to commit \npersistent changes to the wiki.\n\n\"\"\"\ncd src/lib/\ncp jQuery1.x.min.js jQuery.min.js\n\"\"\"\n\nRetrieve the generated HTML file in \"\"\"./dist/\"\"\"\n\n\n\n\n\nHard Dependencies\n=================\n\nThey're already included in the source code, but just in case updates come \nout:\n\n; jQuery \n\n  : Download the minified library from ?&lt;http://jquery.com/download/&gt;\n     -[the official website], then put it into the source folder. Download \n     the 1.x branch if planning to use the wiki with older web browsers.\n     (Not Internet Explorer, unfortunately)\n\n; lodash\n\n  : Retrieve the minified compatibility build of lodash from \n    ?&lt;http://lodash.com/&gt;, by John-David Dalton, and drop it off at\n    \"\"\"./src/lib/\"\"\".\n    \n; bbm (BakaBakaMark; The markup syntax used in the wiki)\n\n  : ?&lt;https://github.com/Preole/bbm&gt;\n\n    Simply drag, drop, and replace the old library with the new one.\n\n\n\n\nlodash Custom Build\n===================\n\nIf memory consumption and saving a few bytes matter, we can build a custom \nversion of lodash using **node.js**.\n\n1. Install node.js\n2. Install npm (Which comes along with node.js)\n3. \"\"\"\n   npm install lodash-cli -g\n   \"\"\"\n\n4. \"\"\"\n   lodash compat category=collections,objects exports=global include=difference,uniq,union,identity\n   \"\"\"\n   \n   Switch out \"\"\"compat\"\"\" with \"\"\"modern\"\"\" if you'll always be using\n   modern web browsers.\n   \n5. Drag &amp; drop the minified library into \"\"\"./src/lib/\"\"\".\n\n\n\njQuery Custom Build\n===================\n\nLike the lodash custom build, follow these instructions if you're looking \nto save a few extra bytes. This build instruction assumes that the following \ncommands are available in the command line shell:\n\n- node (?&lt;node.js&gt;)\n- npm (Comes along with node.js)\n- git (?&lt;git&gt;)\n- grunt-cli (\"\"\"npm install grunt-cli -g\"\"\")\n\n:{node.js}: http://nodejs.org/\n:{git}: http://www.vogella.com/tutorials/Git/article.html#installation\n\n\nFrom the command line in the github directory, clone jQuery's repository\nand build its dependencies using the following commands:\n\n\"\"\"\ngit clone git://github.com/jquery/jquery.git\ncd jquery\nnpm run build\n\"\"\"\n\n\n\nAfter building, run one of the following scripts depending on how modern \nyour web browsers will be. For older Gecko and Webkit-based, use the 1.x \nbranch:\n\n\"\"\"\ngit checkout 1.11.0\ngrunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callbacks,-queue,-forms,-deprecated,-exports/amd,-css\n\"\"\"\n\n\n\nAnd if you'll always use the latest browsers, use the 2.x branch.\n\n\"\"\"\ngit checkout 2.1.0\ngrunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callbacks,-queue,-forms,-deprecated,-exports/amd,-css,-sizzle\n\"\"\"\n\nDrop the minified jquery from \"\"\"$(jQueryRoot)/dist/jquery.min.js\"\"\" \nto the wiki's source directory: \"\"\"$(bbwRoot)/src/lib/jquery.min.js\"\"\"\n\n",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1396396283154,
-   "edited": 1396396284154
-  },
-  "JSON Datastore": {
-   "title": "JSON Datastore",
-   "src": "BareBonesWiki JSON\n==================\n\nThis document is a short, detailed explanation about BareBonesWiki's back end \ndata structure serialized as JSON. The document provides a sample JSON and \ndescribes each data field, as well as all possibilities formations of the \ndatabase.\n\n\nSample JSON Data\n----------------\n\n\"\"\"\n{\n /*\n A set of unique wiki entries organized by their names. This lists all \n entries that currently reside in the wiki.\n */\n \"NODES\": {\n\n \n \n  /*\n  An example wiki entry, which is a String value connected to a wiki node \n  object. This string value must have no leading or trailing spaces, and \n  must not contain any control characters.\n  \n  Consecutive space characters of differing flavors should be normalized \n  to a single ASCII (0020) space character. No control characters (such \n  as line feed) are allowed in the key field.\n  */\n  \"BareBonesWiki\": { \n  \n  \n  \n   /*\n   String; The string value must match the containing wiki node's key value, \n   case sensitive.\n   */\n   \"title\": \"BareBonesWiki\", \n   \n   \n   \n   /*\n   Number (Integer); Date UTC in milliseconds. This is the date this\n   entry was last edited.\n   */\n   \"edited\": 1391063754000,\n   \n   \n   \n   /*\n   Number (Integer); Date UTC in milliseconds. The date this entry\n   was created.\n   */\n   \"created\": 1390971816000,\n   \n   \n   \n   /*\n   An Array of unique String values. Lexicographic order is not required, \n   but it should contain at least one non-empty string value. In the case\n   of an empty tag array, a default tag name must be supplied.\n   (e.g: \"Uncategorized\")\n   */\n   \"tags\": [\n    \"Built-in\"\n   ],\n   \n   \n   \n   //String; The wiki entry's source code in plain text.\n   \"src\": \"SomeText\",\n   \n   \n   /*\n   String; The wiki entry's MIME type, which determines the way the wiki\n   entry will be rendered. Currently, there are three significant mime\n   types the wiki will respond to:\n   \n   ; \"text/x-bbm\"\n   : Default mime type; Parses the content as wiki text.\n   \n   ; \"text/html\"\n   : Straight embedded HTML, in case wiki text is not powerful enough.\n   \n   ; Anything else\n   : Plain text; The source code of the wiki entry is simply stuffed \n     into a pre-formatted text block.\n   */\n   \"mime\": \"\"\n  }\n },\n \n \n \n /*\n Denotes directed edges (Arrows) from one wiki entry onto another wiki \n entry, referenced by their names (title). These edges can only be extracted \n after compiling an entry's source code. As such, it's possible for the \n source text to be out of sync with the model represented here.\n \n Contains a unique set of objects, where each objects contains a unique \n set of String values (Target entry).\n \n The key values under \"EDGES\" must also exist under \"NODES\".\n */\n \"EDGES\": {\n \n  /*\n  Example source edge.\n  */\n  \"BareBonesWiki\" : {\n  \n   /*\n   Number; Any positive integer; Which denotes there's at least one link \n   from the current node to the destination.\n   \n   The destination node is denoted by the key value, which does not have\n   to exist in the set \"NODES\".\n   */\n   \n   \"DoesNotExist\" : 1,\n   \"AnotherTitle\" : 1\n  },\n },\n \n \n \n /*\n Configuration object used by BareBonesWiki engine.\n */\n \"CONFIG\": {\n \n  /*\n  The Wiki's Title. Must not be an empty String.\n  */\n  \"title\": \"BareBonesWiki\",\n  \n  /*\n  A unique array of String values, denoting the list of entries to display \n  on startup. Names listed later should be displayed first.\n  */\n  \"startup\": [\n   \"BareBonesWiki\"\n  ],\n  \n  \n  \n  /*\n  Boolean; Displays warning on deleting entries.\n  */\n  \"cfmDel\": true, \n  \n  \n  \n  /*\n  Boolean; Displays warning on closing the wiki (Navigating away)\n  */\n  \"cfmNav\": true,\n  \n  \n  \n  /*\n  Boolean; Letter case sensitivity for full-text search.\n  */\n  \"searchCase\": false\n }\n}\n\"\"\"",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1396396335680,
-   "edited": 1396396336680
-  },
-  "Enhancement Update 5": {
-   "title": "Enhancement Update 5",
-   "src": "== Update May 28th, 2014 ==\n\n- Installed a rudimentary error console at the application level.\n  This feature is part of the project milestone.\n\n- Fixed a keyword search bug when there are no characters in the \n  text field. Now, the search box will close off the indexing side \n  bar if the input is either empty, or only contains spaces.\n\n- If no wiki entry titles are specified, the application should \n  now display the most recently edited entries from top to bottom, \n  rather than in reverse order.\n\n- Clicking on internal links or buttons for the first time in the \n  application should no longer cause the window to scroll to the \n  bottom.",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1401327581059,
-   "edited": 1401327685879
-  },
-  "Enhancement Update 4": {
-   "title": "Enhancement Update 4",
-   "src": "Bug Fix, Missing Features\n-------------------------\n\n- **{++Update April 29th, 2014++}**\n\n  - Added support for exact-phrase search using double quotes.\n    Example: \"\"\"\\\"This Exact Sentence\\\"\"\"\".\n  - Added rudimentary error reporting if the underlying wiki \n    engine encounters an error.\n\n- Fixed the bug regarding erroneous popup window positions.\n- Fixed the bug where page titles and status fail to update\n  after importing from an external dataset.\n- Fixed an importing bug where it can only import JSON data;\n  Now it can accept other forms of textual data as well.\n- Added character set specification support when importing \n  from external files. The wiki can now import textual data \n  that are not encoded in UTF-8 (e.g: GB2302 Simplified Chinese, \n  Russian, SHIFT-JIS Japanese.)\n\n\n\nProject Structures\n------------------\n\n- Less string literal littering; Currently considering\n  whether to enforce centralized string constant coding policy.\n  Specifically, only a very specific few modules are allowed \n  to declare string constants.\n- Established formal object factories for Wiki entries, \n  configuration objects, and a formal class for edge sets.\n  Rudimentary constraint enforcing for these objects have \n  been established.\n\n\n\nNew Milestone\n-------------\n\n- Create a rudimentary error reporting interface for when the \n  javascript engine crash. (Accomplished)\n- Keep the HTML file under 200KB uncompressed.\n",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1396394112264,
-   "edited": 1403203701206
-  },
-  "Enhancement Update 6": {
-   "title": "Enhancement Update 6",
-   "src": "Repository-Specific\n-------------------\n\n- Removed the development branch from the repository; The branch turns \n  out unnecessary due to the simplicity of the project.\n\n- Removed \"Do not use\" warning. Basic functionality and underlying engine \n  rewrites are complete.\n  \n- Modified \"\"\".gitattributes\"\"\" to enforce Unix-style line breaks throughout \n  the repository.\n\nProject\n-------\n\n- Added a selection menu for wiki entry mime type. No more manually typing \n  and guessing available types of wiki entries. There are three official types \n  of wiki entries.\n\n  - Straight HTML \"\"\"text/html\"\"\"\n  - BakaBakaMark Wiki text \"\"\"text/x-bbm\"\"\"\n  - Plain text \"\"\"text/plain\"\"\"\n  \n- Added the option to directly import HTML code into the wiki. No more \n  converting them into HTML mime type after importing them as plain text.",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1403203760729,
-   "edited": 1403203761729
-  },
-  "Possible Front-end Enhancement": {
-   "title": "Possible Front-end Enhancement",
-   "src": "Editing Interface\n=================\n\nThe **mime type** field of the editing interface should be a \ndrop-down box offering a slew of choices with a default \npre-selected. A simple text field may be too primitive an \ninterface. {++Done++}\n\nThe **tags** field of the editing interface can use the same \ntreatment; Either selecting a pre-existing tag or enter a \nnew tag string manually.\n\nThe search &amp; indexing result panel should have an explicit \nclose button, rather than relying on an empty search query \nto close it. {++Done++}\n\n\n\nImporting Interface\n===================\n\nThe current interface for importing is limited to reading \nUTF-8 encoded text. It should be extended to accept other \ncharacter sets in addition to UTF-8. {++Done++}\n\nNext, the importing interface now supports the following \nfile types:\n\n- Plain text (No interpretation)\n- HTML Snippets (Raw HTML)\n- BareBonesWiki wiki text (Also plain text)\n- JSON (A data set extracted from another BareBonesWiki)\n\nFinally, aside from importing as a data set, importing \nwiki entries as individual text files now have sensible\nname generation, as well as a renaming scheme in case \nof name conflict.\n\n",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Front-end"
-   ],
-   "created": 1395000557212,
-   "edited": 1404196874971
-  },
-  "Possible Back-end Enhancement": {
-   "title": "Possible Back-end Enhancement",
-   "src": "Database (Solved)\n=================\n\nConsider separating tags from wiki entries, rather than \nintegrated as part of wiki entry objects. Tag objects should \nhave its own module for enforcing business constraints, which \nare essential for effective tagging (partitioning) of wiki \nentries based on categories. Specifically, \n\n- There can only be one unique tag per application instance,\n  determined by the tag name.\n- Each tag can refer to at most one unique wiki entry \n  identified by their title text.\n- Similarly, each wiki entry can be tagged at most once by \n  any given tag object.\n- Control characters **must be stripped** from tag names.\n- All consecutive white space characters in tag names **must**\n  be collapsed into a single ASCII white space. However, single\n  non-ASCII space characters are permitted to remain as they \n  are.\n\nWiki entries are not supposed to know which categories they \nbelong to; They should only need to know when they're last \nedited, the date they're created, its title and its source code.\n\n**Wiki entry objects** should also abide to the following rules:\n\n- One unique wiki entry title per application.\n- No control characters allowed in **Mime Type** and **Title**\n  fields.\n- In the same field, process white space in the same way as the \n  tag names do to its white space characters.\n\n{++\nThe end result is a dedicated graph data structure that can \npossibly be re-used elsewhere.\n++}\n\n\n\nView Controller (Solved)\n========================\n\nThe code base currently has severe problems with string literals \nrepeatedly used in different areas. The worst offending use case \nare **jQuery CSS selectors**, which often have little to no variation \nfrom one another, but are used as string literals because of the \nCSS selector syntax:\n\n\"\"\"\n$(\"#someConstantModule\").on(\"someEvent\", \".js-wlink\", ...)\n\nfunction doSomething(evt)\n{\n if ($(evt.target).hasClass(\"js-wlink\"))\n {\n  //Do something fancy.\n }\n}\n\"\"\"\n\nHere, the class \"js-wlink\" refers to \"javascript wiki links\", \nwhich opens a wiki entry when they're clicked. Due to the nature \nof CSS selectors, the string value has to be repeated every time \nthere's a different relationship regarding the link, such as \nwhether it's a descendant of a particular kind of \"\"\"div\"\"\". \nInstances of such string constants lead to difficult maintenance.\n\n{++\nRe-arranged the string constants such that each string constant \nis only defined once in the entire application, and they're not \nused outside the files they belong to, except through an explicit \ninterface from each module.\n++}\n\n{++\nOrganized view controllers as single files, with dependencies \nspecified by comments such as \"\"\"/*import something.js*/\"\"\". \n++}\n\nAPI &amp; Architecture Design Flaws (Solved)\n========================================\n\n1. In order to find forward links within a wiki entry, the engine \n   must perform the following procedure every time a wiki entry is \n   saved.\n\n   1. Parse the text into HTML strings.\n   2. Build the HTML DOM.\n   3. Query the DOM for a list of links.\n\n   The third step in the parsing process is critical for indexing \n   orphaned entries and their back links, which are very convenient \n   features to end-users. The other two steps are basic plain text \n   - HTML transformation. None of these steps can be combined or \n   simplified at the current state of affairs.\n\n2. Rendering a wiki entry requires a database query to determine \n   whether to display links in a different way. (Red linking)\n\n3. The rendering engine should not have to generate the same data \n   structure as ones used within the database. (Retrieving \n   edges from HTML DOM)\n\n{++\nIsolated the linking steps by storing identifiers inside DOM \nelements; Then, linking only involves retrieving this identifier, \nand make an inexpensive existence query against the database.\n++}",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Back-end"
-   ],
-   "created": 1395004854914,
-   "edited": 1404197267924
-  },
-  "Enhancement Update 7": {
-   "title": "Enhancement Update 7",
-   "src": "New Features\n============\n\n- Added an explicit close button for dismissing side panels.\n- Added an automatic name generation for importing individual\n  text files as wiki entries. The files' names shall be their\n  title.\n\n  This change does not affect importing wiki entries from JSON \n  data sets.\n\n- Re-arranged the editing interface to have the following order:\n\n  1. Title\n  2. Tags\n  3. Content\n  4. Mime type\n\n  This is to be consistent with the viewing interface, which \n  displays wiki entry information in that order.\n\n- Fixed an issue where clicking on the indexing button for the \n  first time forces the screen to scroll to bottom in Firefox.\n\n",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1404196730179,
-   "edited": 1404198799186
-  },
-  "Enhancement Update 8": {
-   "title": "Enhancement Update 8",
-   "src": "New Features\n============\n\n- Added double pipes `||` as a valid delimiter for startup wiki entry \n  titles, in addition to line breaks. (Better horizontal space utilization)\n  \n- Added a proper UI dashboard for managing wiki entry tags, which have the\n  following controls:\n\n  - A lookup table for existing tags.\n  - A convenient text field for adding tags.\n  - Tag deletion; Click on the tag.\n\n  Currently, it cannot handle duplicate tag detection, resulting in \n  duplicates that are cleaned up after commits.\n\nFixes \n=====\n\n- Wiki entries should now display the tags in alphabetical order in both \n  viewing and editing mode.\n\nProject-Specific\n================\n\n- Renamed the template script file `$t.js` to `$TMPL.js`,\n  avoiding letter case inconsistency in commits.\n\n- Separated the update log from README into a separate file.",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1405040291578,
-   "edited": 1405200597787
-  },
-  "EntryPoint": {
-   "title": "EntryPoint",
-   "src": "The back-end of BareBonesWiki has been fixed by Update 4; It should \nno longer be a pain to push updates and implement new features at this \npoint. Most of the milestones have been met by Update 7, except for a \nmore elaborate tag interface.\n\nMilestones\n----------\n\n- #&lt;Possible Back-end Enhancement&gt;\n- #&lt;Possible Front-end Enhancement&gt;\n\n\n\nUpdate Log\n----------\n\n- #&lt;Enhancement Update 10&gt;-[Enhancement Update 10 - Version 0.1.4]\n- #&lt;Enhancement Update 9&gt;\n- #&lt;Enhancement Update 8&gt;\n- #&lt;Enhancement Update 7&gt;\n- #&lt;Enhancement Update 6&gt;\n- #&lt;Enhancement Update 5&gt;\n- #&lt;Enhancement Update 4&gt;\n- #&lt;Enhancement Update 3&gt;\n- #&lt;Enhancement Update 2&gt;\n- #&lt;Enhancement Update&gt;\n\n\n\nReferences\n----------\n\n- #&lt;JSON Datastore&gt;\n- #&lt;Build Instruction&gt;",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1394841548715,
-   "edited": 1405638892521
-  },
-  "Enhancement Update 9": {
-   "title": "Enhancement Update 9",
-   "src": "Fixes\n=====\n\n- The tag editing interface should no longer add identical tags to the \n  display.\n\n- Fixed an error on importing; If an index is requested before the import, \n  and then the same index is requested immediately afterwards, the index \n  should now properly display the update.\n\n- Fixed a bug where the indexing panel would persist in the next launch \n  if left unclosed prior to saving, where the buttons in that panel raised\n  errors when clicked.\n",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1405200728993,
-   "edited": 1405200729993
-  },
-  "Enhancement Update 10": {
-   "title": "Enhancement Update 10",
-   "src": "=== 0.1.4 ===\n\nFixes\n=====\n\n- The drop-down menu for existing tags in editing mode had a \n  behavior change; It will now fill the nearby textbox with \n  the tag, rather than adding the tag directly.\n\n  Internet Explorer should no longer add tags every time the \n  tag selection menu changes from keyboard presses.\n\n  This change is made to better accommodate keyboard navigation \n  under certain browsers, which have different behaviors for \n  menu item changes made by the keyboard.\n\n- Fixed a low-level error that prevented saving and exporting \n  under Internet Explorer 10 or higher.\n",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1405638899344,
-   "edited": 1405638900344
-  }
- },
- "EDGES": {
-  "New Entry 1": {
-   "BAD": null
-  },
-  "EntryPoint": {
-   "Possible Back-end Enhancement": null,
-   "Possible Front-end Enhancement": null,
-   "Enhancement Update 9": null,
-   "Enhancement Update 8": null,
-   "Enhancement Update 7": null,
-   "Enhancement Update 6": null,
-   "Enhancement Update 5": null,
-   "Enhancement Update 4": null,
-   "Enhancement Update 3": null,
-   "Enhancement Update 2": null,
-   "Enhancement Update": null,
-   "JSON Datastore": null,
-   "Build Instruction": null,
-   "Enhancement Update 10": null
-  }
- },
- "CONFIG": {
-  "title": "BareBonesWiki-DeveloperManual",
-  "startup": [
-   "EntryPoint"
-  ],
-  "cfmDel": false,
-  "cfmNav": false,
-  "searchCase": false
- }
-}</script>
+<script id="js-db" type="application/json">
+{}
+</script>
 
 
 <!--Runtime code-->
@@ -897,8 +695,6 @@ directly from here.
 /*! jQuery v1.11.0 -deferred,-ajax,-ajax/jsonp,-ajax/load,-ajax/parseJSON,-ajax/parseXML,-ajax/script,-ajax/var/nonce,-ajax/var/rquery,-ajax/xhr,-manipulation/_evalUrl,-effects,-effects/animatedSelector,-effects/support,-effects/Tween,-core/ready,-serialize,-event-alias,-callbacks,-queue,-queue/delay,-forms,-deprecated,-exports/amd,-css,-css/addGetHookIf,-css/curCSS,-css/defaultDisplay,-css/hiddenVisibleSelectors,-css/support,-css/swap,-css/var/cssExpand,-css/var/isHidden,-css/var/rmargin,-css/var/rnumnonpx,-dimensions,-offset | (c) 2005, 2014 jQuery Foundation, Inc. | jquery.org/license */
 !function(a,b){"object"==typeof module&&"object"==typeof module.exports?module.exports=a.document?b(a,!0):function(a){if(!a.document)throw new Error("jQuery requires a window with a document");return b(a)}:b(a)}("undefined"!=typeof window?window:this,function(a,b){var c=[],d=c.slice,e=c.concat,f=c.push,g=c.indexOf,h={},i=h.toString,j=h.hasOwnProperty,k="".trim,l={},m="1.11.0 -deferred,-ajax,-ajax/jsonp,-ajax/load,-ajax/parseJSON,-ajax/parseXML,-ajax/script,-ajax/var/nonce,-ajax/var/rquery,-ajax/xhr,-manipulation/_evalUrl,-effects,-effects/animatedSelector,-effects/support,-effects/Tween,-core/ready,-serialize,-event-alias,-callbacks,-queue,-queue/delay,-forms,-deprecated,-exports/amd,-css,-css/addGetHookIf,-css/curCSS,-css/defaultDisplay,-css/hiddenVisibleSelectors,-css/support,-css/swap,-css/var/cssExpand,-css/var/isHidden,-css/var/rmargin,-css/var/rnumnonpx,-dimensions,-offset",n=function(a,b){return new n.fn.init(a,b)},o=/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,p=/^-ms-/,q=/-([\da-z])/gi,r=function(a,b){return b.toUpperCase()};n.fn=n.prototype={jquery:m,constructor:n,selector:"",length:0,toArray:function(){return d.call(this)},get:function(a){return null!=a?0>a?this[a+this.length]:this[a]:d.call(this)},pushStack:function(a){var b=n.merge(this.constructor(),a);return b.prevObject=this,b.context=this.context,b},each:function(a,b){return n.each(this,a,b)},map:function(a){return this.pushStack(n.map(this,function(b,c){return a.call(b,c,b)}))},slice:function(){return this.pushStack(d.apply(this,arguments))},first:function(){return this.eq(0)},last:function(){return this.eq(-1)},eq:function(a){var b=this.length,c=+a+(0>a?b:0);return this.pushStack(c>=0&&b>c?[this[c]]:[])},end:function(){return this.prevObject||this.constructor(null)},push:f,sort:c.sort,splice:c.splice},n.extend=n.fn.extend=function(){var a,b,c,d,e,f,g=arguments[0]||{},h=1,i=arguments.length,j=!1;for("boolean"==typeof g&&(j=g,g=arguments[h]||{},h++),"object"==typeof g||n.isFunction(g)||(g={}),h===i&&(g=this,h--);i>h;h++)if(null!=(e=arguments[h]))for(d in e)a=g[d],c=e[d],g!==c&&(j&&c&&(n.isPlainObject(c)||(b=n.isArray(c)))?(b?(b=!1,f=a&&n.isArray(a)?a:[]):f=a&&n.isPlainObject(a)?a:{},g[d]=n.extend(j,f,c)):void 0!==c&&(g[d]=c));return g},n.extend({expando:"jQuery"+(m+Math.random()).replace(/\D/g,""),isReady:!0,error:function(a){throw new Error(a)},noop:function(){},isFunction:function(a){return"function"===n.type(a)},isArray:Array.isArray||function(a){return"array"===n.type(a)},isWindow:function(a){return null!=a&&a==a.window},isNumeric:function(a){return a-parseFloat(a)>=0},isEmptyObject:function(a){var b;for(b in a)return!1;return!0},isPlainObject:function(a){var b;if(!a||"object"!==n.type(a)||a.nodeType||n.isWindow(a))return!1;try{if(a.constructor&&!j.call(a,"constructor")&&!j.call(a.constructor.prototype,"isPrototypeOf"))return!1}catch(c){return!1}if(l.ownLast)for(b in a)return j.call(a,b);for(b in a);return void 0===b||j.call(a,b)},type:function(a){return null==a?a+"":"object"==typeof a||"function"==typeof a?h[i.call(a)]||"object":typeof a},globalEval:function(b){b&&n.trim(b)&&(a.execScript||function(b){a.eval.call(a,b)})(b)},camelCase:function(a){return a.replace(p,"ms-").replace(q,r)},nodeName:function(a,b){return a.nodeName&&a.nodeName.toLowerCase()===b.toLowerCase()},each:function(a,b,c){var d,e=0,f=a.length,g=s(a);if(c){if(g){for(;f>e;e++)if(d=b.apply(a[e],c),d===!1)break}else for(e in a)if(d=b.apply(a[e],c),d===!1)break}else if(g){for(;f>e;e++)if(d=b.call(a[e],e,a[e]),d===!1)break}else for(e in a)if(d=b.call(a[e],e,a[e]),d===!1)break;return a},trim:k&&!k.call("\ufeff\xa0")?function(a){return null==a?"":k.call(a)}:function(a){return null==a?"":(a+"").replace(o,"")},makeArray:function(a,b){var c=b||[];return null!=a&&(s(Object(a))?n.merge(c,"string"==typeof a?[a]:a):f.call(c,a)),c},inArray:function(a,b,c){var d;if(b){if(g)return g.call(b,a,c);for(d=b.length,c=c?0>c?Math.max(0,d+c):c:0;d>c;c++)if(c in b&&b[c]===a)return c}return-1},merge:function(a,b){var c=+b.length,d=0,e=a.length;while(c>d)a[e++]=b[d++];if(c!==c)while(void 0!==b[d])a[e++]=b[d++];return a.length=e,a},grep:function(a,b,c){for(var d,e=[],f=0,g=a.length,h=!c;g>f;f++)d=!b(a[f],f),d!==h&&e.push(a[f]);return e},map:function(a,b,c){var d,f=0,g=a.length,h=s(a),i=[];if(h)for(;g>f;f++)d=b(a[f],f,c),null!=d&&i.push(d);else for(f in a)d=b(a[f],f,c),null!=d&&i.push(d);return e.apply([],i)},guid:1,proxy:function(a,b){var c,e,f;return"string"==typeof b&&(f=a[b],b=a,a=f),n.isFunction(a)?(c=d.call(arguments,2),e=function(){return a.apply(b||this,c.concat(d.call(arguments)))},e.guid=a.guid=a.guid||n.guid++,e):void 0},now:function(){return+new Date},support:l}),n.each("Boolean Number String Function Array Date RegExp Object Error".split(" "),function(a,b){h["[object "+b+"]"]=b.toLowerCase()});function s(a){var b=a.length,c=n.type(a);return"function"===c||n.isWindow(a)?!1:1===a.nodeType&&b?!0:"array"===c||0===b||"number"==typeof b&&b>0&&b-1 in a}var t=function(a){var b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s="sizzle"+-new Date,t=a.document,u=0,v=0,w=eb(),x=eb(),y=eb(),z=function(a,b){return a===b&&(j=!0),0},A="undefined",B=1<<31,C={}.hasOwnProperty,D=[],E=D.pop,F=D.push,G=D.push,H=D.slice,I=D.indexOf||function(a){for(var b=0,c=this.length;c>b;b++)if(this[b]===a)return b;return-1},J="checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped",K="[\\x20\\t\\r\\n\\f]",L="(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+",M=L.replace("w","w#"),N="\\["+K+"*("+L+")"+K+"*(?:([*^$|!~]?=)"+K+"*(?:(['\"])((?:\\\\.|[^\\\\])*?)\\3|("+M+")|)|)"+K+"*\\]",O=":("+L+")(?:\\(((['\"])((?:\\\\.|[^\\\\])*?)\\3|((?:\\\\.|[^\\\\()[\\]]|"+N.replace(3,8)+")*)|.*)\\)|)",P=new RegExp("^"+K+"+|((?:^|[^\\\\])(?:\\\\.)*)"+K+"+$","g"),Q=new RegExp("^"+K+"*,"+K+"*"),R=new RegExp("^"+K+"*([>+~]|"+K+")"+K+"*"),S=new RegExp("="+K+"*([^\\]'\"]*?)"+K+"*\\]","g"),T=new RegExp(O),U=new RegExp("^"+M+"$"),V={ID:new RegExp("^#("+L+")"),CLASS:new RegExp("^\\.("+L+")"),TAG:new RegExp("^("+L.replace("w","w*")+")"),ATTR:new RegExp("^"+N),PSEUDO:new RegExp("^"+O),CHILD:new RegExp("^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\("+K+"*(even|odd|(([+-]|)(\\d*)n|)"+K+"*(?:([+-]|)"+K+"*(\\d+)|))"+K+"*\\)|)","i"),bool:new RegExp("^(?:"+J+")$","i"),needsContext:new RegExp("^"+K+"*[>+~]|:(even|odd|eq|gt|lt|nth|first|last)(?:\\("+K+"*((?:-\\d)?\\d*)"+K+"*\\)|)(?=[^-]|$)","i")},W=/^(?:input|select|textarea|button)$/i,X=/^h\d$/i,Y=/^[^{]+\{\s*\[native \w/,Z=/^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,$=/[+~]/,_=/'|\\/g,ab=new RegExp("\\\\([\\da-f]{1,6}"+K+"?|("+K+")|.)","ig"),bb=function(a,b,c){var d="0x"+b-65536;return d!==d||c?b:0>d?String.fromCharCode(d+65536):String.fromCharCode(d>>10|55296,1023&d|56320)};try{G.apply(D=H.call(t.childNodes),t.childNodes),D[t.childNodes.length].nodeType}catch(cb){G={apply:D.length?function(a,b){F.apply(a,H.call(b))}:function(a,b){var c=a.length,d=0;while(a[c++]=b[d++]);a.length=c-1}}}function db(a,b,d,e){var f,g,h,i,j,m,p,q,u,v;if((b?b.ownerDocument||b:t)!==l&&k(b),b=b||l,d=d||[],!a||"string"!=typeof a)return d;if(1!==(i=b.nodeType)&&9!==i)return[];if(n&&!e){if(f=Z.exec(a))if(h=f[1]){if(9===i){if(g=b.getElementById(h),!g||!g.parentNode)return d;if(g.id===h)return d.push(g),d}else if(b.ownerDocument&&(g=b.ownerDocument.getElementById(h))&&r(b,g)&&g.id===h)return d.push(g),d}else{if(f[2])return G.apply(d,b.getElementsByTagName(a)),d;if((h=f[3])&&c.getElementsByClassName&&b.getElementsByClassName)return G.apply(d,b.getElementsByClassName(h)),d}if(c.qsa&&(!o||!o.test(a))){if(q=p=s,u=b,v=9===i&&a,1===i&&"object"!==b.nodeName.toLowerCase()){m=ob(a),(p=b.getAttribute("id"))?q=p.replace(_,"\\<!-- @depends bbw.js -->"):b.setAttribute("id",q),q="[id='"+q+"'] ",j=m.length;while(j--)m[j]=q+pb(m[j]);u=$.test(a)&&mb(b.parentNode)||b,v=m.join(",")}if(v)try{return G.apply(d,u.querySelectorAll(v)),d}catch(w){}finally{p||b.removeAttribute("id")}}}return xb(a.replace(P,"$1"),b,d,e)}function eb(){var a=[];function b(c,e){return a.push(c+" ")>d.cacheLength&&delete b[a.shift()],b[c+" "]=e}return b}function fb(a){return a[s]=!0,a}function gb(a){var b=l.createElement("div");try{return!!a(b)}catch(c){return!1}finally{b.parentNode&&b.parentNode.removeChild(b),b=null}}function hb(a,b){var c=a.split("|"),e=a.length;while(e--)d.attrHandle[c[e]]=b}function ib(a,b){var c=b&&a,d=c&&1===a.nodeType&&1===b.nodeType&&(~b.sourceIndex||B)-(~a.sourceIndex||B);if(d)return d;if(c)while(c=c.nextSibling)if(c===b)return-1;return a?1:-1}function jb(a){return function(b){var c=b.nodeName.toLowerCase();return"input"===c&&b.type===a}}function kb(a){return function(b){var c=b.nodeName.toLowerCase();return("input"===c||"button"===c)&&b.type===a}}function lb(a){return fb(function(b){return b=+b,fb(function(c,d){var e,f=a([],c.length,b),g=f.length;while(g--)c[e=f[g]]&&(c[e]=!(d[e]=c[e]))})})}function mb(a){return a&&typeof a.getElementsByTagName!==A&&a}c=db.support={},f=db.isXML=function(a){var b=a&&(a.ownerDocument||a).documentElement;return b?"HTML"!==b.nodeName:!1},k=db.setDocument=function(a){var b,e=a?a.ownerDocument||a:t,g=e.defaultView;return e!==l&&9===e.nodeType&&e.documentElement?(l=e,m=e.documentElement,n=!f(e),g&&g!==g.top&&(g.addEventListener?g.addEventListener("unload",function(){k()},!1):g.attachEvent&&g.attachEvent("onunload",function(){k()})),c.attributes=gb(function(a){return a.className="i",!a.getAttribute("className")}),c.getElementsByTagName=gb(function(a){return a.appendChild(e.createComment("")),!a.getElementsByTagName("*").length}),c.getElementsByClassName=Y.test(e.getElementsByClassName)&&gb(function(a){return a.innerHTML="<div class='a'></div><div class='a i'></div>",a.firstChild.className="i",2===a.getElementsByClassName("i").length}),c.getById=gb(function(a){return m.appendChild(a).id=s,!e.getElementsByName||!e.getElementsByName(s).length}),c.getById?(d.find.ID=function(a,b){if(typeof b.getElementById!==A&&n){var c=b.getElementById(a);return c&&c.parentNode?[c]:[]}},d.filter.ID=function(a){var b=a.replace(ab,bb);return function(a){return a.getAttribute("id")===b}}):(delete d.find.ID,d.filter.ID=function(a){var b=a.replace(ab,bb);return function(a){var c=typeof a.getAttributeNode!==A&&a.getAttributeNode("id");return c&&c.value===b}}),d.find.TAG=c.getElementsByTagName?function(a,b){return typeof b.getElementsByTagName!==A?b.getElementsByTagName(a):void 0}:function(a,b){var c,d=[],e=0,f=b.getElementsByTagName(a);if("*"===a){while(c=f[e++])1===c.nodeType&&d.push(c);return d}return f},d.find.CLASS=c.getElementsByClassName&&function(a,b){return typeof b.getElementsByClassName!==A&&n?b.getElementsByClassName(a):void 0},p=[],o=[],(c.qsa=Y.test(e.querySelectorAll))&&(gb(function(a){a.innerHTML="<select t=''><option selected=''></option></select>",a.querySelectorAll("[t^='']").length&&o.push("[*^$]="+K+"*(?:''|\"\")"),a.querySelectorAll("[selected]").length||o.push("\\["+K+"*(?:value|"+J+")"),a.querySelectorAll(":checked").length||o.push(":checked")}),gb(function(a){var b=e.createElement("input");b.setAttribute("type","hidden"),a.appendChild(b).setAttribute("name","D"),a.querySelectorAll("[name=d]").length&&o.push("name"+K+"*[*^$|!~]?="),a.querySelectorAll(":enabled").length||o.push(":enabled",":disabled"),a.querySelectorAll("*,:x"),o.push(",.*:")})),(c.matchesSelector=Y.test(q=m.webkitMatchesSelector||m.mozMatchesSelector||m.oMatchesSelector||m.msMatchesSelector))&&gb(function(a){c.disconnectedMatch=q.call(a,"div"),q.call(a,"[s!='']:x"),p.push("!=",O)}),o=o.length&&new RegExp(o.join("|")),p=p.length&&new RegExp(p.join("|")),b=Y.test(m.compareDocumentPosition),r=b||Y.test(m.contains)?function(a,b){var c=9===a.nodeType?a.documentElement:a,d=b&&b.parentNode;return a===d||!(!d||1!==d.nodeType||!(c.contains?c.contains(d):a.compareDocumentPosition&&16&a.compareDocumentPosition(d)))}:function(a,b){if(b)while(b=b.parentNode)if(b===a)return!0;return!1},z=b?function(a,b){if(a===b)return j=!0,0;var d=!a.compareDocumentPosition-!b.compareDocumentPosition;return d?d:(d=(a.ownerDocument||a)===(b.ownerDocument||b)?a.compareDocumentPosition(b):1,1&d||!c.sortDetached&&b.compareDocumentPosition(a)===d?a===e||a.ownerDocument===t&&r(t,a)?-1:b===e||b.ownerDocument===t&&r(t,b)?1:i?I.call(i,a)-I.call(i,b):0:4&d?-1:1)}:function(a,b){if(a===b)return j=!0,0;var c,d=0,f=a.parentNode,g=b.parentNode,h=[a],k=[b];if(!f||!g)return a===e?-1:b===e?1:f?-1:g?1:i?I.call(i,a)-I.call(i,b):0;if(f===g)return ib(a,b);c=a;while(c=c.parentNode)h.unshift(c);c=b;while(c=c.parentNode)k.unshift(c);while(h[d]===k[d])d++;return d?ib(h[d],k[d]):h[d]===t?-1:k[d]===t?1:0},e):l},db.matches=function(a,b){return db(a,null,null,b)},db.matchesSelector=function(a,b){if((a.ownerDocument||a)!==l&&k(a),b=b.replace(S,"='$1']"),!(!c.matchesSelector||!n||p&&p.test(b)||o&&o.test(b)))try{var d=q.call(a,b);if(d||c.disconnectedMatch||a.document&&11!==a.document.nodeType)return d}catch(e){}return db(b,l,null,[a]).length>0},db.contains=function(a,b){return(a.ownerDocument||a)!==l&&k(a),r(a,b)},db.attr=function(a,b){(a.ownerDocument||a)!==l&&k(a);var e=d.attrHandle[b.toLowerCase()],f=e&&C.call(d.attrHandle,b.toLowerCase())?e(a,b,!n):void 0;return void 0!==f?f:c.attributes||!n?a.getAttribute(b):(f=a.getAttributeNode(b))&&f.specified?f.value:null},db.error=function(a){throw new Error("Syntax error, unrecognized expression: "+a)},db.uniqueSort=function(a){var b,d=[],e=0,f=0;if(j=!c.detectDuplicates,i=!c.sortStable&&a.slice(0),a.sort(z),j){while(b=a[f++])b===a[f]&&(e=d.push(f));while(e--)a.splice(d[e],1)}return i=null,a},e=db.getText=function(a){var b,c="",d=0,f=a.nodeType;if(f){if(1===f||9===f||11===f){if("string"==typeof a.textContent)return a.textContent;for(a=a.firstChild;a;a=a.nextSibling)c+=e(a)}else if(3===f||4===f)return a.nodeValue}else while(b=a[d++])c+=e(b);return c},d=db.selectors={cacheLength:50,createPseudo:fb,match:V,attrHandle:{},find:{},relative:{">":{dir:"parentNode",first:!0}," ":{dir:"parentNode"},"+":{dir:"previousSibling",first:!0},"~":{dir:"previousSibling"}},preFilter:{ATTR:function(a){return a[1]=a[1].replace(ab,bb),a[3]=(a[4]||a[5]||"").replace(ab,bb),"~="===a[2]&&(a[3]=" "+a[3]+" "),a.slice(0,4)},CHILD:function(a){return a[1]=a[1].toLowerCase(),"nth"===a[1].slice(0,3)?(a[3]||db.error(a[0]),a[4]=+(a[4]?a[5]+(a[6]||1):2*("even"===a[3]||"odd"===a[3])),a[5]=+(a[7]+a[8]||"odd"===a[3])):a[3]&&db.error(a[0]),a},PSEUDO:function(a){var b,c=!a[5]&&a[2];return V.CHILD.test(a[0])?null:(a[3]&&void 0!==a[4]?a[2]=a[4]:c&&T.test(c)&&(b=ob(c,!0))&&(b=c.indexOf(")",c.length-b)-c.length)&&(a[0]=a[0].slice(0,b),a[2]=c.slice(0,b)),a.slice(0,3))}},filter:{TAG:function(a){var b=a.replace(ab,bb).toLowerCase();return"*"===a?function(){return!0}:function(a){return a.nodeName&&a.nodeName.toLowerCase()===b}},CLASS:function(a){var b=w[a+" "];return b||(b=new RegExp("(^|"+K+")"+a+"("+K+"|$)"))&&w(a,function(a){return b.test("string"==typeof a.className&&a.className||typeof a.getAttribute!==A&&a.getAttribute("class")||"")})},ATTR:function(a,b,c){return function(d){var e=db.attr(d,a);return null==e?"!="===b:b?(e+="","="===b?e===c:"!="===b?e!==c:"^="===b?c&&0===e.indexOf(c):"*="===b?c&&e.indexOf(c)>-1:"$="===b?c&&e.slice(-c.length)===c:"~="===b?(" "+e+" ").indexOf(c)>-1:"|="===b?e===c||e.slice(0,c.length+1)===c+"-":!1):!0}},CHILD:function(a,b,c,d,e){var f="nth"!==a.slice(0,3),g="last"!==a.slice(-4),h="of-type"===b;return 1===d&&0===e?function(a){return!!a.parentNode}:function(b,c,i){var j,k,l,m,n,o,p=f!==g?"nextSibling":"previousSibling",q=b.parentNode,r=h&&b.nodeName.toLowerCase(),t=!i&&!h;if(q){if(f){while(p){l=b;while(l=l[p])if(h?l.nodeName.toLowerCase()===r:1===l.nodeType)return!1;o=p="only"===a&&!o&&"nextSibling"}return!0}if(o=[g?q.firstChild:q.lastChild],g&&t){k=q[s]||(q[s]={}),j=k[a]||[],n=j[0]===u&&j[1],m=j[0]===u&&j[2],l=n&&q.childNodes[n];while(l=++n&&l&&l[p]||(m=n=0)||o.pop())if(1===l.nodeType&&++m&&l===b){k[a]=[u,n,m];break}}else if(t&&(j=(b[s]||(b[s]={}))[a])&&j[0]===u)m=j[1];else while(l=++n&&l&&l[p]||(m=n=0)||o.pop())if((h?l.nodeName.toLowerCase()===r:1===l.nodeType)&&++m&&(t&&((l[s]||(l[s]={}))[a]=[u,m]),l===b))break;return m-=e,m===d||m%d===0&&m/d>=0}}},PSEUDO:function(a,b){var c,e=d.pseudos[a]||d.setFilters[a.toLowerCase()]||db.error("unsupported pseudo: "+a);return e[s]?e(b):e.length>1?(c=[a,a,"",b],d.setFilters.hasOwnProperty(a.toLowerCase())?fb(function(a,c){var d,f=e(a,b),g=f.length;while(g--)d=I.call(a,f[g]),a[d]=!(c[d]=f[g])}):function(a){return e(a,0,c)}):e}},pseudos:{not:fb(function(a){var b=[],c=[],d=g(a.replace(P,"$1"));return d[s]?fb(function(a,b,c,e){var f,g=d(a,null,e,[]),h=a.length;while(h--)(f=g[h])&&(a[h]=!(b[h]=f))}):function(a,e,f){return b[0]=a,d(b,null,f,c),!c.pop()}}),has:fb(function(a){return function(b){return db(a,b).length>0}}),contains:fb(function(a){return function(b){return(b.textContent||b.innerText||e(b)).indexOf(a)>-1}}),lang:fb(function(a){return U.test(a||"")||db.error("unsupported lang: "+a),a=a.replace(ab,bb).toLowerCase(),function(b){var c;do if(c=n?b.lang:b.getAttribute("xml:lang")||b.getAttribute("lang"))return c=c.toLowerCase(),c===a||0===c.indexOf(a+"-");while((b=b.parentNode)&&1===b.nodeType);return!1}}),target:function(b){var c=a.location&&a.location.hash;return c&&c.slice(1)===b.id},root:function(a){return a===m},focus:function(a){return a===l.activeElement&&(!l.hasFocus||l.hasFocus())&&!!(a.type||a.href||~a.tabIndex)},enabled:function(a){return a.disabled===!1},disabled:function(a){return a.disabled===!0},checked:function(a){var b=a.nodeName.toLowerCase();return"input"===b&&!!a.checked||"option"===b&&!!a.selected},selected:function(a){return a.parentNode&&a.parentNode.selectedIndex,a.selected===!0},empty:function(a){for(a=a.firstChild;a;a=a.nextSibling)if(a.nodeType<6)return!1;return!0},parent:function(a){return!d.pseudos.empty(a)},header:function(a){return X.test(a.nodeName)},input:function(a){return W.test(a.nodeName)},button:function(a){var b=a.nodeName.toLowerCase();return"input"===b&&"button"===a.type||"button"===b},text:function(a){var b;return"input"===a.nodeName.toLowerCase()&&"text"===a.type&&(null==(b=a.getAttribute("type"))||"text"===b.toLowerCase())},first:lb(function(){return[0]}),last:lb(function(a,b){return[b-1]}),eq:lb(function(a,b,c){return[0>c?c+b:c]}),even:lb(function(a,b){for(var c=0;b>c;c+=2)a.push(c);return a}),odd:lb(function(a,b){for(var c=1;b>c;c+=2)a.push(c);return a}),lt:lb(function(a,b,c){for(var d=0>c?c+b:c;--d>=0;)a.push(d);return a}),gt:lb(function(a,b,c){for(var d=0>c?c+b:c;++d<b;)a.push(d);return a})}},d.pseudos.nth=d.pseudos.eq;for(b in{radio:!0,checkbox:!0,file:!0,password:!0,image:!0})d.pseudos[b]=jb(b);for(b in{submit:!0,reset:!0})d.pseudos[b]=kb(b);function nb(){}nb.prototype=d.filters=d.pseudos,d.setFilters=new nb;function ob(a,b){var c,e,f,g,h,i,j,k=x[a+" "];if(k)return b?0:k.slice(0);h=a,i=[],j=d.preFilter;while(h){(!c||(e=Q.exec(h)))&&(e&&(h=h.slice(e[0].length)||h),i.push(f=[])),c=!1,(e=R.exec(h))&&(c=e.shift(),f.push({value:c,type:e[0].replace(P," ")}),h=h.slice(c.length));for(g in d.filter)!(e=V[g].exec(h))||j[g]&&!(e=j[g](e))||(c=e.shift(),f.push({value:c,type:g,matches:e}),h=h.slice(c.length));if(!c)break}return b?h.length:h?db.error(a):x(a,i).slice(0)}function pb(a){for(var b=0,c=a.length,d="";c>b;b++)d+=a[b].value;return d}function qb(a,b,c){var d=b.dir,e=c&&"parentNode"===d,f=v++;return b.first?function(b,c,f){while(b=b[d])if(1===b.nodeType||e)return a(b,c,f)}:function(b,c,g){var h,i,j=[u,f];if(g){while(b=b[d])if((1===b.nodeType||e)&&a(b,c,g))return!0}else while(b=b[d])if(1===b.nodeType||e){if(i=b[s]||(b[s]={}),(h=i[d])&&h[0]===u&&h[1]===f)return j[2]=h[2];if(i[d]=j,j[2]=a(b,c,g))return!0}}}function rb(a){return a.length>1?function(b,c,d){var e=a.length;while(e--)if(!a[e](b,c,d))return!1;return!0}:a[0]}function sb(a,b,c,d,e){for(var f,g=[],h=0,i=a.length,j=null!=b;i>h;h++)(f=a[h])&&(!c||c(f,d,e))&&(g.push(f),j&&b.push(h));return g}function tb(a,b,c,d,e,f){return d&&!d[s]&&(d=tb(d)),e&&!e[s]&&(e=tb(e,f)),fb(function(f,g,h,i){var j,k,l,m=[],n=[],o=g.length,p=f||wb(b||"*",h.nodeType?[h]:h,[]),q=!a||!f&&b?p:sb(p,m,a,h,i),r=c?e||(f?a:o||d)?[]:g:q;if(c&&c(q,r,h,i),d){j=sb(r,n),d(j,[],h,i),k=j.length;while(k--)(l=j[k])&&(r[n[k]]=!(q[n[k]]=l))}if(f){if(e||a){if(e){j=[],k=r.length;while(k--)(l=r[k])&&j.push(q[k]=l);e(null,r=[],j,i)}k=r.length;while(k--)(l=r[k])&&(j=e?I.call(f,l):m[k])>-1&&(f[j]=!(g[j]=l))}}else r=sb(r===g?r.splice(o,r.length):r),e?e(null,g,r,i):G.apply(g,r)})}function ub(a){for(var b,c,e,f=a.length,g=d.relative[a[0].type],i=g||d.relative[" "],j=g?1:0,k=qb(function(a){return a===b},i,!0),l=qb(function(a){return I.call(b,a)>-1},i,!0),m=[function(a,c,d){return!g&&(d||c!==h)||((b=c).nodeType?k(a,c,d):l(a,c,d))}];f>j;j++)if(c=d.relative[a[j].type])m=[qb(rb(m),c)];else{if(c=d.filter[a[j].type].apply(null,a[j].matches),c[s]){for(e=++j;f>e;e++)if(d.relative[a[e].type])break;return tb(j>1&&rb(m),j>1&&pb(a.slice(0,j-1).concat({value:" "===a[j-2].type?"*":""})).replace(P,"$1"),c,e>j&&ub(a.slice(j,e)),f>e&&ub(a=a.slice(e)),f>e&&pb(a))}m.push(c)}return rb(m)}function vb(a,b){var c=b.length>0,e=a.length>0,f=function(f,g,i,j,k){var m,n,o,p=0,q="0",r=f&&[],s=[],t=h,v=f||e&&d.find.TAG("*",k),w=u+=null==t?1:Math.random()||.1,x=v.length;for(k&&(h=g!==l&&g);q!==x&&null!=(m=v[q]);q++){if(e&&m){n=0;while(o=a[n++])if(o(m,g,i)){j.push(m);break}k&&(u=w)}c&&((m=!o&&m)&&p--,f&&r.push(m))}if(p+=q,c&&q!==p){n=0;while(o=b[n++])o(r,s,g,i);if(f){if(p>0)while(q--)r[q]||s[q]||(s[q]=E.call(j));s=sb(s)}G.apply(j,s),k&&!f&&s.length>0&&p+b.length>1&&db.uniqueSort(j)}return k&&(u=w,h=t),r};return c?fb(f):f}g=db.compile=function(a,b){var c,d=[],e=[],f=y[a+" "];if(!f){b||(b=ob(a)),c=b.length;while(c--)f=ub(b[c]),f[s]?d.push(f):e.push(f);f=y(a,vb(e,d))}return f};function wb(a,b,c){for(var d=0,e=b.length;e>d;d++)db(a,b[d],c);return c}function xb(a,b,e,f){var h,i,j,k,l,m=ob(a);if(!f&&1===m.length){if(i=m[0]=m[0].slice(0),i.length>2&&"ID"===(j=i[0]).type&&c.getById&&9===b.nodeType&&n&&d.relative[i[1].type]){if(b=(d.find.ID(j.matches[0].replace(ab,bb),b)||[])[0],!b)return e;a=a.slice(i.shift().value.length)}h=V.needsContext.test(a)?0:i.length;while(h--){if(j=i[h],d.relative[k=j.type])break;if((l=d.find[k])&&(f=l(j.matches[0].replace(ab,bb),$.test(i[0].type)&&mb(b.parentNode)||b))){if(i.splice(h,1),a=f.length&&pb(i),!a)return G.apply(e,f),e;break}}}return g(a,m)(f,b,!n,e,$.test(a)&&mb(b.parentNode)||b),e}return c.sortStable=s.split("").sort(z).join("")===s,c.detectDuplicates=!!j,k(),c.sortDetached=gb(function(a){return 1&a.compareDocumentPosition(l.createElement("div"))}),gb(function(a){return a.innerHTML="<a href='#'></a>","#"===a.firstChild.getAttribute("href")})||hb("type|href|height|width",function(a,b,c){return c?void 0:a.getAttribute(b,"type"===b.toLowerCase()?1:2)}),c.attributes&&gb(function(a){return a.innerHTML="<input/>",a.firstChild.setAttribute("value",""),""===a.firstChild.getAttribute("value")})||hb("value",function(a,b,c){return c||"input"!==a.nodeName.toLowerCase()?void 0:a.defaultValue}),gb(function(a){return null==a.getAttribute("disabled")})||hb(J,function(a,b,c){var d;return c?void 0:a[b]===!0?b.toLowerCase():(d=a.getAttributeNode(b))&&d.specified?d.value:null}),db}(a);n.find=t,n.expr=t.selectors,n.expr[":"]=n.expr.pseudos,n.unique=t.uniqueSort,n.text=t.getText,n.isXMLDoc=t.isXML,n.contains=t.contains;var u=n.expr.match.needsContext,v=/^<(\w+)\s*\/?>(?:<\/\1>|)$/,w=/^.[^:#\[\.,]*$/;function x(a,b,c){if(n.isFunction(b))return n.grep(a,function(a,d){return!!b.call(a,d,a)!==c});if(b.nodeType)return n.grep(a,function(a){return a===b!==c});if("string"==typeof b){if(w.test(b))return n.filter(b,a,c);b=n.filter(b,a)}return n.grep(a,function(a){return n.inArray(a,b)>=0!==c})}n.filter=function(a,b,c){var d=b[0];return c&&(a=":not("+a+")"),1===b.length&&1===d.nodeType?n.find.matchesSelector(d,a)?[d]:[]:n.find.matches(a,n.grep(b,function(a){return 1===a.nodeType}))},n.fn.extend({find:function(a){var b,c=[],d=this,e=d.length;if("string"!=typeof a)return this.pushStack(n(a).filter(function(){for(b=0;e>b;b++)if(n.contains(d[b],this))return!0}));for(b=0;e>b;b++)n.find(a,d[b],c);return c=this.pushStack(e>1?n.unique(c):c),c.selector=this.selector?this.selector+" "+a:a,c},filter:function(a){return this.pushStack(x(this,a||[],!1))},not:function(a){return this.pushStack(x(this,a||[],!0))},is:function(a){return!!x(this,"string"==typeof a&&u.test(a)?n(a):a||[],!1).length}});var y,z=a.document,A=/^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/,B=n.fn.init=function(a,b){var c,d;if(!a)return this;if("string"==typeof a){if(c="<"===a.charAt(0)&&">"===a.charAt(a.length-1)&&a.length>=3?[null,a,null]:A.exec(a),!c||!c[1]&&b)return!b||b.jquery?(b||y).find(a):this.constructor(b).find(a);if(c[1]){if(b=b instanceof n?b[0]:b,n.merge(this,n.parseHTML(c[1],b&&b.nodeType?b.ownerDocument||b:z,!0)),v.test(c[1])&&n.isPlainObject(b))for(c in b)n.isFunction(this[c])?this[c](b[c]):this.attr(c,b[c]);return this}if(d=z.getElementById(c[2]),d&&d.parentNode){if(d.id!==c[2])return y.find(a);this.length=1,this[0]=d}return this.context=z,this.selector=a,this}return a.nodeType?(this.context=this[0]=a,this.length=1,this):n.isFunction(a)?"undefined"!=typeof y.ready?y.ready(a):a(n):(void 0!==a.selector&&(this.selector=a.selector,this.context=a.context),n.makeArray(a,this))};B.prototype=n.fn,y=n(z);var C=/^(?:parents|prev(?:Until|All))/,D={children:!0,contents:!0,next:!0,prev:!0};n.extend({dir:function(a,b,c){var d=[],e=a[b];while(e&&9!==e.nodeType&&(void 0===c||1!==e.nodeType||!n(e).is(c)))1===e.nodeType&&d.push(e),e=e[b];return d},sibling:function(a,b){for(var c=[];a;a=a.nextSibling)1===a.nodeType&&a!==b&&c.push(a);return c}}),n.fn.extend({has:function(a){var b,c=n(a,this),d=c.length;return this.filter(function(){for(b=0;d>b;b++)if(n.contains(this,c[b]))return!0})},closest:function(a,b){for(var c,d=0,e=this.length,f=[],g=u.test(a)||"string"!=typeof a?n(a,b||this.context):0;e>d;d++)for(c=this[d];c&&c!==b;c=c.parentNode)if(c.nodeType<11&&(g?g.index(c)>-1:1===c.nodeType&&n.find.matchesSelector(c,a))){f.push(c);break}return this.pushStack(f.length>1?n.unique(f):f)},index:function(a){return a?"string"==typeof a?n.inArray(this[0],n(a)):n.inArray(a.jquery?a[0]:a,this):this[0]&&this[0].parentNode?this.first().prevAll().length:-1},add:function(a,b){return this.pushStack(n.unique(n.merge(this.get(),n(a,b))))},addBack:function(a){return this.add(null==a?this.prevObject:this.prevObject.filter(a))}});function E(a,b){do a=a[b];while(a&&1!==a.nodeType);return a}n.each({parent:function(a){var b=a.parentNode;return b&&11!==b.nodeType?b:null},parents:function(a){return n.dir(a,"parentNode")},parentsUntil:function(a,b,c){return n.dir(a,"parentNode",c)},next:function(a){return E(a,"nextSibling")},prev:function(a){return E(a,"previousSibling")},nextAll:function(a){return n.dir(a,"nextSibling")},prevAll:function(a){return n.dir(a,"previousSibling")},nextUntil:function(a,b,c){return n.dir(a,"nextSibling",c)},prevUntil:function(a,b,c){return n.dir(a,"previousSibling",c)},siblings:function(a){return n.sibling((a.parentNode||{}).firstChild,a)},children:function(a){return n.sibling(a.firstChild)},contents:function(a){return n.nodeName(a,"iframe")?a.contentDocument||a.contentWindow.document:n.merge([],a.childNodes)}},function(a,b){n.fn[a]=function(c,d){var e=n.map(this,b,c);return"Until"!==a.slice(-5)&&(d=c),d&&"string"==typeof d&&(e=n.filter(d,e)),this.length>1&&(D[a]||(e=n.unique(e)),C.test(a)&&(e=e.reverse())),this.pushStack(e)}});var F=/\S+/g,G="undefined",H;for(H in n(l))break;l.ownLast="0"!==H,l.inlineBlockNeedsLayout=!1,n(function(){var a,b,c=z.getElementsByTagName("body")[0];c&&(a=z.createElement("div"),a.style.cssText="border:0;width:0;height:0;position:absolute;top:0;left:-9999px;margin-top:1px",b=z.createElement("div"),c.appendChild(a).appendChild(b),typeof b.style.zoom!==G&&(b.style.cssText="border:0;margin:0;width:1px;padding:1px;display:inline;zoom:1",(l.inlineBlockNeedsLayout=3===b.offsetWidth)&&(c.style.zoom=1)),c.removeChild(a),a=b=null)}),function(){var a=z.createElement("div");if(null==l.deleteExpando){l.deleteExpando=!0;try{delete a.test}catch(b){l.deleteExpando=!1}}a=null}(),n.acceptData=function(a){var b=n.noData[(a.nodeName+" ").toLowerCase()],c=+a.nodeType||1;return 1!==c&&9!==c?!1:!b||b!==!0&&a.getAttribute("classid")===b};var I=/^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,J=/([A-Z])/g;function K(a,b,c){if(void 0===c&&1===a.nodeType){var d="data-"+b.replace(J,"-$1").toLowerCase();if(c=a.getAttribute(d),"string"==typeof c){try{c="true"===c?!0:"false"===c?!1:"null"===c?null:+c+""===c?+c:I.test(c)?n.parseJSON(c):c}catch(e){}n.data(a,b,c)}else c=void 0}return c}function L(a){var b;for(b in a)if(("data"!==b||!n.isEmptyObject(a[b]))&&"toJSON"!==b)return!1;return!0}function M(a,b,d,e){if(n.acceptData(a)){var f,g,h=n.expando,i=a.nodeType,j=i?n.cache:a,k=i?a[h]:a[h]&&h;if(k&&j[k]&&(e||j[k].data)||void 0!==d||"string"!=typeof b)return k||(k=i?a[h]=c.pop()||n.guid++:h),j[k]||(j[k]=i?{}:{toJSON:n.noop}),("object"==typeof b||"function"==typeof b)&&(e?j[k]=n.extend(j[k],b):j[k].data=n.extend(j[k].data,b)),g=j[k],e||(g.data||(g.data={}),g=g.data),void 0!==d&&(g[n.camelCase(b)]=d),"string"==typeof b?(f=g[b],null==f&&(f=g[n.camelCase(b)])):f=g,f}}function N(a,b,c){if(n.acceptData(a)){var d,e,f=a.nodeType,g=f?n.cache:a,h=f?a[n.expando]:n.expando;if(g[h]){if(b&&(d=c?g[h]:g[h].data)){n.isArray(b)?b=b.concat(n.map(b,n.camelCase)):b in d?b=[b]:(b=n.camelCase(b),b=b in d?[b]:b.split(" ")),e=b.length;while(e--)delete d[b[e]];if(c?!L(d):!n.isEmptyObject(d))return}(c||(delete g[h].data,L(g[h])))&&(f?n.cleanData([a],!0):l.deleteExpando||g!=g.window?delete g[h]:g[h]=null)}}}n.extend({cache:{},noData:{"applet ":!0,"embed ":!0,"object ":"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"},hasData:function(a){return a=a.nodeType?n.cache[a[n.expando]]:a[n.expando],!!a&&!L(a)},data:function(a,b,c){return M(a,b,c)},removeData:function(a,b){return N(a,b)},_data:function(a,b,c){return M(a,b,c,!0)},_removeData:function(a,b){return N(a,b,!0)}}),n.fn.extend({data:function(a,b){var c,d,e,f=this[0],g=f&&f.attributes;if(void 0===a){if(this.length&&(e=n.data(f),1===f.nodeType&&!n._data(f,"parsedAttrs"))){c=g.length;while(c--)d=g[c].name,0===d.indexOf("data-")&&(d=n.camelCase(d.slice(5)),K(f,d,e[d]));n._data(f,"parsedAttrs",!0)}return e}return"object"==typeof a?this.each(function(){n.data(this,a)}):arguments.length>1?this.each(function(){n.data(this,a,b)}):f?K(f,a,n.data(f,a)):void 0},removeData:function(a){return this.each(function(){n.removeData(this,a)})}});var O=/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/.source,P=n.access=function(a,b,c,d,e,f,g){var h=0,i=a.length,j=null==c;if("object"===n.type(c)){e=!0;for(h in c)n.access(a,b,h,c[h],!0,f,g)}else if(void 0!==d&&(e=!0,n.isFunction(d)||(g=!0),j&&(g?(b.call(a,d),b=null):(j=b,b=function(a,b,c){return j.call(n(a),c)})),b))for(;i>h;h++)b(a[h],c,g?d:d.call(a[h],h,b(a[h],c)));return e?a:j?b.call(a):i?b(a[0],c):f},Q=/^(?:checkbox|radio)$/i;!function(){var a=z.createDocumentFragment(),b=z.createElement("div"),c=z.createElement("input");if(b.setAttribute("className","t"),b.innerHTML="  <link/><table></table><a href='/a'>a</a>",l.leadingWhitespace=3===b.firstChild.nodeType,l.tbody=!b.getElementsByTagName("tbody").length,l.htmlSerialize=!!b.getElementsByTagName("link").length,l.html5Clone="<:nav></:nav>"!==z.createElement("nav").cloneNode(!0).outerHTML,c.type="checkbox",c.checked=!0,a.appendChild(c),l.appendChecked=c.checked,b.innerHTML="<textarea>x</textarea>",l.noCloneChecked=!!b.cloneNode(!0).lastChild.defaultValue,a.appendChild(b),b.innerHTML="<input type='radio' checked='checked' name='t'/>",l.checkClone=b.cloneNode(!0).cloneNode(!0).lastChild.checked,l.noCloneEvent=!0,b.attachEvent&&(b.attachEvent("onclick",function(){l.noCloneEvent=!1}),b.cloneNode(!0).click()),null==l.deleteExpando){l.deleteExpando=!0;try{delete b.test}catch(d){l.deleteExpando=!1}}a=b=c=null}(),function(){var b,c,d=z.createElement("div");for(b in{submit:!0,change:!0,focusin:!0})c="on"+b,(l[b+"Bubbles"]=c in a)||(d.setAttribute(c,"t"),l[b+"Bubbles"]=d.attributes[c].expando===!1);d=null}();var R=/^(?:input|select|textarea)$/i,S=/^key/,T=/^(?:mouse|contextmenu)|click/,U=/^(?:focusinfocus|focusoutblur)$/,V=/^([^.]*)(?:\.(.+)|)$/;
 function W(){return!0}function X(){return!1}function Y(){try{return z.activeElement}catch(a){}}n.event={global:{},add:function(a,b,c,d,e){var f,g,h,i,j,k,l,m,o,p,q,r=n._data(a);if(r){c.handler&&(i=c,c=i.handler,e=i.selector),c.guid||(c.guid=n.guid++),(g=r.events)||(g=r.events={}),(k=r.handle)||(k=r.handle=function(a){return typeof n===G||a&&n.event.triggered===a.type?void 0:n.event.dispatch.apply(k.elem,arguments)},k.elem=a),b=(b||"").match(F)||[""],h=b.length;while(h--)f=V.exec(b[h])||[],o=q=f[1],p=(f[2]||"").split(".").sort(),o&&(j=n.event.special[o]||{},o=(e?j.delegateType:j.bindType)||o,j=n.event.special[o]||{},l=n.extend({type:o,origType:q,data:d,handler:c,guid:c.guid,selector:e,needsContext:e&&n.expr.match.needsContext.test(e),namespace:p.join(".")},i),(m=g[o])||(m=g[o]=[],m.delegateCount=0,j.setup&&j.setup.call(a,d,p,k)!==!1||(a.addEventListener?a.addEventListener(o,k,!1):a.attachEvent&&a.attachEvent("on"+o,k))),j.add&&(j.add.call(a,l),l.handler.guid||(l.handler.guid=c.guid)),e?m.splice(m.delegateCount++,0,l):m.push(l),n.event.global[o]=!0);a=null}},remove:function(a,b,c,d,e){var f,g,h,i,j,k,l,m,o,p,q,r=n.hasData(a)&&n._data(a);if(r&&(k=r.events)){b=(b||"").match(F)||[""],j=b.length;while(j--)if(h=V.exec(b[j])||[],o=q=h[1],p=(h[2]||"").split(".").sort(),o){l=n.event.special[o]||{},o=(d?l.delegateType:l.bindType)||o,m=k[o]||[],h=h[2]&&new RegExp("(^|\\.)"+p.join("\\.(?:.*\\.|)")+"(\\.|$)"),i=f=m.length;while(f--)g=m[f],!e&&q!==g.origType||c&&c.guid!==g.guid||h&&!h.test(g.namespace)||d&&d!==g.selector&&("**"!==d||!g.selector)||(m.splice(f,1),g.selector&&m.delegateCount--,l.remove&&l.remove.call(a,g));i&&!m.length&&(l.teardown&&l.teardown.call(a,p,r.handle)!==!1||n.removeEvent(a,o,r.handle),delete k[o])}else for(o in k)n.event.remove(a,o+b[j],c,d,!0);n.isEmptyObject(k)&&(delete r.handle,n._removeData(a,"events"))}},trigger:function(b,c,d,e){var f,g,h,i,k,l,m,o=[d||z],p=j.call(b,"type")?b.type:b,q=j.call(b,"namespace")?b.namespace.split("."):[];if(h=l=d=d||z,3!==d.nodeType&&8!==d.nodeType&&!U.test(p+n.event.triggered)&&(p.indexOf(".")>=0&&(q=p.split("."),p=q.shift(),q.sort()),g=p.indexOf(":")<0&&"on"+p,b=b[n.expando]?b:new n.Event(p,"object"==typeof b&&b),b.isTrigger=e?2:3,b.namespace=q.join("."),b.namespace_re=b.namespace?new RegExp("(^|\\.)"+q.join("\\.(?:.*\\.|)")+"(\\.|$)"):null,b.result=void 0,b.target||(b.target=d),c=null==c?[b]:n.makeArray(c,[b]),k=n.event.special[p]||{},e||!k.trigger||k.trigger.apply(d,c)!==!1)){if(!e&&!k.noBubble&&!n.isWindow(d)){for(i=k.delegateType||p,U.test(i+p)||(h=h.parentNode);h;h=h.parentNode)o.push(h),l=h;l===(d.ownerDocument||z)&&o.push(l.defaultView||l.parentWindow||a)}m=0;while((h=o[m++])&&!b.isPropagationStopped())b.type=m>1?i:k.bindType||p,f=(n._data(h,"events")||{})[b.type]&&n._data(h,"handle"),f&&f.apply(h,c),f=g&&h[g],f&&f.apply&&n.acceptData(h)&&(b.result=f.apply(h,c),b.result===!1&&b.preventDefault());if(b.type=p,!e&&!b.isDefaultPrevented()&&(!k._default||k._default.apply(o.pop(),c)===!1)&&n.acceptData(d)&&g&&d[p]&&!n.isWindow(d)){l=d[g],l&&(d[g]=null),n.event.triggered=p;try{d[p]()}catch(r){}n.event.triggered=void 0,l&&(d[g]=l)}return b.result}},dispatch:function(a){a=n.event.fix(a);var b,c,e,f,g,h=[],i=d.call(arguments),j=(n._data(this,"events")||{})[a.type]||[],k=n.event.special[a.type]||{};if(i[0]=a,a.delegateTarget=this,!k.preDispatch||k.preDispatch.call(this,a)!==!1){h=n.event.handlers.call(this,a,j),b=0;while((f=h[b++])&&!a.isPropagationStopped()){a.currentTarget=f.elem,g=0;while((e=f.handlers[g++])&&!a.isImmediatePropagationStopped())(!a.namespace_re||a.namespace_re.test(e.namespace))&&(a.handleObj=e,a.data=e.data,c=((n.event.special[e.origType]||{}).handle||e.handler).apply(f.elem,i),void 0!==c&&(a.result=c)===!1&&(a.preventDefault(),a.stopPropagation()))}return k.postDispatch&&k.postDispatch.call(this,a),a.result}},handlers:function(a,b){var c,d,e,f,g=[],h=b.delegateCount,i=a.target;if(h&&i.nodeType&&(!a.button||"click"!==a.type))for(;i!=this;i=i.parentNode||this)if(1===i.nodeType&&(i.disabled!==!0||"click"!==a.type)){for(e=[],f=0;h>f;f++)d=b[f],c=d.selector+" ",void 0===e[c]&&(e[c]=d.needsContext?n(c,this).index(i)>=0:n.find(c,this,null,[i]).length),e[c]&&e.push(d);e.length&&g.push({elem:i,handlers:e})}return h<b.length&&g.push({elem:this,handlers:b.slice(h)}),g},fix:function(a){if(a[n.expando])return a;var b,c,d,e=a.type,f=a,g=this.fixHooks[e];g||(this.fixHooks[e]=g=T.test(e)?this.mouseHooks:S.test(e)?this.keyHooks:{}),d=g.props?this.props.concat(g.props):this.props,a=new n.Event(f),b=d.length;while(b--)c=d[b],a[c]=f[c];return a.target||(a.target=f.srcElement||z),3===a.target.nodeType&&(a.target=a.target.parentNode),a.metaKey=!!a.metaKey,g.filter?g.filter(a,f):a},props:"altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),fixHooks:{},keyHooks:{props:"char charCode key keyCode".split(" "),filter:function(a,b){return null==a.which&&(a.which=null!=b.charCode?b.charCode:b.keyCode),a}},mouseHooks:{props:"button buttons clientX clientY fromElement offsetX offsetY pageX pageY screenX screenY toElement".split(" "),filter:function(a,b){var c,d,e,f=b.button,g=b.fromElement;return null==a.pageX&&null!=b.clientX&&(d=a.target.ownerDocument||z,e=d.documentElement,c=d.body,a.pageX=b.clientX+(e&&e.scrollLeft||c&&c.scrollLeft||0)-(e&&e.clientLeft||c&&c.clientLeft||0),a.pageY=b.clientY+(e&&e.scrollTop||c&&c.scrollTop||0)-(e&&e.clientTop||c&&c.clientTop||0)),!a.relatedTarget&&g&&(a.relatedTarget=g===a.target?b.toElement:g),a.which||void 0===f||(a.which=1&f?1:2&f?3:4&f?2:0),a}},special:{load:{noBubble:!0},focus:{trigger:function(){if(this!==Y()&&this.focus)try{return this.focus(),!1}catch(a){}},delegateType:"focusin"},blur:{trigger:function(){return this===Y()&&this.blur?(this.blur(),!1):void 0},delegateType:"focusout"},click:{trigger:function(){return n.nodeName(this,"input")&&"checkbox"===this.type&&this.click?(this.click(),!1):void 0},_default:function(a){return n.nodeName(a.target,"a")}},beforeunload:{postDispatch:function(a){void 0!==a.result&&(a.originalEvent.returnValue=a.result)}}},simulate:function(a,b,c,d){var e=n.extend(new n.Event,c,{type:a,isSimulated:!0,originalEvent:{}});d?n.event.trigger(e,null,b):n.event.dispatch.call(b,e),e.isDefaultPrevented()&&c.preventDefault()}},n.removeEvent=z.removeEventListener?function(a,b,c){a.removeEventListener&&a.removeEventListener(b,c,!1)}:function(a,b,c){var d="on"+b;a.detachEvent&&(typeof a[d]===G&&(a[d]=null),a.detachEvent(d,c))},n.Event=function(a,b){return this instanceof n.Event?(a&&a.type?(this.originalEvent=a,this.type=a.type,this.isDefaultPrevented=a.defaultPrevented||void 0===a.defaultPrevented&&(a.returnValue===!1||a.getPreventDefault&&a.getPreventDefault())?W:X):this.type=a,b&&n.extend(this,b),this.timeStamp=a&&a.timeStamp||n.now(),void(this[n.expando]=!0)):new n.Event(a,b)},n.Event.prototype={isDefaultPrevented:X,isPropagationStopped:X,isImmediatePropagationStopped:X,preventDefault:function(){var a=this.originalEvent;this.isDefaultPrevented=W,a&&(a.preventDefault?a.preventDefault():a.returnValue=!1)},stopPropagation:function(){var a=this.originalEvent;this.isPropagationStopped=W,a&&(a.stopPropagation&&a.stopPropagation(),a.cancelBubble=!0)},stopImmediatePropagation:function(){this.isImmediatePropagationStopped=W,this.stopPropagation()}},n.each({mouseenter:"mouseover",mouseleave:"mouseout"},function(a,b){n.event.special[a]={delegateType:b,bindType:b,handle:function(a){var c,d=this,e=a.relatedTarget,f=a.handleObj;return(!e||e!==d&&!n.contains(d,e))&&(a.type=f.origType,c=f.handler.apply(this,arguments),a.type=b),c}}}),l.submitBubbles||(n.event.special.submit={setup:function(){return n.nodeName(this,"form")?!1:void n.event.add(this,"click._submit keypress._submit",function(a){var b=a.target,c=n.nodeName(b,"input")||n.nodeName(b,"button")?b.form:void 0;c&&!n._data(c,"submitBubbles")&&(n.event.add(c,"submit._submit",function(a){a._submit_bubble=!0}),n._data(c,"submitBubbles",!0))})},postDispatch:function(a){a._submit_bubble&&(delete a._submit_bubble,this.parentNode&&!a.isTrigger&&n.event.simulate("submit",this.parentNode,a,!0))},teardown:function(){return n.nodeName(this,"form")?!1:void n.event.remove(this,"._submit")}}),l.changeBubbles||(n.event.special.change={setup:function(){return R.test(this.nodeName)?(("checkbox"===this.type||"radio"===this.type)&&(n.event.add(this,"propertychange._change",function(a){"checked"===a.originalEvent.propertyName&&(this._just_changed=!0)}),n.event.add(this,"click._change",function(a){this._just_changed&&!a.isTrigger&&(this._just_changed=!1),n.event.simulate("change",this,a,!0)})),!1):void n.event.add(this,"beforeactivate._change",function(a){var b=a.target;R.test(b.nodeName)&&!n._data(b,"changeBubbles")&&(n.event.add(b,"change._change",function(a){!this.parentNode||a.isSimulated||a.isTrigger||n.event.simulate("change",this.parentNode,a,!0)}),n._data(b,"changeBubbles",!0))})},handle:function(a){var b=a.target;return this!==b||a.isSimulated||a.isTrigger||"radio"!==b.type&&"checkbox"!==b.type?a.handleObj.handler.apply(this,arguments):void 0},teardown:function(){return n.event.remove(this,"._change"),!R.test(this.nodeName)}}),l.focusinBubbles||n.each({focus:"focusin",blur:"focusout"},function(a,b){var c=function(a){n.event.simulate(b,a.target,n.event.fix(a),!0)};n.event.special[b]={setup:function(){var d=this.ownerDocument||this,e=n._data(d,b);e||d.addEventListener(a,c,!0),n._data(d,b,(e||0)+1)},teardown:function(){var d=this.ownerDocument||this,e=n._data(d,b)-1;e?n._data(d,b,e):(d.removeEventListener(a,c,!0),n._removeData(d,b))}}}),n.fn.extend({on:function(a,b,c,d,e){var f,g;if("object"==typeof a){"string"!=typeof b&&(c=c||b,b=void 0);for(f in a)this.on(f,b,c,a[f],e);return this}if(null==c&&null==d?(d=b,c=b=void 0):null==d&&("string"==typeof b?(d=c,c=void 0):(d=c,c=b,b=void 0)),d===!1)d=X;else if(!d)return this;return 1===e&&(g=d,d=function(a){return n().off(a),g.apply(this,arguments)},d.guid=g.guid||(g.guid=n.guid++)),this.each(function(){n.event.add(this,a,d,c,b)})},one:function(a,b,c,d){return this.on(a,b,c,d,1)},off:function(a,b,c){var d,e;if(a&&a.preventDefault&&a.handleObj)return d=a.handleObj,n(a.delegateTarget).off(d.namespace?d.origType+"."+d.namespace:d.origType,d.selector,d.handler),this;if("object"==typeof a){for(e in a)this.off(e,b,a[e]);return this}return(b===!1||"function"==typeof b)&&(c=b,b=void 0),c===!1&&(c=X),this.each(function(){n.event.remove(this,a,c,b)})},trigger:function(a,b){return this.each(function(){n.event.trigger(a,b,this)})},triggerHandler:function(a,b){var c=this[0];return c?n.event.trigger(a,b,c,!0):void 0}});function Z(a){var b=$.split("|"),c=a.createDocumentFragment();if(c.createElement)while(b.length)c.createElement(b.pop());return c}var $="abbr|article|aside|audio|bdi|canvas|data|datalist|details|figcaption|figure|footer|header|hgroup|mark|meter|nav|output|progress|section|summary|time|video",_=/ jQuery\d+="(?:null|\d+)"/g,ab=new RegExp("<(?:"+$+")[\\s/>]","i"),bb=/^\s+/,cb=/<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:]+)[^>]*)\/>/gi,db=/<([\w:]+)/,eb=/<tbody/i,fb=/<|&#?\w+;/,gb=/<(?:script|style|link)/i,hb=/checked\s*(?:[^=]|=\s*.checked.)/i,ib=/^$|\/(?:java|ecma)script/i,jb=/^true\/(.*)/,kb=/^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g,lb={option:[1,"<select multiple='multiple'>","</select>"],legend:[1,"<fieldset>","</fieldset>"],area:[1,"<map>","</map>"],param:[1,"<object>","</object>"],thead:[1,"<table>","</table>"],tr:[2,"<table><tbody>","</tbody></table>"],col:[2,"<table><tbody></tbody><colgroup>","</colgroup></table>"],td:[3,"<table><tbody><tr>","</tr></tbody></table>"],_default:l.htmlSerialize?[0,"",""]:[1,"X<div>","</div>"]},mb=Z(z),nb=mb.appendChild(z.createElement("div"));lb.optgroup=lb.option,lb.tbody=lb.tfoot=lb.colgroup=lb.caption=lb.thead,lb.th=lb.td;function ob(a,b){var c,d,e=0,f=typeof a.getElementsByTagName!==G?a.getElementsByTagName(b||"*"):typeof a.querySelectorAll!==G?a.querySelectorAll(b||"*"):void 0;if(!f)for(f=[],c=a.childNodes||a;null!=(d=c[e]);e++)!b||n.nodeName(d,b)?f.push(d):n.merge(f,ob(d,b));return void 0===b||b&&n.nodeName(a,b)?n.merge([a],f):f}function pb(a){Q.test(a.type)&&(a.defaultChecked=a.checked)}function qb(a,b){return n.nodeName(a,"table")&&n.nodeName(11!==b.nodeType?b:b.firstChild,"tr")?a.getElementsByTagName("tbody")[0]||a.appendChild(a.ownerDocument.createElement("tbody")):a}function rb(a){return a.type=(null!==n.find.attr(a,"type"))+"/"+a.type,a}function sb(a){var b=jb.exec(a.type);return b?a.type=b[1]:a.removeAttribute("type"),a}function tb(a,b){for(var c,d=0;null!=(c=a[d]);d++)n._data(c,"globalEval",!b||n._data(b[d],"globalEval"))}function ub(a,b){if(1===b.nodeType&&n.hasData(a)){var c,d,e,f=n._data(a),g=n._data(b,f),h=f.events;if(h){delete g.handle,g.events={};for(c in h)for(d=0,e=h[c].length;e>d;d++)n.event.add(b,c,h[c][d])}g.data&&(g.data=n.extend({},g.data))}}function vb(a,b){var c,d,e;if(1===b.nodeType){if(c=b.nodeName.toLowerCase(),!l.noCloneEvent&&b[n.expando]){e=n._data(b);for(d in e.events)n.removeEvent(b,d,e.handle);b.removeAttribute(n.expando)}"script"===c&&b.text!==a.text?(rb(b).text=a.text,sb(b)):"object"===c?(b.parentNode&&(b.outerHTML=a.outerHTML),l.html5Clone&&a.innerHTML&&!n.trim(b.innerHTML)&&(b.innerHTML=a.innerHTML)):"input"===c&&Q.test(a.type)?(b.defaultChecked=b.checked=a.checked,b.value!==a.value&&(b.value=a.value)):"option"===c?b.defaultSelected=b.selected=a.defaultSelected:("input"===c||"textarea"===c)&&(b.defaultValue=a.defaultValue)}}n.extend({clone:function(a,b,c){var d,e,f,g,h,i=n.contains(a.ownerDocument,a);if(l.html5Clone||n.isXMLDoc(a)||!ab.test("<"+a.nodeName+">")?f=a.cloneNode(!0):(nb.innerHTML=a.outerHTML,nb.removeChild(f=nb.firstChild)),!(l.noCloneEvent&&l.noCloneChecked||1!==a.nodeType&&11!==a.nodeType||n.isXMLDoc(a)))for(d=ob(f),h=ob(a),g=0;null!=(e=h[g]);++g)d[g]&&vb(e,d[g]);if(b)if(c)for(h=h||ob(a),d=d||ob(f),g=0;null!=(e=h[g]);g++)ub(e,d[g]);else ub(a,f);return d=ob(f,"script"),d.length>0&&tb(d,!i&&ob(a,"script")),d=h=e=null,f},buildFragment:function(a,b,c,d){for(var e,f,g,h,i,j,k,m=a.length,o=Z(b),p=[],q=0;m>q;q++)if(f=a[q],f||0===f)if("object"===n.type(f))n.merge(p,f.nodeType?[f]:f);else if(fb.test(f)){h=h||o.appendChild(b.createElement("div")),i=(db.exec(f)||["",""])[1].toLowerCase(),k=lb[i]||lb._default,h.innerHTML=k[1]+f.replace(cb,"<$1></$2>")+k[2],e=k[0];while(e--)h=h.lastChild;if(!l.leadingWhitespace&&bb.test(f)&&p.push(b.createTextNode(bb.exec(f)[0])),!l.tbody){f="table"!==i||eb.test(f)?"<table>"!==k[1]||eb.test(f)?0:h:h.firstChild,e=f&&f.childNodes.length;while(e--)n.nodeName(j=f.childNodes[e],"tbody")&&!j.childNodes.length&&f.removeChild(j)}n.merge(p,h.childNodes),h.textContent="";while(h.firstChild)h.removeChild(h.firstChild);h=o.lastChild}else p.push(b.createTextNode(f));h&&o.removeChild(h),l.appendChecked||n.grep(ob(p,"input"),pb),q=0;while(f=p[q++])if((!d||-1===n.inArray(f,d))&&(g=n.contains(f.ownerDocument,f),h=ob(o.appendChild(f),"script"),g&&tb(h),c)){e=0;while(f=h[e++])ib.test(f.type||"")&&c.push(f)}return h=null,o},cleanData:function(a,b){for(var d,e,f,g,h=0,i=n.expando,j=n.cache,k=l.deleteExpando,m=n.event.special;null!=(d=a[h]);h++)if((b||n.acceptData(d))&&(f=d[i],g=f&&j[f])){if(g.events)for(e in g.events)m[e]?n.event.remove(d,e):n.removeEvent(d,e,g.handle);j[f]&&(delete j[f],k?delete d[i]:typeof d.removeAttribute!==G?d.removeAttribute(i):d[i]=null,c.push(f))}}}),n.fn.extend({text:function(a){return P(this,function(a){return void 0===a?n.text(this):this.empty().append((this[0]&&this[0].ownerDocument||z).createTextNode(a))},null,a,arguments.length)},append:function(){return this.domManip(arguments,function(a){if(1===this.nodeType||11===this.nodeType||9===this.nodeType){var b=qb(this,a);b.appendChild(a)}})},prepend:function(){return this.domManip(arguments,function(a){if(1===this.nodeType||11===this.nodeType||9===this.nodeType){var b=qb(this,a);b.insertBefore(a,b.firstChild)}})},before:function(){return this.domManip(arguments,function(a){this.parentNode&&this.parentNode.insertBefore(a,this)})},after:function(){return this.domManip(arguments,function(a){this.parentNode&&this.parentNode.insertBefore(a,this.nextSibling)})},remove:function(a,b){for(var c,d=a?n.filter(a,this):this,e=0;null!=(c=d[e]);e++)b||1!==c.nodeType||n.cleanData(ob(c)),c.parentNode&&(b&&n.contains(c.ownerDocument,c)&&tb(ob(c,"script")),c.parentNode.removeChild(c));return this},empty:function(){for(var a,b=0;null!=(a=this[b]);b++){1===a.nodeType&&n.cleanData(ob(a,!1));while(a.firstChild)a.removeChild(a.firstChild);a.options&&n.nodeName(a,"select")&&(a.options.length=0)}return this},clone:function(a,b){return a=null==a?!1:a,b=null==b?a:b,this.map(function(){return n.clone(this,a,b)})},html:function(a){return P(this,function(a){var b=this[0]||{},c=0,d=this.length;if(void 0===a)return 1===b.nodeType?b.innerHTML.replace(_,""):void 0;if(!("string"!=typeof a||gb.test(a)||!l.htmlSerialize&&ab.test(a)||!l.leadingWhitespace&&bb.test(a)||lb[(db.exec(a)||["",""])[1].toLowerCase()])){a=a.replace(cb,"<$1></$2>");try{for(;d>c;c++)b=this[c]||{},1===b.nodeType&&(n.cleanData(ob(b,!1)),b.innerHTML=a);b=0}catch(e){}}b&&this.empty().append(a)},null,a,arguments.length)},replaceWith:function(){var a=arguments[0];return this.domManip(arguments,function(b){a=this.parentNode,n.cleanData(ob(this)),a&&a.replaceChild(b,this)}),a&&(a.length||a.nodeType)?this:this.remove()},detach:function(a){return this.remove(a,!0)},domManip:function(a,b){a=e.apply([],a);var c,d,f,g,h,i,j=0,k=this.length,m=this,o=k-1,p=a[0],q=n.isFunction(p);if(q||k>1&&"string"==typeof p&&!l.checkClone&&hb.test(p))return this.each(function(c){var d=m.eq(c);q&&(a[0]=p.call(this,c,d.html())),d.domManip(a,b)});if(k&&(i=n.buildFragment(a,this[0].ownerDocument,!1,this),c=i.firstChild,1===i.childNodes.length&&(i=c),c)){for(g=n.map(ob(i,"script"),rb),f=g.length;k>j;j++)d=i,j!==o&&(d=n.clone(d,!0,!0),f&&n.merge(g,ob(d,"script"))),b.call(this[j],d,j);if(f)for(h=g[g.length-1].ownerDocument,n.map(g,sb),j=0;f>j;j++)d=g[j],ib.test(d.type||"")&&!n._data(d,"globalEval")&&n.contains(h,d)&&(d.src?n._evalUrl&&n._evalUrl(d.src):n.globalEval((d.text||d.textContent||d.innerHTML||"").replace(kb,"")));i=c=null}return this}}),n.each({appendTo:"append",prependTo:"prepend",insertBefore:"before",insertAfter:"after",replaceAll:"replaceWith"},function(a,b){n.fn[a]=function(a){for(var c,d=0,e=[],g=n(a),h=g.length-1;h>=d;d++)c=d===h?this:this.clone(!0),n(g[d])[b](c),f.apply(e,c.get());return this.pushStack(e)}}),function(){var a,b,c,d,e=z.createElement("div");e.setAttribute("className","t"),e.innerHTML="  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>",a=e.getElementsByTagName("a")[0],c=z.createElement("select"),d=c.appendChild(z.createElement("option")),b=e.getElementsByTagName("input")[0],a.style.cssText="top:1px",l.getSetAttribute="t"!==e.className,l.style=/top/.test(a.getAttribute("style")),l.hrefNormalized="/a"===a.getAttribute("href"),l.checkOn=!!b.value,l.optSelected=d.selected,l.enctype=!!z.createElement("form").enctype,c.disabled=!0,l.optDisabled=!d.disabled,b=z.createElement("input"),b.setAttribute("value",""),l.input=""===b.getAttribute("value"),b.value="t",b.setAttribute("type","radio"),l.radioValue="t"===b.value,a=b=c=d=e=null}();var wb=/\r/g;n.fn.extend({val:function(a){var b,c,d,e=this[0];{if(arguments.length)return d=n.isFunction(a),this.each(function(c){var e;1===this.nodeType&&(e=d?a.call(this,c,n(this).val()):a,null==e?e="":"number"==typeof e?e+="":n.isArray(e)&&(e=n.map(e,function(a){return null==a?"":a+""})),b=n.valHooks[this.type]||n.valHooks[this.nodeName.toLowerCase()],b&&"set"in b&&void 0!==b.set(this,e,"value")||(this.value=e))});if(e)return b=n.valHooks[e.type]||n.valHooks[e.nodeName.toLowerCase()],b&&"get"in b&&void 0!==(c=b.get(e,"value"))?c:(c=e.value,"string"==typeof c?c.replace(wb,""):null==c?"":c)}}}),n.extend({valHooks:{option:{get:function(a){var b=n.find.attr(a,"value");return null!=b?b:n.text(a)}},select:{get:function(a){for(var b,c,d=a.options,e=a.selectedIndex,f="select-one"===a.type||0>e,g=f?null:[],h=f?e+1:d.length,i=0>e?h:f?e:0;h>i;i++)if(c=d[i],!(!c.selected&&i!==e||(l.optDisabled?c.disabled:null!==c.getAttribute("disabled"))||c.parentNode.disabled&&n.nodeName(c.parentNode,"optgroup"))){if(b=n(c).val(),f)return b;g.push(b)}return g},set:function(a,b){var c,d,e=a.options,f=n.makeArray(b),g=e.length;while(g--)if(d=e[g],n.inArray(n.valHooks.option.get(d),f)>=0)try{d.selected=c=!0}catch(h){d.scrollHeight}else d.selected=!1;return c||(a.selectedIndex=-1),e}}}}),n.each(["radio","checkbox"],function(){n.valHooks[this]={set:function(a,b){return n.isArray(b)?a.checked=n.inArray(n(a).val(),b)>=0:void 0}},l.checkOn||(n.valHooks[this].get=function(a){return null===a.getAttribute("value")?"on":a.value})});var xb,yb,zb=n.expr.attrHandle,Ab=/^(?:checked|selected)$/i,Bb=l.getSetAttribute,Cb=l.input;n.fn.extend({attr:function(a,b){return P(this,n.attr,a,b,arguments.length>1)},removeAttr:function(a){return this.each(function(){n.removeAttr(this,a)})}}),n.extend({attr:function(a,b,c){var d,e,f=a.nodeType;if(a&&3!==f&&8!==f&&2!==f)return typeof a.getAttribute===G?n.prop(a,b,c):(1===f&&n.isXMLDoc(a)||(b=b.toLowerCase(),d=n.attrHooks[b]||(n.expr.match.bool.test(b)?yb:xb)),void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?void 0:e):null!==c?d&&"set"in d&&void 0!==(e=d.set(a,c,b))?e:(a.setAttribute(b,c+""),c):void n.removeAttr(a,b))},removeAttr:function(a,b){var c,d,e=0,f=b&&b.match(F);if(f&&1===a.nodeType)while(c=f[e++])d=n.propFix[c]||c,n.expr.match.bool.test(c)?Cb&&Bb||!Ab.test(c)?a[d]=!1:a[n.camelCase("default-"+c)]=a[d]=!1:n.attr(a,c,""),a.removeAttribute(Bb?c:d)},attrHooks:{type:{set:function(a,b){if(!l.radioValue&&"radio"===b&&n.nodeName(a,"input")){var c=a.value;return a.setAttribute("type",b),c&&(a.value=c),b}}}}}),yb={set:function(a,b,c){return b===!1?n.removeAttr(a,c):Cb&&Bb||!Ab.test(c)?a.setAttribute(!Bb&&n.propFix[c]||c,c):a[n.camelCase("default-"+c)]=a[c]=!0,c}},n.each(n.expr.match.bool.source.match(/\w+/g),function(a,b){var c=zb[b]||n.find.attr;zb[b]=Cb&&Bb||!Ab.test(b)?function(a,b,d){var e,f;return d||(f=zb[b],zb[b]=e,e=null!=c(a,b,d)?b.toLowerCase():null,zb[b]=f),e}:function(a,b,c){return c?void 0:a[n.camelCase("default-"+b)]?b.toLowerCase():null}}),Cb&&Bb||(n.attrHooks.value={set:function(a,b,c){return n.nodeName(a,"input")?void(a.defaultValue=b):xb&&xb.set(a,b,c)}}),Bb||(xb={set:function(a,b,c){var d=a.getAttributeNode(c);return d||a.setAttributeNode(d=a.ownerDocument.createAttribute(c)),d.value=b+="","value"===c||b===a.getAttribute(c)?b:void 0}},zb.id=zb.name=zb.coords=function(a,b,c){var d;return c?void 0:(d=a.getAttributeNode(b))&&""!==d.value?d.value:null},n.valHooks.button={get:function(a,b){var c=a.getAttributeNode(b);return c&&c.specified?c.value:void 0},set:xb.set},n.attrHooks.contenteditable={set:function(a,b,c){xb.set(a,""===b?!1:b,c)}},n.each(["width","height"],function(a,b){n.attrHooks[b]={set:function(a,c){return""===c?(a.setAttribute(b,"auto"),c):void 0}}})),l.style||(n.attrHooks.style={get:function(a){return a.style.cssText||void 0},set:function(a,b){return a.style.cssText=b+""}});var Db=/^(?:input|select|textarea|button|object)$/i,Eb=/^(?:a|area)$/i;n.fn.extend({prop:function(a,b){return P(this,n.prop,a,b,arguments.length>1)},removeProp:function(a){return a=n.propFix[a]||a,this.each(function(){try{this[a]=void 0,delete this[a]}catch(b){}})}}),n.extend({propFix:{"for":"htmlFor","class":"className"},prop:function(a,b,c){var d,e,f,g=a.nodeType;if(a&&3!==g&&8!==g&&2!==g)return f=1!==g||!n.isXMLDoc(a),f&&(b=n.propFix[b]||b,e=n.propHooks[b]),void 0!==c?e&&"set"in e&&void 0!==(d=e.set(a,c,b))?d:a[b]=c:e&&"get"in e&&null!==(d=e.get(a,b))?d:a[b]},propHooks:{tabIndex:{get:function(a){var b=n.find.attr(a,"tabindex");return b?parseInt(b,10):Db.test(a.nodeName)||Eb.test(a.nodeName)&&a.href?0:-1}}}}),l.hrefNormalized||n.each(["href","src"],function(a,b){n.propHooks[b]={get:function(a){return a.getAttribute(b,4)}}}),l.optSelected||(n.propHooks.selected={get:function(a){var b=a.parentNode;return b&&(b.selectedIndex,b.parentNode&&b.parentNode.selectedIndex),null}}),n.each(["tabIndex","readOnly","maxLength","cellSpacing","cellPadding","rowSpan","colSpan","useMap","frameBorder","contentEditable"],function(){n.propFix[this.toLowerCase()]=this}),l.enctype||(n.propFix.enctype="encoding");var Fb=/[\t\r\n\f]/g;n.fn.extend({addClass:function(a){var b,c,d,e,f,g,h=0,i=this.length,j="string"==typeof a&&a;if(n.isFunction(a))return this.each(function(b){n(this).addClass(a.call(this,b,this.className))});if(j)for(b=(a||"").match(F)||[];i>h;h++)if(c=this[h],d=1===c.nodeType&&(c.className?(" "+c.className+" ").replace(Fb," "):" ")){f=0;while(e=b[f++])d.indexOf(" "+e+" ")<0&&(d+=e+" ");g=n.trim(d),c.className!==g&&(c.className=g)}return this},removeClass:function(a){var b,c,d,e,f,g,h=0,i=this.length,j=0===arguments.length||"string"==typeof a&&a;if(n.isFunction(a))return this.each(function(b){n(this).removeClass(a.call(this,b,this.className))});if(j)for(b=(a||"").match(F)||[];i>h;h++)if(c=this[h],d=1===c.nodeType&&(c.className?(" "+c.className+" ").replace(Fb," "):"")){f=0;while(e=b[f++])while(d.indexOf(" "+e+" ")>=0)d=d.replace(" "+e+" "," ");g=a?n.trim(d):"",c.className!==g&&(c.className=g)}return this},toggleClass:function(a,b){var c=typeof a;return"boolean"==typeof b&&"string"===c?b?this.addClass(a):this.removeClass(a):this.each(n.isFunction(a)?function(c){n(this).toggleClass(a.call(this,c,this.className,b),b)}:function(){if("string"===c){var b,d=0,e=n(this),f=a.match(F)||[];while(b=f[d++])e.hasClass(b)?e.removeClass(b):e.addClass(b)}else(c===G||"boolean"===c)&&(this.className&&n._data(this,"__className__",this.className),this.className=this.className||a===!1?"":n._data(this,"__className__")||"")})},hasClass:function(a){for(var b=" "+a+" ",c=0,d=this.length;d>c;c++)if(1===this[c].nodeType&&(" "+this[c].className+" ").replace(Fb," ").indexOf(b)>=0)return!0;return!1}}),n.each("blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu".split(" "),function(a,b){n.fn[b]=function(a,c){return arguments.length>0?this.on(b,null,a,c):this.trigger(b)}}),n.fn.extend({hover:function(a,b){return this.mouseenter(a).mouseleave(b||a)},bind:function(a,b,c){return this.on(a,null,b,c)},unbind:function(a,b){return this.off(a,null,b)},delegate:function(a,b,c,d){return this.on(b,a,c,d)},undelegate:function(a,b,c){return 1===arguments.length?this.off(a,"**"):this.off(b,a||"**",c)}}),n.fn.extend({wrapAll:function(a){if(n.isFunction(a))return this.each(function(b){n(this).wrapAll(a.call(this,b))});if(this[0]){var b=n(a,this[0].ownerDocument).eq(0).clone(!0);this[0].parentNode&&b.insertBefore(this[0]),b.map(function(){var a=this;while(a.firstChild&&1===a.firstChild.nodeType)a=a.firstChild;return a}).append(this)}return this},wrapInner:function(a){return this.each(n.isFunction(a)?function(b){n(this).wrapInner(a.call(this,b))}:function(){var b=n(this),c=b.contents();c.length?c.wrapAll(a):b.append(a)})},wrap:function(a){var b=n.isFunction(a);return this.each(function(c){n(this).wrapAll(b?a.call(this,c):a)})},unwrap:function(){return this.parent().each(function(){n.nodeName(this,"body")||n(this).replaceWith(this.childNodes)}).end()}}),n.parseHTML=function(a,b,c){if(!a||"string"!=typeof a)return null;"boolean"==typeof b&&(c=b,b=!1),b=b||z;var d=v.exec(a),e=!c&&[];return d?[b.createElement(d[1])]:(d=n.buildFragment([a],b,e),e&&e.length&&n(e).remove(),n.merge([],d.childNodes))};var Gb=a.jQuery,Hb=a.$;return n.noConflict=function(b){return a.$===n&&(a.$=Hb),b&&a.jQuery===n&&(a.jQuery=Gb),n},typeof b===G&&(a.jQuery=a.$=n),n});
-//# sourceMappingURL=jquery.min.map
-
 
 
 /*!
@@ -975,6 +771,17 @@ zb(Ba(0,b),a.length);return a};e.VERSION="2.4.1";Y._=e}.call(this));
  * @module STR
  * @main STR
  * @requires lodash
+ *//* requires lodash.min.js */
+
+
+/**
+ * String manipulation library used in BareBonesWiki.
+ *
+ * STR.words("Some\nStr\n").filter(STR.isBlank).map(STR.titleize);
+ *
+ * @module STR
+ * @main STR
+ * @requires lodash
  */
 var STR = (function()
 {
@@ -986,59 +793,29 @@ var STR = (function()
   REGEX_WS_WS_G = new RegExp(WS + WS + "+", "g"),
   REGEX_BLANK = /^\s*$/,
   REGEX_QUOTE_G = /"[^"]+"|[^"]+/g,
-  REGEX_QUOTE_HT = /^"[^"]+"$/,
-  REGEX_PIPES_G = /[^|\r\n\v\f\u0085\u0028\u0029]+(\|\|)?/g;
-  
- /**
-  * Tests if the given input is a string consisting of solely control
-  * characters and white space.
-  * @method isBlankString
-  * @param str {string} The input string to test for.
-  * @return {boolean} true if the input is a blank string; false otherwise.
-  */
+  REGEX_QUOTE_HT = /^"[^"]+"$/;
+
+ //Returns true for "", or strings containing spaces & line breaks only.
  function isBlank(str)
  {
   return REGEX_BLANK.test(str);
  }
- 
- /**
-  * The opposite of `isBlank()`, for use with array comprehension methods
-  * such as `filter()`.
-  * @method isNotBlank
-  * @param str {string} The input string to test for.
-  * @return {boolean} true if the input is a not blank string.
-  */
+
+ //Opposite of isBlank()
  function isNotBlank(str)
  {
   return !isBlank(str);
  }
- 
- /**
-  * Normalizes consecutive white spaces into a single ASCII space, and 
-  * removes all control characters from the given string. Use this method
-  * if 
-  *
-  * Single non-ASCII white space, such as Asian full-width spaces are
-  * preserved. (e.g: U+3000)
-  *
-  * @method titleize
-  * @param str {string} The input string to transform.
-  * @return {string} The transformed string.
-  */
+
+ //Trim, strips line break, normalize word space into ASCII white space.
  function titleize(str)
  {
   REGEX_WS_WS_G.lastIndex = 0;
   REGEX_NL_G.lastIndex = 0;
   return trim(str.replace(REGEX_WS_WS_G, " ").replace(REGEX_NL_G, ""));
  }
- 
- /**
-  * Strips leading and trailing spaces and control characters in the string.
-  *
-  * @method trim
-  * @param str {string} The input string to transform.
-  * @return {string} The transformed string.
-  */
+
+ //Strips leading and trailing space.
  function trim(str)
  {
   return str.replace(/(^\s+)|(\s+$)/g, "");
@@ -1050,44 +827,14 @@ var STR = (function()
   return str.replace(/(^"+)|("+$)/g, "");
  }
  
- //Strips leading and trailing pipes (At least two)
- function trimPipes(str)
- {
-  return str.replace(/(^\|\|+)|(\|\|+$)/g, "");
- }
-
- /**
-  * Tokenizes the string by double pipes, splitting it into an array.
-  *
-  * @method wordsByPipes
-  * @param str {string} The input string to transform.
-  * @return {Array of string} 
-  * The original string, with each word or phrase delimited by two or more
-  * consecutive ASCII pipe characters: "||"
-  */
- function wordsByPipes(str)
- {
-  return (str.match(REGEX_PIPES_G) || [])
-   .map(trimPipes)
-   .map(titleize);
- }
-
- /**
-  * Tokenizes the string by words, splitting it into an array;
-  *
-  * @method words
-  * @param str {string} The input string to transform.
-  * @return {Array of string} 
-  * The original string delimited by space or ASCII double quote characters,
-  * ignoring blanks. Line breaks in the string are considered white space
-  * for the purpose of delimiting words.
-  */
+ //String -> Array, separated by either spaces or surrounding double quotes.
  function words(str)
  {
   return _.flatten((str.match(REGEX_QUOTE_G) || [])
    .map(titleize)
    .reduce(wordsUnquotedSplit, [])).map(trimQuotes);
  }
+
  
  function wordsUnquotedSplit(prev, currStr)
  {
@@ -1102,18 +849,7 @@ var STR = (function()
   return prev;
  }
  
- /**
-  * Tests if a given string contains a given substring, with case
-  * sensitivity support.
-  *
-  * @method hasSubstring
-  * @param str {string} The source string to look into.
-  * @param substr {string} The substring to look for in the source string.
-  * @param [caseSense] {boolean} If true, considers case sensitivity.
-  * @return {boolean}
-  * false if either `str` or `substr` is not a string, or if `substr` is 
-  * not in `str`; True otherwise.
-  */
+ //Test if substr is contained in str.
  function hasSubstring(str, substr, caseSense)
  {
   if (caseSense)
@@ -1123,19 +859,7 @@ var STR = (function()
   return str.toLocaleLowerCase().indexOf(substr.toLocaleLowerCase()) >= 0;
  }
 
- /**
-  * Tests if at least one member of an array of string contains a given 
-  * substring, with case sensitivity support. Array elements that are not
-  * of type string are ignored in the search.
-  *
-  * @method hasSubstringArray
-  * @param arr {Array} An array of string to look into.
-  * @param substr {string} The substring to look for in the source.
-  * @param [caseSense] {boolean} If true, considers case sensitivity.
-  * @return {boolean}
-  * false if none of the string in the array contains the substring,
-  * true otherwise.
-  */
+ //Test if substr is a substring of any string inside the array.
  function hasSubstringArray(arr, substr, caseSense)
  {
   return arr.filter(_.isString).some(function (str){
@@ -1157,19 +881,21 @@ var STR = (function()
   .replace(/&gt;/g, ">");
  }
 
+
  return {
   hasSubstring : hasSubstring,
   hasSubstringArray : hasSubstringArray,
   trim : trim,
   titleize : titleize,
   words : words,
-  wordsByPipes : wordsByPipes,
   isBlank : isBlank,
   isNotBlank : isNotBlank,
   encodeHTMLBody : encodeHTMLBody,
   decodeHTMLBody : decodeHTMLBody
  };
 }());
+
+
 
 
 
@@ -2558,7 +2284,7 @@ var CSS =
  var maxDepth = 10;
  var protoExtend = (function (){
  
-  function doLinkify(index, val)
+  function doLinkify(val)
   {
    var $e = $(val);
    var title = $e.attr("href") || $e.data().title;
@@ -2573,8 +2299,7 @@ var CSS =
  
   function linkify()
   {
-   this.links().each(doLinkify);
-   this.tabify().each(doLinkify);
+   this.links().tabify().toArray().forEach(doLinkify);
    return this;
   }
   
@@ -2606,6 +2331,7 @@ var CSS =
    
    cStack.push(url);
    $.parseBBM(wNode.src, wNode.mime)
+    .linkify()
     .transclude(cStack)
     .replaceAll($e.parent());
    cStack.pop(url);
@@ -2710,8 +2436,8 @@ var $TMPL = (function ()
  {
   var $view = $tView.clone();
   var $frag = (frag || $.parseBBM(wNode.src, wNode.mime))
-   .transclude()
-   .linkify();
+   .linkify()
+   .transclude();
   
   $view.find(".js-title").text(wNode.title);
   $view.find(".js-subtitle").text(sigStr(wNode.edited, wNode.created));
@@ -2745,8 +2471,8 @@ var $TMPL = (function ()
  {
   return $tLinkW.clone()
    .text(displayText)
-   .attr("href", displayText)
-   .data("title", displayText);
+   .data("title", displayText)
+   .attr("href", displayText);
  }
  
  function t_doLinks(acc, str)
@@ -2793,7 +2519,6 @@ var $TMPL = (function ()
   
    $dl.append($label).append(t_linksDD(vals));
   }
-  $dl.links().linkify();
   return $dl;
  }
  
@@ -3763,7 +3488,7 @@ var $ERRORWIZ = (function ($wiz){
  });
  
  $("#js-b-export").on(EV.CLICK, function (evt){
-  var jsonStr = STR.encodeHTMLBody(JSON.stringify(DB, null, " "));
+  var jsonStr = JSON.stringify(DB, null, " ");
   $SAVER.trigger(EVT.EXPORT, [jsonStr, document.title + ".json"]);
  });
  

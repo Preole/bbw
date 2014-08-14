@@ -2,11 +2,7 @@
 
 
 /**
- * String manipulation and checking library, which operates on Javascript's 
- * native String literals and classes. Contains a selection of static methods
- * that are needed by the BareBonesWiki project.
- *
- * Sample invocation:
+ * String manipulation library used in BareBonesWiki.
  *
  * STR.words("Some\nStr\n").filter(STR.isBlank).map(STR.titleize);
  *
@@ -24,59 +20,29 @@ var STR = (function()
   REGEX_WS_WS_G = new RegExp(WS + WS + "+", "g"),
   REGEX_BLANK = /^\s*$/,
   REGEX_QUOTE_G = /"[^"]+"|[^"]+/g,
-  REGEX_QUOTE_HT = /^"[^"]+"$/,
-  REGEX_PIPES_G = /[^|\r\n\v\f\u0085\u0028\u0029]+(\|\|)?/g;
-  
- /**
-  * Tests if the given input is a string consisting of solely control
-  * characters and white space.
-  * @method isBlankString
-  * @param str {string} The input string to test for.
-  * @return {boolean} true if the input is a blank string; false otherwise.
-  */
+  REGEX_QUOTE_HT = /^"[^"]+"$/;
+
+ //Returns true for "", or strings containing spaces & line breaks only.
  function isBlank(str)
  {
   return REGEX_BLANK.test(str);
  }
- 
- /**
-  * The opposite of `isBlank()`, for use with array comprehension methods
-  * such as `filter()`.
-  * @method isNotBlank
-  * @param str {string} The input string to test for.
-  * @return {boolean} true if the input is a not blank string.
-  */
+
+ //Opposite of isBlank()
  function isNotBlank(str)
  {
   return !isBlank(str);
  }
- 
- /**
-  * Normalizes consecutive white spaces into a single ASCII space, and 
-  * removes all control characters from the given string. Use this method
-  * if 
-  *
-  * Single non-ASCII white space, such as Asian full-width spaces are
-  * preserved. (e.g: U+3000)
-  *
-  * @method titleize
-  * @param str {string} The input string to transform.
-  * @return {string} The transformed string.
-  */
+
+ //Trim, strips line break, normalize word space into ASCII white space.
  function titleize(str)
  {
   REGEX_WS_WS_G.lastIndex = 0;
   REGEX_NL_G.lastIndex = 0;
   return trim(str.replace(REGEX_WS_WS_G, " ").replace(REGEX_NL_G, ""));
  }
- 
- /**
-  * Strips leading and trailing spaces and control characters in the string.
-  *
-  * @method trim
-  * @param str {string} The input string to transform.
-  * @return {string} The transformed string.
-  */
+
+ //Strips leading and trailing space.
  function trim(str)
  {
   return str.replace(/(^\s+)|(\s+$)/g, "");
@@ -88,44 +54,14 @@ var STR = (function()
   return str.replace(/(^"+)|("+$)/g, "");
  }
  
- //Strips leading and trailing pipes (At least two)
- function trimPipes(str)
- {
-  return str.replace(/(^\|\|+)|(\|\|+$)/g, "");
- }
-
- /**
-  * Tokenizes the string by double pipes, splitting it into an array.
-  *
-  * @method wordsByPipes
-  * @param str {string} The input string to transform.
-  * @return {Array of string} 
-  * The original string, with each word or phrase delimited by two or more
-  * consecutive ASCII pipe characters: "||"
-  */
- function wordsByPipes(str)
- {
-  return (str.match(REGEX_PIPES_G) || [])
-   .map(trimPipes)
-   .map(titleize);
- }
-
- /**
-  * Tokenizes the string by words, splitting it into an array;
-  *
-  * @method words
-  * @param str {string} The input string to transform.
-  * @return {Array of string} 
-  * The original string delimited by space or ASCII double quote characters,
-  * ignoring blanks. Line breaks in the string are considered white space
-  * for the purpose of delimiting words.
-  */
+ //String -> Array, separated by either spaces or surrounding double quotes.
  function words(str)
  {
   return _.flatten((str.match(REGEX_QUOTE_G) || [])
    .map(titleize)
    .reduce(wordsUnquotedSplit, [])).map(trimQuotes);
  }
+
  
  function wordsUnquotedSplit(prev, currStr)
  {
@@ -140,18 +76,7 @@ var STR = (function()
   return prev;
  }
  
- /**
-  * Tests if a given string contains a given substring, with case
-  * sensitivity support.
-  *
-  * @method hasSubstring
-  * @param str {string} The source string to look into.
-  * @param substr {string} The substring to look for in the source string.
-  * @param [caseSense] {boolean} If true, considers case sensitivity.
-  * @return {boolean}
-  * false if either `str` or `substr` is not a string, or if `substr` is 
-  * not in `str`; True otherwise.
-  */
+ //Test if substr is contained in str.
  function hasSubstring(str, substr, caseSense)
  {
   if (caseSense)
@@ -161,19 +86,7 @@ var STR = (function()
   return str.toLocaleLowerCase().indexOf(substr.toLocaleLowerCase()) >= 0;
  }
 
- /**
-  * Tests if at least one member of an array of string contains a given 
-  * substring, with case sensitivity support. Array elements that are not
-  * of type string are ignored in the search.
-  *
-  * @method hasSubstringArray
-  * @param arr {Array} An array of string to look into.
-  * @param substr {string} The substring to look for in the source.
-  * @param [caseSense] {boolean} If true, considers case sensitivity.
-  * @return {boolean}
-  * false if none of the string in the array contains the substring,
-  * true otherwise.
-  */
+ //Test if substr is a substring of any string inside the array.
  function hasSubstringArray(arr, substr, caseSense)
  {
   return arr.filter(_.isString).some(function (str){
@@ -195,13 +108,13 @@ var STR = (function()
   .replace(/&gt;/g, ">");
  }
 
+
  return {
   hasSubstring : hasSubstring,
   hasSubstringArray : hasSubstringArray,
   trim : trim,
   titleize : titleize,
   words : words,
-  wordsByPipes : wordsByPipes,
   isBlank : isBlank,
   isNotBlank : isNotBlank,
   encodeHTMLBody : encodeHTMLBody,

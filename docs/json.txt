@@ -156,13 +156,6 @@ Sample JSON Data
   /*
   Boolean; Displays warning on closing the wiki (Navigating away)
   */
-  "cfmNav": true,
-  
-  
-  
-  /*
-  Boolean; Letter case sensitivity for full-text search.
-  */
-  "searchCase": false
+  "cfmNav": true
  }
 }

@@ -126,7 +126,7 @@ branch:
 
 """
 git checkout 1.11.0
-grunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callbacks,-queue,-forms,-deprecated,-exports/amd,-css
+grunt custom:-deferred,-ajax,-effects,-core/ready,-event-alias,-callbacks,-queue,-deprecated,-exports/amd,-css
 """
 
 
@@ -135,7 +135,7 @@ And if you'll always use the latest browsers, use the 2.x branch.
 
 """
 git checkout 2.1.0
-grunt custom:-deferred,-ajax,-effects,-core/ready,-serialize,-event-alias,-callbacks,-queue,-forms,-deprecated,-exports/amd,-css,-sizzle
+grunt custom:-deferred,-ajax,-effects,-core/ready,-event-alias,-callbacks,-queue,-deprecated,-exports/amd,-css,-sizzle
 """
 
 Drop the minified jquery from """$(jQueryRoot)/dist/jquery.min.js""" 
