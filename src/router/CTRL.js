@@ -86,7 +86,7 @@ var CTRL = (function (){
   
   var tmpText = "404: \"" + title + "\" does not exist.";
   var $textFrag = TMPL.text("Click on the edit button to create it.");
-  return TMPL.viewTmp(tmpText, $textFrag);
+  return TMPL.viewTmp(tmpText, $textFrag, title);
  }
 
  function editEntry(title, editAsNew)
@@ -132,14 +132,15 @@ var CTRL = (function (){
  function editDelete(formObj)
  {
   var cfmDel = DB.getConfig().cfmDel;
-  if (cfmDel && !window.confirm("Delete \"" + formObj.oldTitle + "\"?"))
+  var oldT = formObj.oldTitle;
+  if (cfmDel && !window.confirm("Delete \"" + oldT + "\"?"))
   {
    return;
   }
-  DB.removeNode(formObj.oldTitle);
+  DB.removeNode(oldT);
 
-  var delText = "\"" + formObj.oldTitle + "\" no longer exists.";
-  return TMPL.viewTmp("Deletion Successful.", TMPL.text(delText));
+  var delText = "\"" + oldT + "\" no longer exists.";
+  return TMPL.viewTmp("Deletion Successful.", TMPL.text(delText), oldT);
  }
  
  return {

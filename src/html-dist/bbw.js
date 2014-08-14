@@ -1771,12 +1771,13 @@ var TMPL = (function (){
   return $edit;
  }
  
- function viewTmpTmpl(displayTxt, $frag)
+ function viewTmpTmpl(displayTxt, $frag, editVal)
  {
   var $viewTmp = $tViewTmp.clone();
   $viewTmp.find(".js-title").text(displayTxt);
   $viewTmp.find(".js-content").append($frag || $());
-  return $viewTmp.tabify().linkify().data({title : displayTxt});
+  $viewTmp.find("[name='title']").val(editVal || "New Entry");
+  return $viewTmp.tabify().linkify();
  }
  
  function indexFlatTmpl(displayTxt, strList)
@@ -1900,7 +1901,7 @@ var CTRL = (function (){
   
   var tmpText = "404: \"" + title + "\" does not exist.";
   var $textFrag = TMPL.text("Click on the edit button to create it.");
-  return TMPL.viewTmp(tmpText, $textFrag);
+  return TMPL.viewTmp(tmpText, $textFrag, title);
  }
 
  function editEntry(title, editAsNew)
@@ -1946,14 +1947,15 @@ var CTRL = (function (){
  function editDelete(formObj)
  {
   var cfmDel = DB.getConfig().cfmDel;
-  if (cfmDel && !window.confirm("Delete \"" + formObj.oldTitle + "\"?"))
+  var oldT = formObj.oldTitle;
+  if (cfmDel && !window.confirm("Delete \"" + oldT + "\"?"))
   {
    return;
   }
-  DB.removeNode(formObj.oldTitle);
+  DB.removeNode(oldT);
 
-  var delText = "\"" + formObj.oldTitle + "\" no longer exists.";
-  return TMPL.viewTmp("Deletion Successful.", TMPL.text(delText));
+  var delText = "\"" + oldT + "\" no longer exists.";
+  return TMPL.viewTmp("Deletion Successful.", TMPL.text(delText), oldT);
  }
  
  return {

@@ -142,12 +142,13 @@ var TMPL = (function (){
   return $edit;
  }
  
- function viewTmpTmpl(displayTxt, $frag)
+ function viewTmpTmpl(displayTxt, $frag, editVal)
  {
   var $viewTmp = $tViewTmp.clone();
   $viewTmp.find(".js-title").text(displayTxt);
   $viewTmp.find(".js-content").append($frag || $());
-  return $viewTmp.tabify().linkify().data({title : displayTxt});
+  $viewTmp.find("[name='title']").val(editVal || "New Entry");
+  return $viewTmp.tabify().linkify();
  }
  
  function indexFlatTmpl(displayTxt, strList)
