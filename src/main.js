@@ -9,27 +9,29 @@
  var $DS = $("#js-db");
  var $body = $(document.body);
 
+ DB.fromJSON(STR.decodeHTMLBody($DS.html()));
  (function (){
+  var cfg = DB.getConfig(),
+   startEnum = $models.Config.startupTypes,
+   startNum = cfg.startupCount || 5;
+ 
   function initStartup(titleStartup)
   {
    $views.tabView.newTab(titleStartup);
   }
   
-  function initRecent(entryRecent, index)
-  {
-   $views.tabView.newTab(entryRecent.title);
-  }
-  
-  DB.fromJSON(STR.decodeHTMLBody($DS.html()));
-  
   $views.tabView.newTab();
-  if (DB.getConfig().startup.length > 0)
+  if (cfg.startupType === startEnum.CHOOSE && cfg.startup.length > 0)
   {
-   _.forEach(DB.getConfig().startup.reverse(), initStartup);
+   _.forEach(cfg.startup.reverse(), initStartup)
   }
-  else
+  else if (cfg.startupType === startEnum.EDITED)
   {
-   _.forEach(DB.indexEditedFlat().slice(0, 5).reverse(), initRecent);
+   _.forEach(DB.indexEditedTitle().slice(0, startNum).reverse(), initStartup);
+  }
+  else if (cfg.startupType === startEnum.CREATED)
+  {
+   _.forEach(DB.indexCreatedTitle().slice(0, startNum).reverse(), initStartup);
   }
  }());
  

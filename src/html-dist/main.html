@@ -159,8 +159,15 @@ right-click (or long-tap) the link and choose...
   <input class="css-w-100" maxlength="255" id="js-cfg-title">
  </fieldset>
  <fieldset>
-  <legend>Startups (One per line)</legend>
+  <legend>Startup Pages</legend>
+  <label><input type="radio" name="js-startup-type" value="edited"> Recently Edited</label>
+  <label><input type="radio" name="js-startup-type" value="created"> Recently Created</label>
+  <label><input type="radio" name="js-startup-type" value="home"> Home Page</label>
+  <label><input type="radio" name="js-startup-type" value="choose"> Choose Defaults</label>
+  <br>
   <textarea cols="80" rows="7" id="js-cfg-startup"></textarea>
+  <br>
+  <span>Number of Entries to Open: <input id="js-cfg-startup-count"></span>
  </fieldset>
  <fieldset>
   <legend>Confirmations</legend>

@@ -2,26 +2,34 @@
 
 //Configuration Object Factory
 $models.Config = (function (){
- function create(title, startup, cfmDel, cfmNav)
+
+ var STARTUP_ENUM =
  {
-  var startList = [];
-  if (_.isString(startup))
-  {
-   startList = STR.words(startup);
-  }
-  else if (_.isArray(startup))
-  {
-   startList = startup.filter(_.isString).filter(STR.isNotBlank);
-  }
-  
-  var obj =
-  {
+  CREATED : "created",
+  EDITED : "edited",
+  CHOOSE : "choose",
+  HOME : "home"
+ };
+
+ function create(title, startup, startupType, startupCount, cfmDel, cfmNav)
+ {
+  var startList = _.isString(startup) ?
+   STR.words(startup) : 
+   _.isArray(startup) ?
+   startup.filter(_.isString).filter(STR.isNotBlank) : [];
+   
+  var count = parseInt(startupCount, 10);
+  var startCount = _.isNumber(count) && !_.isNaN(count) ? 
+   Math.max(Math.abs(count), 1) : 5;
+
+  return {
    title : _.isString(title) ? STR.titleize(title) : "BareBonesWiki",
    cfmDel : !!cfmDel,
    cfmNav : !!cfmNav,
-   startup : startList
-  }
-  return obj;
+   startup : startList,
+   startupType : _.isString(startupType) ? startupType : STARTUP_ENUM.HOME,
+   startupCount : startCount
+  };
  }
 
  function createFromObject(cfgObj)
@@ -30,6 +38,8 @@ $models.Config = (function (){
   return create(
    obj.title,
    obj.startup,
+   obj.startupType,
+   obj.startupCount,
    obj.cfmDel,
    obj.cfmNav
   );
@@ -45,5 +55,5 @@ $models.Config = (function (){
   return create.apply(this, args);
  }
  
- return {create : createRoute};
+ return {create : createRoute, startupTypes : STARTUP_ENUM};
 }());

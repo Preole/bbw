@@ -570,8 +570,15 @@ right-click (or long-tap) the link and choose...
   <input class="css-w-100" maxlength="255" id="js-cfg-title">
  </fieldset>
  <fieldset>
-  <legend>Startups (One per line)</legend>
-  <textarea cols="80" rows="7" id="js-cfg-startup"></textarea>
+  <legend>Startup Pages</legend>
+  <label><input name="js-startup-type" value="edited" type="radio"> Recently Edited</label>
+  <label><input name="js-startup-type" value="created" type="radio"> Recently Created</label>
+  <label><input name="js-startup-type" value="home" type="radio"> Home Page</label>
+  <label><input name="js-startup-type" value="choose" type="radio"> Choose Defaults</label>
+  <br>
+  <textarea class="" cols="80" rows="7" id="js-cfg-startup"></textarea>
+  <br>
+  <span class="js-css-invis">Number of Entries to Open: <input id="js-cfg-startup-count"></span>
  </fieldset>
  <fieldset>
   <legend>Confirmations</legend>
@@ -966,7 +973,9 @@ right-click (or long-tap) the link and choose...
   "cfmNav": false,
   "startup": [
    "BareBonesWiki-ToC"
-  ]
+  ],
+  "startupType": "choose",
+  "startupCount": 5
  }
 }</script>
 
@@ -1433,26 +1442,34 @@ $models.WikiNode = (function (){
 
 //Configuration Object Factory
 $models.Config = (function (){
- function create(title, startup, cfmDel, cfmNav)
+
+ var STARTUP_ENUM =
  {
-  var startList = [];
-  if (_.isString(startup))
-  {
-   startList = STR.words(startup);
-  }
-  else if (_.isArray(startup))
-  {
-   startList = startup.filter(_.isString).filter(STR.isNotBlank);
-  }
-  
-  var obj =
-  {
+  CREATED : "created",
+  EDITED : "edited",
+  CHOOSE : "choose",
+  HOME : "home"
+ };
+
+ function create(title, startup, startupType, startupCount, cfmDel, cfmNav)
+ {
+  var startList = _.isString(startup) ?
+   STR.words(startup) : 
+   _.isArray(startup) ?
+   startup.filter(_.isString).filter(STR.isNotBlank) : [];
+   
+  var count = parseInt(startupCount, 10);
+  var startCount = _.isNumber(count) && !_.isNaN(count) ? 
+   Math.max(Math.abs(count), 1) : 5;
+
+  return {
    title : _.isString(title) ? STR.titleize(title) : "BareBonesWiki",
    cfmDel : !!cfmDel,
    cfmNav : !!cfmNav,
-   startup : startList
-  }
-  return obj;
+   startup : startList,
+   startupType : _.isString(startupType) ? startupType : STARTUP_ENUM.HOME,
+   startupCount : startCount
+  };
  }
 
  function createFromObject(cfgObj)
@@ -1461,6 +1478,8 @@ $models.Config = (function (){
   return create(
    obj.title,
    obj.startup,
+   obj.startupType,
+   obj.startupCount,
    obj.cfmDel,
    obj.cfmNav
   );
@@ -1476,7 +1495,7 @@ $models.Config = (function (){
   return create.apply(this, args);
  }
  
- return {create : createRoute};
+ return {create : createRoute, startupTypes : STARTUP_ENUM};
 }());
 
 
@@ -2128,9 +2147,14 @@ var DB = (function (){
   return EDITED;
  }
  
- function indexEditedFlat()
+ function indexEditedTitle()
  {
-  return _.values(NODES).sort(compareByEdited);
+  return _.pluck(_.values(NODES).sort(compareByEdited), "title");
+ }
+
+ function indexCreatedTitle()
+ {
+  return _.pluck(_.values(NODES).sort(compareByCreated), "title");
  }
  
  function indexBacklinks()
@@ -2310,7 +2334,8 @@ var DB = (function (){
   indexTagsList : indexTagsList,
   indexTagSingle : indexTagSingle,
   indexEdited : indexEdited,
-  indexEditedFlat : indexEditedFlat,
+  indexEditedTitle : indexEditedTitle,
+  indexCreatedTitle : indexCreatedTitle,
   indexCreated : indexCreated,
   indexTitles : indexTitles,
   indexMime : indexMime,
@@ -3437,6 +3462,8 @@ $views.configView = (function (){
  var $view = $("#js-cfg-view"),
   $pgTitle = $("#js-pg-title"),
   $docTitle = $view.find("#js-cfg-title"),
+  $startupType = $view.find("input[type='radio'][name='js-startup-type']"),
+  $startupCount = $view.find("#js-cfg-startup-count"),
   $startup = $view.find("#js-cfg-startup"),
   $cfmDel = $view.find("#js-cfg-cfm-del"),
   $cfmNav = $view.find("#js-cfg-cfm-nav"),
@@ -3448,6 +3475,8 @@ $views.configView = (function (){
   var newCfg = DB.setConfig($models.Config.create(
    $docTitle.val(),
    $startup.val(),
+   $startupType.filterChecked().val(),
+   $startupCount.val(),
    $cfmDel.checked(),
    $cfmNav.checked()
   ));
@@ -3461,15 +3490,42 @@ $views.configView = (function (){
   document.title = newCfg.title;
   $pgTitle.text(newCfg.title);
  }
+ 
+ function changeType(evt)
+ {
+  var type = $(evt.target).val();
+  var startType = $models.Config.startupTypes;
+  if (type === startType.EDITED || type === startType.CREATED)
+  {
+   $startup.toggleInvis(true);
+   $startupCount.parent().toggleInvis(false);
+  }
+  else if (type === startType.CHOOSE)
+  {
+   $startup.toggleInvis(false);
+   $startupCount.parent().toggleInvis(true);
+  }
+  else
+  {
+   $startup.toggleInvis(true);
+   $startupCount.parent().toggleInvis(true);
+  }
+ }
 
  function load(evt)
  {
   var cfg = DB.getConfig();
+  var startType = cfg.startupType || $models.Config.startupType.HOME;
   
   $docTitle.val(cfg.title);
   $startup.val(cfg.startup.join("\n"));
+  $startupCount.val(cfg.startupCount || 5);
   $cfmDel.checked(cfg.cfmDel);
-  $cfmNav.checked(cfg.cfmNav)
+  $cfmNav.checked(cfg.cfmNav);
+  
+  $startupType.filter("[value='" + startType + "']")
+   .prop("checked", true)
+   .trigger(EV.CHANGE);
   
   $view.toggleInvis(false).focus();
  }
@@ -3481,6 +3537,7 @@ $views.configView = (function (){
  
  $saveBtn.on(EV.CLICK, save);
  $cancelBtn.on(EV.CLICK, close);
+ $startupType.change(EV.CHANGE, changeType);
  close();
  
  return {
@@ -3686,27 +3743,29 @@ $views.errorView = (function (){
  var $DS = $("#js-db");
  var $body = $(document.body);
 
+ DB.fromJSON(STR.decodeHTMLBody($DS.html()));
  (function (){
+  var cfg = DB.getConfig(),
+   startEnum = $models.Config.startupTypes,
+   startNum = cfg.startupCount || 5;
+ 
   function initStartup(titleStartup)
   {
    $views.tabView.newTab(titleStartup);
   }
   
-  function initRecent(entryRecent, index)
-  {
-   $views.tabView.newTab(entryRecent.title);
-  }
-  
-  DB.fromJSON(STR.decodeHTMLBody($DS.html()));
-  
   $views.tabView.newTab();
-  if (DB.getConfig().startup.length > 0)
+  if (cfg.startupType === startEnum.CHOOSE && cfg.startup.length > 0)
   {
-   _.forEach(DB.getConfig().startup.reverse(), initStartup);
+   _.forEach(cfg.startup.reverse(), initStartup)
   }
-  else
+  else if (cfg.startupType === startEnum.EDITED)
   {
-   _.forEach(DB.indexEditedFlat().slice(0, 5).reverse(), initRecent);
+   _.forEach(DB.indexEditedTitle().slice(0, startNum).reverse(), initStartup);
+  }
+  else if (cfg.startupType === startEnum.CREATED)
+  {
+   _.forEach(DB.indexCreatedTitle().slice(0, startNum).reverse(), initStartup);
   }
  }());
  

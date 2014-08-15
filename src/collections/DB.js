@@ -158,9 +158,14 @@ var DB = (function (){
   return EDITED;
  }
  
- function indexEditedFlat()
+ function indexEditedTitle()
  {
-  return _.values(NODES).sort(compareByEdited);
+  return _.pluck(_.values(NODES).sort(compareByEdited), "title");
+ }
+
+ function indexCreatedTitle()
+ {
+  return _.pluck(_.values(NODES).sort(compareByCreated), "title");
  }
  
  function indexBacklinks()
@@ -340,7 +345,8 @@ var DB = (function (){
   indexTagsList : indexTagsList,
   indexTagSingle : indexTagSingle,
   indexEdited : indexEdited,
-  indexEditedFlat : indexEditedFlat,
+  indexEditedTitle : indexEditedTitle,
+  indexCreatedTitle : indexCreatedTitle,
   indexCreated : indexCreated,
   indexTitles : indexTitles,
   indexMime : indexMime,
