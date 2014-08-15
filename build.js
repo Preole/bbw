@@ -37,4 +37,4 @@ var srcCode = fs.readFileSync(jsOut, fsOptR).replace(regexReq, "");
 fs.writeFileSync(jsOut, srcCode);
 
 fuse.fuseFile(htmlIn, htmlOut, function () {});
-
+fs.unlinkSync(jsOut);
