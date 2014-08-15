@@ -189,232 +189,245 @@ Reserved ID/Class namespace listing.
 - "bbw-": Default namespace for wiki text ID/class.
 */
 
-
-/*
- Theme: Light on Dark, Sans-serif, Big Font.
- -------------------------------------------------------- */
+@media print {
+ .css-no-print,
+ video,
+ audio {
+  display: none !important;
+ }
  
-html {
- font-family: sans-serif;
- background: #021;
- color: #fff;
-}
-
-
-*:focus {
-outline: 2px dashed #fff;
-}
-
-
-/*
- Theme: Links, Forms, Controls
- -------------------------------------------------------- */
-
-a,
-button,
-label,
-select,
-input,
-.css-ib {
- color: #fd5;
- display: inline-block;
-}
-
-/*
- * Light coffee border, Dark chocolate background for form controls.
- */
-input:not([type="radio"]):not([type="checkbox"]),
-button,
-select,
-label,
-textarea {
- border: 1px solid #fff;
-}
-
-button,
-select,
-label,
-input[type="file"],
-input[readonly] {
- background: #241;
- padding: 0.5em;
-}
-
-button,
-select,
-label,
-option,
-input[type="file"],
-input:not([type]),
-input[type="search"],
-textarea,
-h1,h2,h3,h4,h5,h6 {
- vertical-align: middle;
-}
-
-input:not([type]):not([readonly]),
-input[type="text"],
-input[type="search"],
-textarea {
- background: #000;
- color: #fff;
- padding: 0.5em;
-}
-
-textarea {
- font-family: monospace, monospace;
- display: block;
- width: 100%;
-}
-
-
-/*
- Theme: Grouping Content
- -------------------------------------------------------- */
-
-
-blockquote {
-background: #040;
-border-left: 0.25em solid #060;
-margin: 0.75em 0.5em;
-padding: 0.25em 0.5em;
-}
-
-pre {
-padding: 0.5em;
-clear: both;
-}
-
-pre > code {
-background: none;
-}
-
-pre, code {
-background: #010;
-}
-
-table, tr {
-width: 100%;
-table-layout: fixed;
-}
-
-
-
-/*
- Javascript-Specific
- -------------------------------------------------------- */
-
-a:not(.js-css-rlink):not(.js-wlink) {
- border-bottom: dashed 1px #fff;
-}
-
-a.js-css-rlink {
- color: #f93;
-}
-
-.js-css-invis {
- display: none !important;
-}
-
-.js-css-active > * {
- background: #410;
- font-weight: bold;
-}
-
-
-/*
- Toolbox
- -------------------------------------------------------- */
-
-.css-modal {
- border: 4px ridge #da9;
- position: fixed;
- top: 0;
- left: 0;
- background: #410;
- height: 100%;
- width: 100%;
- overflow: auto;
- z-index: 999;
-}
-
-.css-no-pad {
- padding:0;
- margin:0;
-}
-
-.css-pad,
-.css-modal {
- padding: 0.5em;
-}
-.css-bg-2nd {
- background: #031;
-}
-
-.css-center {
- text-align: center;
-}
-.css-f-right {
- float: right;
-}
-
-.css-grid-mobile,
-.css-grid {
- display: table;
- table-layout: fixed;
-}
-.css-grid > * ,
-.css-grid-mobile > * {
- display: table-cell;
-}
-.css-w-20 {
- width: 20%;
-}
-.css-w-25 {
- width: 25%;
-}
-.css-w-30 {
- width: 30%;
-}
-.css-w-50 {
- width: 50%;
-}
-.css-w-70 {
- width: 70%;
-}
-.css-grid-mobile,
-.css-grid,
-.css-w-100,
-span > input,
-span > button,
-span > select {
- width: 100%;
-}
-
-.css-v-top {
- vertical-align: top;
-}
-.css-h-3em {
- height: 3.5em;
-}
-
-@media (min-width: 800px) {
- #css-top-menu {
-  padding: 0.5em 0.5em 0.5em 0;
+ .js-wlink {
+  color: inherit;
  }
 }
 
-@media (max-width: 799px) {
- .css-grid-mobile,
- .css-grid-mobile > * {
+@media screen {
+ /*
+  Theme: Light on Dark, Sans-serif, Big Font.
+  -------------------------------------------------------- */
+  
+ html {
+  font-family: sans-serif;
+  background: #021;
+  color: #fff;
+ }
+
+
+ *:focus {
+ outline: 2px dashed #fff;
+ }
+
+
+ /*
+  Theme: Links, Forms, Controls
+  -------------------------------------------------------- */
+
+ a,
+ button,
+ label,
+ select,
+ input,
+ .css-ib {
+  color: #fd5;
+  display: inline-block;
+ }
+
+ /*
+  * Light coffee border, Dark chocolate background for form controls.
+  */
+ input:not([type="radio"]):not([type="checkbox"]),
+ button,
+ select,
+ label,
+ textarea {
+  border: 1px solid #fff;
+ }
+
+ button,
+ select,
+ label,
+ input[type="file"],
+ input[readonly] {
+  background: #241;
+  padding: 0.5em;
+ }
+
+ button,
+ select,
+ label,
+ option,
+ input[type="file"],
+ input:not([type]),
+ input[type="search"],
+ textarea,
+ h1,h2,h3,h4,h5,h6 {
+  vertical-align: middle;
+ }
+
+ input:not([type]):not([readonly]),
+ input[type="text"],
+ input[type="search"],
+ textarea {
+  background: #000;
+  color: #fff;
+  padding: 0.5em;
+ }
+
+ textarea {
+  font-family: monospace, monospace;
   display: block;
+  width: 100%;
  }
+
+
+ /*
+  Theme: Grouping Content
+  -------------------------------------------------------- */
+
+
+ blockquote {
+ background: #040;
+ border-left: 0.25em solid #060;
+ margin: 0.75em 0.5em;
+ padding: 0.25em 0.5em;
+ }
+
+ pre {
+ padding: 0.5em;
+ clear: both;
+ }
+
+ pre > code {
+ background: none;
+ }
+
+ pre, code {
+ background: #010;
+ }
+
+ table, tr {
+ width: 100%;
+ table-layout: fixed;
+ }
+
+
+
+ /*
+  Javascript-Specific
+  -------------------------------------------------------- */
+
+ a:not(.js-css-rlink):not(.js-wlink) {
+  border-bottom: dashed 1px #fff;
+ }
+
+ a.js-css-rlink {
+  color: #f93;
+ }
+
+ .js-css-invis {
+  display: none !important;
+ }
+
+ .js-css-active > * {
+  background: #410;
+  font-weight: bold;
+ }
+
+
+ /*
+  Toolbox
+  -------------------------------------------------------- */
+
+ .css-modal {
+  border: 4px ridge #da9;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #410;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  z-index: 999;
+ }
+
+ .css-no-pad {
+  padding:0;
+  margin:0;
+ }
+
+ .css-pad,
+ .css-modal {
+  padding: 0.5em;
+ }
+ .css-bg-2nd {
+  background: #031;
+ }
+
+ .css-center {
+  text-align: center;
+ }
+ .css-f-right {
+  float: right;
+ }
+
+ .css-grid-mobile,
+ .css-grid {
+  display: table;
+  table-layout: fixed;
+ }
+ .css-grid > * ,
  .css-grid-mobile > * {
-  width: 100% !important;
+  display: table-cell;
  }
- .css-v-sep {
-  border: 1px solid #ccc;
-  border-width: 1px 0 0 0;
+ .css-w-20 {
+  width: 20%;
+ }
+ .css-w-25 {
+  width: 25%;
+ }
+ .css-w-30 {
+  width: 30%;
+ }
+ .css-w-50 {
+  width: 50%;
+ }
+ .css-w-70 {
+  width: 70%;
+ }
+ .css-grid-mobile,
+ .css-grid,
+ .css-w-100,
+ span > input,
+ span > button,
+ span > select {
+  width: 100%;
+ }
+
+ .css-v-top {
+  vertical-align: top;
+ }
+ .css-h-3em {
+  height: 3.5em;
+ }
+
+ @media (min-width: 800px) {
+  #css-top-menu {
+   padding: 0.5em 0.5em 0.5em 0;
+  }
+ }
+
+ @media (max-width: 799px) {
+  .css-grid-mobile,
+  .css-grid-mobile > * {
+   display: block;
+  }
+  .css-grid-mobile > * {
+   width: 100% !important;
+  }
+  .css-v-sep {
+   border: 1px solid #ccc;
+   border-width: 1px 0 0 0;
+  }
  }
 }
 </style>
@@ -430,10 +443,10 @@ span > select {
  </div>
 </noscript>
 
-<h1 id="js-pg-title" class="css-center">BareBonesWiki-EndUserManual</h1>
+<h1 id="js-pg-title" class="css-center css-no-print">BareBonesWiki-EndUserManual</h1>
 
 <div class="css-grid-mobile">
- <nav id="js-tabs" tabindex="0" class="css-v-top css-bg-2nd css-pad css-w-30" role="navigation">
+ <nav id="js-tabs" tabindex="0" class="css-v-top css-bg-2nd css-pad css-w-30 css-no-print" role="navigation">
   <div class="css-grid">
    <span id="js-new-tab-btn"><button>New Tab</button></span>
    <span id="js-fork-tab-btn"><button>Fork Tab</button></span>
@@ -445,9 +458,9 @@ span > select {
 </li></ul>
  </nav>
  <div class="css-v-top css-w-70 css-v-sep">
-  <header id="css-top-menu" class="css-bg-2nd css-grid css-pad">
+  <header id="css-top-menu" class="css-bg-2nd css-grid css-pad css-no-print">
    <span><button disabled="" id="js-back-btn">Back</button></span>
-   <span><button id="js-next-btn">Next</button></span>
+   <span><button disabled="" id="js-next-btn">Next</button></span>
    <span><button id="js-refresh-btn">Refresh</button></span>
    <span><button id="js-home-btn">Home</button></span>
    <span><button id="js-tabs-btn">Tabs</button></span>
@@ -455,7 +468,7 @@ span > select {
   <article id="js-main" class="css-pad" tabindex="0"></article>
  </div>
 </div>
-<footer class="css-bg-2nd css-grid css-pad">
+<footer class="css-bg-2nd css-grid css-pad css-no-print">
  <span><button id="js-config-btn">Options</button></span>
  <span><button id="js-import-btn">Import</button></span>
  <span><button id="js-export-btn">Export</button></span>
@@ -463,7 +476,7 @@ span > select {
  <span><button id="js-top-btn">Top</button></span>
 </footer>
 
-<aside>
+<aside class="css-no-print">
 <!--Import Wizard-->
 <form class="css-modal js-css-invis" tabindex="0" id="js-import-view">
  <h1>Import Wizard</h1>
@@ -633,7 +646,7 @@ right-click (or long-tap) the link and choose...
 <script type="text/html" id="js-t-view-form">
 <div>
 <header>
- <form action="edit" class="css-f-right">
+ <form action="edit" class="css-f-right css-no-print">
   <input name="title" type="hidden">
   <button name="edit">Edit</button>
  </form>
@@ -657,7 +670,7 @@ right-click (or long-tap) the link and choose...
 <script type="text/html" id="js-t-viewTmp-form">
 <div>
 <header>
- <form action="edit" class="css-f-right">
+ <form action="edit" class="css-f-right css-no-print">
   <input name="title" type="hidden" value="New Entry">
   <button name="editTmp">Create New Entry</button>
  </form>
@@ -730,16 +743,6 @@ right-click (or long-tap) the link and choose...
 <!--JSON Storage.-->
 <script type="application/json" id="js-db">{
  "NODES": {
-  "New Entry": {
-   "title": "New Entry",
-   "src": "I have the power.",
-   "mime": "text/x-bbm",
-   "tags": [
-    "Uncategorized"
-   ],
-   "created": 1408067222736,
-   "edited": 1408067223736
-  },
   "Warning": {
    "title": "Warning",
    "src": "**IMPORTANT: ''Do not hit the browser's default buttons.''**\r\n\r\nMore precisely, any navigation made within the browser will \r\ncause you to lose your progress in BareBonesWiki. That is: \r\n\r\n- Entering a new URL in the search or URL bar.\r\n- Hitting the back or forward button, if you have visited \r\n  any pages within that window or tab.\r\n- Refreshing the page.\r\n\r\nIn other words, if you want to get away or restart the app, \r\njust do any of the above.\r\n\r\n",

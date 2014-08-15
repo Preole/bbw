@@ -6,231 +6,244 @@ Reserved ID/Class namespace listing.
 - "bbw-": Default namespace for wiki text ID/class.
 */
 
-
-/*
- Theme: Light on Dark, Sans-serif, Big Font.
- -------------------------------------------------------- */
+@media print {
+ .css-no-print,
+ video,
+ audio {
+  display: none !important;
+ }
  
-html {
- font-family: sans-serif;
- background: #021;
- color: #fff;
-}
-
-
-*:focus {
-outline: 2px dashed #fff;
-}
-
-
-/*
- Theme: Links, Forms, Controls
- -------------------------------------------------------- */
-
-a,
-button,
-label,
-select,
-input,
-.css-ib {
- color: #fd5;
- display: inline-block;
-}
-
-/*
- * Light coffee border, Dark chocolate background for form controls.
- */
-input:not([type="radio"]):not([type="checkbox"]),
-button,
-select,
-label,
-textarea {
- border: 1px solid #fff;
-}
-
-button,
-select,
-label,
-input[type="file"],
-input[readonly] {
- background: #241;
- padding: 0.5em;
-}
-
-button,
-select,
-label,
-option,
-input[type="file"],
-input:not([type]),
-input[type="search"],
-textarea,
-h1,h2,h3,h4,h5,h6 {
- vertical-align: middle;
-}
-
-input:not([type]):not([readonly]),
-input[type="text"],
-input[type="search"],
-textarea {
- background: #000;
- color: #fff;
- padding: 0.5em;
-}
-
-textarea {
- font-family: monospace, monospace;
- display: block;
- width: 100%;
-}
-
-
-/*
- Theme: Grouping Content
- -------------------------------------------------------- */
-
-
-blockquote {
-background: #040;
-border-left: 0.25em solid #060;
-margin: 0.75em 0.5em;
-padding: 0.25em 0.5em;
-}
-
-pre {
-padding: 0.5em;
-clear: both;
-}
-
-pre > code {
-background: none;
-}
-
-pre, code {
-background: #010;
-}
-
-table, tr {
-width: 100%;
-table-layout: fixed;
-}
-
-
-
-/*
- Javascript-Specific
- -------------------------------------------------------- */
-
-a:not(.js-css-rlink):not(.js-wlink) {
- border-bottom: dashed 1px #fff;
-}
-
-a.js-css-rlink {
- color: #f93;
-}
-
-.js-css-invis {
- display: none !important;
-}
-
-.js-css-active > * {
- background: #410;
- font-weight: bold;
-}
-
-
-/*
- Toolbox
- -------------------------------------------------------- */
-
-.css-modal {
- border: 4px ridge #da9;
- position: fixed;
- top: 0;
- left: 0;
- background: #410;
- height: 100%;
- width: 100%;
- overflow: auto;
- z-index: 999;
-}
-
-.css-no-pad {
- padding:0;
- margin:0;
-}
-
-.css-pad,
-.css-modal {
- padding: 0.5em;
-}
-.css-bg-2nd {
- background: #031;
-}
-
-.css-center {
- text-align: center;
-}
-.css-f-right {
- float: right;
-}
-
-.css-grid-mobile,
-.css-grid {
- display: table;
- table-layout: fixed;
-}
-.css-grid > * ,
-.css-grid-mobile > * {
- display: table-cell;
-}
-.css-w-20 {
- width: 20%;
-}
-.css-w-25 {
- width: 25%;
-}
-.css-w-30 {
- width: 30%;
-}
-.css-w-50 {
- width: 50%;
-}
-.css-w-70 {
- width: 70%;
-}
-.css-grid-mobile,
-.css-grid,
-.css-w-100,
-span > input,
-span > button,
-span > select {
- width: 100%;
-}
-
-.css-v-top {
- vertical-align: top;
-}
-.css-h-3em {
- height: 3.5em;
-}
-
-@media (min-width: 800px) {
- #css-top-menu {
-  padding: 0.5em 0.5em 0.5em 0;
+ .js-wlink {
+  color: inherit;
  }
 }
 
-@media (max-width: 799px) {
- .css-grid-mobile,
- .css-grid-mobile > * {
+@media screen {
+ /*
+  Theme: Light on Dark, Sans-serif, Big Font.
+  -------------------------------------------------------- */
+  
+ html {
+  font-family: sans-serif;
+  background: #021;
+  color: #fff;
+ }
+
+
+ *:focus {
+ outline: 2px dashed #fff;
+ }
+
+
+ /*
+  Theme: Links, Forms, Controls
+  -------------------------------------------------------- */
+
+ a,
+ button,
+ label,
+ select,
+ input,
+ .css-ib {
+  color: #fd5;
+  display: inline-block;
+ }
+
+ /*
+  * Light coffee border, Dark chocolate background for form controls.
+  */
+ input:not([type="radio"]):not([type="checkbox"]),
+ button,
+ select,
+ label,
+ textarea {
+  border: 1px solid #fff;
+ }
+
+ button,
+ select,
+ label,
+ input[type="file"],
+ input[readonly] {
+  background: #241;
+  padding: 0.5em;
+ }
+
+ button,
+ select,
+ label,
+ option,
+ input[type="file"],
+ input:not([type]),
+ input[type="search"],
+ textarea,
+ h1,h2,h3,h4,h5,h6 {
+  vertical-align: middle;
+ }
+
+ input:not([type]):not([readonly]),
+ input[type="text"],
+ input[type="search"],
+ textarea {
+  background: #000;
+  color: #fff;
+  padding: 0.5em;
+ }
+
+ textarea {
+  font-family: monospace, monospace;
   display: block;
+  width: 100%;
  }
+
+
+ /*
+  Theme: Grouping Content
+  -------------------------------------------------------- */
+
+
+ blockquote {
+ background: #040;
+ border-left: 0.25em solid #060;
+ margin: 0.75em 0.5em;
+ padding: 0.25em 0.5em;
+ }
+
+ pre {
+ padding: 0.5em;
+ clear: both;
+ }
+
+ pre > code {
+ background: none;
+ }
+
+ pre, code {
+ background: #010;
+ }
+
+ table, tr {
+ width: 100%;
+ table-layout: fixed;
+ }
+
+
+
+ /*
+  Javascript-Specific
+  -------------------------------------------------------- */
+
+ a:not(.js-css-rlink):not(.js-wlink) {
+  border-bottom: dashed 1px #fff;
+ }
+
+ a.js-css-rlink {
+  color: #f93;
+ }
+
+ .js-css-invis {
+  display: none !important;
+ }
+
+ .js-css-active > * {
+  background: #410;
+  font-weight: bold;
+ }
+
+
+ /*
+  Toolbox
+  -------------------------------------------------------- */
+
+ .css-modal {
+  border: 4px ridge #da9;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #410;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  z-index: 999;
+ }
+
+ .css-no-pad {
+  padding:0;
+  margin:0;
+ }
+
+ .css-pad,
+ .css-modal {
+  padding: 0.5em;
+ }
+ .css-bg-2nd {
+  background: #031;
+ }
+
+ .css-center {
+  text-align: center;
+ }
+ .css-f-right {
+  float: right;
+ }
+
+ .css-grid-mobile,
+ .css-grid {
+  display: table;
+  table-layout: fixed;
+ }
+ .css-grid > * ,
  .css-grid-mobile > * {
-  width: 100% !important;
+  display: table-cell;
  }
- .css-v-sep {
-  border: 1px solid #ccc;
-  border-width: 1px 0 0 0;
+ .css-w-20 {
+  width: 20%;
+ }
+ .css-w-25 {
+  width: 25%;
+ }
+ .css-w-30 {
+  width: 30%;
+ }
+ .css-w-50 {
+  width: 50%;
+ }
+ .css-w-70 {
+  width: 70%;
+ }
+ .css-grid-mobile,
+ .css-grid,
+ .css-w-100,
+ span > input,
+ span > button,
+ span > select {
+  width: 100%;
+ }
+
+ .css-v-top {
+  vertical-align: top;
+ }
+ .css-h-3em {
+  height: 3.5em;
+ }
+
+ @media (min-width: 800px) {
+  #css-top-menu {
+   padding: 0.5em 0.5em 0.5em 0;
+  }
+ }
+
+ @media (max-width: 799px) {
+  .css-grid-mobile,
+  .css-grid-mobile > * {
+   display: block;
+  }
+  .css-grid-mobile > * {
+   width: 100% !important;
+  }
+  .css-v-sep {
+   border: 1px solid #ccc;
+   border-width: 1px 0 0 0;
+  }
  }
 }

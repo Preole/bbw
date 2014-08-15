@@ -33,12 +33,12 @@ URL: <https://github.com/Preole>
  </div>
 </noscript>
 
-<h1 id="js-pg-title" class="css-center">
+<h1 id="js-pg-title" class="css-center css-no-print">
 BareBonesWiki - A Minimalist Offline Notebook in Web Browsers.
 </h1>
 
 <div class="css-grid-mobile">
- <nav id="js-tabs" tabindex="0" class="css-v-top css-bg-2nd css-pad css-w-30" role="navigation">
+ <nav id="js-tabs" tabindex="0" class="css-v-top css-bg-2nd css-pad css-w-30 css-no-print" role="navigation">
   <div class="css-grid">
    <span id="js-new-tab-btn"><button>New Tab</button></span>
    <span id="js-fork-tab-btn"><button>Fork Tab</button></span>
@@ -47,7 +47,7 @@ BareBonesWiki - A Minimalist Offline Notebook in Web Browsers.
   <ul id="js-tabs-view" class="css-no-pad"></ul>
  </nav>
  <div class="css-v-top css-w-70 css-v-sep">
-  <header id="css-top-menu" class="css-bg-2nd css-grid css-pad">
+  <header id="css-top-menu" class="css-bg-2nd css-grid css-pad css-no-print">
    <span><button id="js-back-btn">Back</button></span>
    <span><button id="js-next-btn">Next</button></span>
    <span><button id="js-refresh-btn">Refresh</button></span>
@@ -57,7 +57,7 @@ BareBonesWiki - A Minimalist Offline Notebook in Web Browsers.
   <article id="js-main" class="css-pad" tabindex="0"></article>
  </div>
 </div>
-<footer class="css-bg-2nd css-grid css-pad">
+<footer class="css-bg-2nd css-grid css-pad css-no-print">
  <span><button id="js-config-btn">Options</button></span>
  <span><button id="js-import-btn">Import</button></span>
  <span><button id="js-export-btn">Export</button></span>
@@ -65,7 +65,7 @@ BareBonesWiki - A Minimalist Offline Notebook in Web Browsers.
  <span><button id="js-top-btn">Top</button></span>
 </footer>
 
-<aside>
+<aside class="css-no-print">
 <!--Import Wizard-->
 <form class="css-modal js-css-invis" tabindex="0" id="js-import-view">
  <h1>Import Wizard</h1>
@@ -235,7 +235,7 @@ right-click (or long-tap) the link and choose...
 <script type="text/html" id="js-t-view-form">
 <div>
 <header>
- <form action="edit" class="css-f-right">
+ <form action="edit" class="css-f-right css-no-print">
   <input name="title" type="hidden">
   <button name="edit">Edit</button>
  </form>
@@ -259,7 +259,7 @@ right-click (or long-tap) the link and choose...
 <script type="text/html" id="js-t-viewTmp-form">
 <div>
 <header>
- <form action="edit" class="css-f-right">
+ <form action="edit" class="css-f-right css-no-print">
   <input name="title" type="hidden" value="New Entry">
   <button name="editTmp">Create New Entry</button>
  </form>
