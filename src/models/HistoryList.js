@@ -34,6 +34,7 @@ $models.HistoryList = (function (){
   HistoryList.prototype.refresh.call(this, true);
  }
  
+ HistoryList.isValid = isCallback;
  HistoryList.prototype = (function (){
  
   //Insert new history after current index.
@@ -104,6 +105,15 @@ $models.HistoryList = (function (){
    return req.result;
   }
   
+  function replaceCurr(histObj)
+  {
+   if (isCallback(histObj))
+   {
+    this.histStack[this.currIndex] = histObj;
+   }
+   return this;
+  }
+  
   return {
    push : push,
    prev : prev,
@@ -111,6 +121,7 @@ $models.HistoryList = (function (){
    hasPrev : hasPrev,
    hasNext : hasNext,
    getCurr : getCurr,
+   replaceCurr : replaceCurr,
    refresh : refresh
   }; 
  }());

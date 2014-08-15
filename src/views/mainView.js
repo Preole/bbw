@@ -40,11 +40,17 @@ $views.mainView = (function (){
  {
   var hist = hList.getCurr();
   
-  if ($viewEle instanceof jQuery && $viewEle !== hist.result)
+  if ($viewEle instanceof jQuery)
   {
    $viewEle.detach();
   }
 
+  if ($models.HistoryList.isValid(hist.result))
+  {
+   hList.replaceCurr(hist.result);
+   hist = hist.result;
+  }
+  
   if (hist.result instanceof jQuery)
   {
    $viewEle = hist.result.appendTo($baseEle);

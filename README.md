@@ -52,8 +52,7 @@ Usage
    as well.
    
    If the new version is not satisfactory, you can try one of the older 
-   versions in the """distOld/""", which contains the old versions of 
-   the built project, plus the user manual for that version.
+   versions in the """distOld/""".
    
 2. Open it with a web browser.
 3. Enable Javascript, if not enabled already.

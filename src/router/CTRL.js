@@ -36,7 +36,6 @@ var CTRL = (function (){
   }
  };
 
-
  function verifySave(newTitle, oldTitle)
  {
   if (newTitle.length <= 0) {return false;}
@@ -49,16 +48,24 @@ var CTRL = (function (){
  
  function indexByType(indexType)
  {
-  if (_.has(indexFuncMap, indexType))
-  {
-   return indexFuncMap[indexType]();
-  }
-  return TMPL.viewTmp("Index " + indexType + " is not available.");
+  var res = _.has(indexFuncMap, indexType) ?
+   indexFuncMap[indexType]() : 
+   TMPL.viewTmp("Index " + indexType + " is not available.");
+  
+  return {
+   callback : indexByType,
+   params : _.toArray(arguments),
+   result : res
+  };
  }
 
  function indexSingleTag(tagName)
  {
-  return TMPL.indexFlat("Tagged under " + tagName, DB.indexSearch(tagName));
+  return {
+   callback : indexSingleTag,
+   params : _.toArray(arguments),
+   result : TMPL.indexFlat("Tagged under " + tagName, DB.indexSearch(tagName))
+  };
  }
  
  function indexSearch(keywords, caseSense)
@@ -69,33 +76,50 @@ var CTRL = (function (){
    + " results related to "
    + "\"" + keywords + "\"";
   
-  return TMPL.indexFlat(displayTxt, resList);
+  return {
+   callback : indexSearch,
+   params : _.toArray(arguments),
+   result : TMPL.indexFlat(displayTxt, resList)
+  };
  }
  
  function viewHome()
  {
-  return TMPL.home();
+  return {
+   callback : viewHome,
+   params : [],
+   result : TMPL.home()
+  };
+ }
+ 
+ function viewOr404(title, preCompiledFrag)
+ {
+  return DB.hasNode(title) ? 
+   TMPL.view(DB.getNode(title), preCompiledFrag) :
+   TMPL.viewTmp("404: \"" + title + "\" does not exist.", null, title);
  }
  
  function viewEntry(title, preCompiledFrag)
  {
-  if (DB.hasNode(title))
-  {
-   return TMPL.view(DB.getNode(title), preCompiledFrag);
-  }
-  
-  var tmpText = "404: \"" + title + "\" does not exist.";
-  var $textFrag = TMPL.text("Click on the edit button to create it.");
-  return TMPL.viewTmp(tmpText, $textFrag, title);
+  return {
+   callback : viewEntry,
+   params : [title],
+   result : viewOr404(title, preCompiledFrag)
+  };
  }
 
  function editEntry(title, editAsNew)
  {
-  if (editAsNew)
-  {
-   return TMPL.edit($models.WikiNode.create(title), DB.indexTagsList());
+  var tagsList = DB.indexTagsList();
+  var res = editAsNew ?
+   TMPL.edit($models.WikiNode.create(title), tagsList) : 
+   TMPL.edit(DB.getNode(title), tagsList);
+
+  return {
+   callback : editEntry,
+   params : _.toArray(arguments),
+   result : res
   }
-  return TMPL.edit(DB.getNode(title), DB.indexTagsList());
  }
  
  function editFinish(formObj, doSaveAs)
@@ -121,26 +145,37 @@ var CTRL = (function (){
   {
    DB.editNode(wNode, $frag.getEdges(), formObj.oldTitle);
   }
-  return viewEntry(wNode.title, $frag);
+  
+  return {
+   callback : viewEntry,
+   params : [wNode.title],
+   result : viewOr404(wNode.title, $frag)
+  };
  }
  
  function editCancel(formObj)
  {
-  return viewEntry(formObj.oldTitle);
+  return {
+   callback : viewEntry,
+   params : [formObj.oldTitle],
+   result : viewOr404(formObj.oldTitle)
+  };
  }
  
  function editDelete(formObj)
  {
-  var cfmDel = DB.getConfig().cfmDel;
   var oldT = formObj.oldTitle;
-  if (cfmDel && !window.confirm("Delete \"" + oldT + "\"?"))
+  if (DB.getConfig().cfmDel && !window.confirm("Delete \"" + oldT + "\"?"))
   {
    return;
   }
   DB.removeNode(oldT);
 
-  var delText = "\"" + oldT + "\" no longer exists.";
-  return TMPL.viewTmp("Deletion Successful.", TMPL.text(delText), oldT);
+  return {
+   callback : viewEntry,
+   params : [oldT],
+   result : TMPL.viewTmp("Deleted " + "\"" + oldT + "\"", null, oldT)
+  };
  }
  
  return {
