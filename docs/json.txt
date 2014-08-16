@@ -137,8 +137,27 @@ Sample JSON Data
   "title": "BareBonesWiki",
   
   /*
-  A unique array of String values, denoting the list of entries to display 
-  on startup. Names listed later should be displayed first.
+  Denotes the way the wiki will be booted up. There are four possible 
+  values:
+  
+  - "home": Shows the home page on startup (Default)
+  - "edited": Shows the X most recently edited entries on startup.
+  - "created": Shows the X most recently created entries on startup.
+  - "choose": Selects wiki entries to open, based on their titles.
+  */
+  "startupType" : "home",
+  
+  /*
+  Denotes the number of wiki entries that will be opened when "startupType" 
+  is either "edited" or "created"
+  */
+  "startupCount": 5,
+  
+  
+  
+  /*
+  An array of wiki entries to open by their title on startup. Only used 
+  when "startupType" = "choose".
   */
   "startup": [
    "BareBonesWiki"
