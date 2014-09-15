@@ -1,6 +1,6 @@
 ```
-BareBonesWiki
-=============
+BareBonesWiki v0.2.0
+====================
 
 BareBonesWiki is a succinct personal wiki in one standalone HTML file. It's 
 a versatile toolbox for information organization, owing to the invention of 
@@ -9,14 +9,23 @@ modern web browsers.
 
 :{www}: http://www.artima.com/intv/wiki.html
 
-Current version: **v0.2.0**
 
+Hiatus Notice
+-------------
 
-Updates
--------
+If you've noticed the lack of commits or changes, I have decided to take a 
+break from the project to think of a more extensible and maintainable 
+architecture, especially regarding user-written plugins & interfaces. The 
+project isn't very fun when feature changes and maintenance need to have 
+a development environment set up, no matter how trivial that environment 
+may be. 
 
-Refer to """UpdateLog.txt"""
+Ideally, I want code editing to be as easy as simply opening up your favorite 
+text editor, scroll to the code section, and start editing right away. More 
+ideally, The editing can happen right inside BareBonesWiki itself, in the 
+original multi-file glory.
 
+I expect development to resume within the end of the first week of October.
 
 
 
@@ -28,10 +37,8 @@ Highlights
   essentials of a word processor in readable plain text.
 
 ; Source Readability
-; Low learning curve
-
-  : Carefully designed base markup language that is readable in 
-    source code and modestly easy to learn.
+: Carefully designed base markup language that is readable in 
+  source code and modestly easy to learn.
 
 ; Versatile Navigation
 : Seamlessly jump from one piece of information onto another.
@@ -87,6 +94,13 @@ for varying levels of read-write support.
 ; Internet Explorer 9
 : Read-only experience. Permanent saving is not supported. No 
   guarantee in stability.
+
+
+Updates
+-------
+
+Refer to """UpdateLog.txt"""
+
 
 
 
